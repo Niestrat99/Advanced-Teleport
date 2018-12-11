@@ -1,0 +1,8 @@
+name: TBH_Teleport
+description: Teleportation plugin made for FNACraft
+authors: [Niestrat99,Thatsmusic99]
+version: TBH_T_1.0
+main: io.github.teambanhammer.tbht_main
+
+commands:
+  
