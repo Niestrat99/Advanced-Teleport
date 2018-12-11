@@ -6,11 +6,17 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.HashMap;
 
 public class tbht_main extends JavaPlugin {
 
+    public HashMap<Player, HashMap<Player, BukkitRunnable>> teleports;
+
     @Override
     public void onEnable (){
+        teleports = new HashMap<>();
         System.out.println("TBH_Teleport is now enabled!");
     }
 
@@ -43,6 +49,16 @@ public class tbht_main extends JavaPlugin {
                         target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport to you!");
                         target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
                         target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond to the request!");
+                        BukkitRunnable run = new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
+                            }
+                        };
+                        run.runTaskLater(this, 1200); // 60 seconds
+                        HashMap<Player, BukkitRunnable> request = new HashMap<>();
+                        request.put(player, run);
+                        teleports.put(target, request);
                         return false;
                     }
                 } else {
