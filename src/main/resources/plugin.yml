@@ -5,3 +5,9 @@ version: TBH_T_1.0
 main: io.github.teambanhammer.tbht_main
 
 commands:
+
+  tpa:
+    description: Sends the targeted player a teleport request to where they are.
+
+  tphelp:
+    description: Sends you a list of commands.
