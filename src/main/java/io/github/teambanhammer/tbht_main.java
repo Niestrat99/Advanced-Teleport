@@ -66,6 +66,74 @@ public class tbht_main extends JavaPlugin {
                     return false;
                 }
             }
+        } else if (label.equalsIgnoreCase("tpahere")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (args.length > 0) {
+                    Player target = Bukkit.getPlayer(args[0]);
+                    if (target == null) {
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                        return false;
+                    } else {
+                        sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
+                        sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond!");
+                        sender.sendMessage(ChatColor.GREEN + "To cancel the request use " + ChatColor.AQUA + "/tpcancel " + ChatColor.GREEN + "to cancel it.");
+                        target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
+                        target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
+                        target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond to the request!");
+                        BukkitRunnable run = new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
+                            }
+                        };
+                        run.runTaskLater(this, 1200); // 60 seconds
+                        HashMap<Player, BukkitRunnable> request = new HashMap<>();
+                        request.put(player, run);
+                        teleports.put(target, request);
+                        return false;
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
+                    return false;
+                }
+            }
+        } else if (label.equalsIgnoreCase("tpayes")){
+            if (sender instanceof Player) {
+                Player player = (Player)sender;
+                if (teleports.containsKey(player)){
+                    HashMap<Player,BukkitRunnable>request = teleports.get(player);
+                    Player teleporter = (Player)request.keySet().toArray()[0];
+                    BukkitRunnable run = request.get(teleporter);
+                    run.cancel();
+                    teleporter.teleport(player);
+                    teleporter.sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has accepted your teleport request!");
+                    player.sendMessage(ChatColor.GREEN + "You've accepted the teleport request!");
+                    teleports.remove(player);
+                    return false;
+                } else {
+                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
+                    return false;
+                }
+            }
+
+        } else if (label.equalsIgnoreCase("tpano")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (teleports.containsKey(player)) {
+                    HashMap<Player, BukkitRunnable> request = teleports.get(player);
+                    Player teleporter = (Player) request.keySet().toArray()[0];
+                    BukkitRunnable run = request.get(teleporter);
+                    run.cancel();
+                    teleporter.sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
+                    player.sendMessage(ChatColor.GREEN + "You've declined the teleport request!");
+                    teleports.remove(player);
+                    return false;
+                } else {
+                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
+                    return false;
+                }
+            }
         }
     }
 }
