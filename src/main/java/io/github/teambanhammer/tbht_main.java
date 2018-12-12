@@ -104,9 +104,14 @@ public class tbht_main extends JavaPlugin {
                 Player player = (Player)sender;
                 if (TeleportRequest.getRequest(player) != null){
                     TeleportRequest request = TeleportRequest.getRequest(player);
-                    teleporter.sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has accepted your teleport request!");
+                    request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has accepted your teleport request!");
                     player.sendMessage(ChatColor.GREEN + "You've accepted the teleport request!");
-                    teleports.remove(player);
+                    if (request.getType() == TeleportRequest.TeleportType.TPA_HERE) {
+                        player.teleport(request.getRequester());
+                    } else {
+                        request.getRequester().teleport(player);
+                    }
+                    request.destroy();
                     return false;
                 } else {
                     sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
@@ -117,14 +122,11 @@ public class tbht_main extends JavaPlugin {
         } else if (label.equalsIgnoreCase("tpano")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (teleports.containsKey(player)) {
-                    HashMap<Player, BukkitRunnable> request = teleports.get(player);
-                    Player teleporter = (Player) request.keySet().toArray()[0];
-                    BukkitRunnable run = request.get(teleporter);
-                    run.cancel();
-                    teleporter.sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
+                if (TeleportRequest.getRequest(player) != null) {
+                    TeleportRequest request = TeleportRequest.getRequest(player);
+                    request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
                     player.sendMessage(ChatColor.GREEN + "You've declined the teleport request!");
-                    teleports.remove(player);
+                    request.destroy();
                     return false;
                 } else {
                     sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
@@ -141,7 +143,7 @@ public class tbht_main extends JavaPlugin {
                         return false;
                     } else {
                         sender.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
-                        ((Player) sender).teleport(target);
+                        player.teleport(target);
                         return false;
                     }
                 } else {
@@ -150,5 +152,6 @@ public class tbht_main extends JavaPlugin {
                 }
             }
         }
+        return false;
     }
 }
