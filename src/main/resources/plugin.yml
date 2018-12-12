@@ -5,9 +5,15 @@ version: TBH_T_1.0
 main: io.github.teambanhammer.tbht_main
 
 commands:
-
+  tpano:
+    description: Declines a teleport request someone sent you.
+  tpayes:
+    description: Accepts a teleport request someone sent you.
+  tpo:
+    description: (ADMIN ONLY COMMAND) Instantly teleports you to another player.
+  tpahere:
+    description: Sends the targeted player a teleport requests to where you are.
   tpa:
     description: Sends the targeted player a teleport request to where they are.
-
   tphelp:
     description: Sends you a list of commands.
