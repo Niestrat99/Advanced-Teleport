@@ -8,15 +8,16 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class tbht_main extends JavaPlugin {
 
-    public HashMap<Player, HashMap<Player, BukkitRunnable>> teleports;
+
 
     @Override
     public void onEnable (){
-        teleports = new HashMap<>();
         System.out.println("TBH_Teleport is now enabled!");
     }
 
@@ -53,12 +54,12 @@ public class tbht_main extends JavaPlugin {
                             @Override
                             public void run() {
                                 sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
+                                TeleportRequest.removeRequest(TeleportRequest.getRequest(player));
                             }
                         };
                         run.runTaskLater(this, 1200); // 60 seconds
-                        HashMap<Player, BukkitRunnable> request = new HashMap<>();
-                        request.put(player, run);
-                        teleports.put(target, request);
+                        TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_NORMAL); // Creates a new teleport request.
+                        TeleportRequest.addRequest(request);
                         return false;
                     }
                 } else {
@@ -85,12 +86,12 @@ public class tbht_main extends JavaPlugin {
                             @Override
                             public void run() {
                                 sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
+                                TeleportRequest.removeRequest(TeleportRequest.getRequest(player));
                             }
                         };
                         run.runTaskLater(this, 1200); // 60 seconds
-                        HashMap<Player, BukkitRunnable> request = new HashMap<>();
-                        request.put(player, run);
-                        teleports.put(target, request);
+                        TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
+                        TeleportRequest.addRequest(request);
                         return false;
                     }
                 } else {
@@ -101,12 +102,8 @@ public class tbht_main extends JavaPlugin {
         } else if (label.equalsIgnoreCase("tpayes")){
             if (sender instanceof Player) {
                 Player player = (Player)sender;
-                if (teleports.containsKey(player)){
-                    HashMap<Player,BukkitRunnable>request = teleports.get(player);
-                    Player teleporter = (Player)request.keySet().toArray()[0];
-                    BukkitRunnable run = request.get(teleporter);
-                    run.cancel();
-                    teleporter.teleport(player);
+                if (TeleportRequest.getRequest(player) != null){
+                    TeleportRequest request = TeleportRequest.getRequest(player);
                     teleporter.sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has accepted your teleport request!");
                     player.sendMessage(ChatColor.GREEN + "You've accepted the teleport request!");
                     teleports.remove(player);
