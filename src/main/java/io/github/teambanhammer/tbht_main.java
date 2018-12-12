@@ -134,6 +134,24 @@ public class tbht_main extends JavaPlugin {
                     return false;
                 }
             }
+        } else if (label.equalsIgnoreCase("tpo")){
+            if (sender instanceof Player) {
+                Player player = (Player)sender;
+                if (args.length>0){
+                    Player target = Bukkit.getPlayer(args[0]);
+                    if (target == null){
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                        return false;
+                    } else {
+                        sender.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
+                        ((Player) sender).teleport(target);
+                        return false;
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
+                    return false;
+                }
+            }
         }
     }
 }
