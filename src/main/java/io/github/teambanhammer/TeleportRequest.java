@@ -51,6 +51,15 @@ public class TeleportRequest { // A teleport request object.
         return null;
     }
 
+    public static TeleportRequest getRequestByRequester(Player requester) {
+        for (TeleportRequest request : requestList) {
+            if (request.getRequester() == requester) {
+                return request;
+            }
+        }
+        return null;
+    }
+
     public static void addRequest(TeleportRequest request) {
         requestList.add(request);
     }

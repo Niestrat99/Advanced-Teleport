@@ -154,10 +154,10 @@ public class tbht_main extends JavaPlugin {
         } else if (label.equalsIgnoreCase("tpacancel"))
             if (sender instanceof Player) {
                 Player player = (Player)sender;
-                if (TeleportRequest.getRequest(player) != null) {
-                    TeleportRequest request = TeleportRequest.getRequest(player);
-                    request.getRequester().sendMessage(ChatColor.GREEN + "You have canceled your teleport request.");
-                    player.sendMessage(ChatColor.YELLOW + "" + sender.getName() + ChatColor.RED + " has canceled his teleport request.");
+                if (TeleportRequest.getRequestByRequester(player) != null) {
+                    TeleportRequest request = TeleportRequest.getRequestByRequester(player);
+                    player.sendMessage(ChatColor.GREEN + "You have canceled your teleport request.");
+                    request.getResponder().sendMessage(ChatColor.YELLOW + "" + sender.getName() + ChatColor.RED + " has canceled their teleport request.");
                     request.destroy();
                     return false;
                 }
