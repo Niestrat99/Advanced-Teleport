@@ -151,7 +151,17 @@ public class tbht_main extends JavaPlugin {
                     return false;
                 }
             }
-        }
+        } else if (label.equalsIgnoreCase("tpacancel"))
+            if (sender instanceof Player) {
+                Player player = (Player)sender;
+                if (TeleportRequest.getRequest(player) != null) {
+                    TeleportRequest request = TeleportRequest.getRequest(player);
+                    request.getRequester().sendMessage(ChatColor.GREEN + "You have canceled your teleport request.");
+                    player.sendMessage(ChatColor.YELLOW + "" + sender.getName() + ChatColor.RED + " has canceled his teleport request.");
+                    request.destroy();
+                    return false;
+                }
+            }
         return false;
     }
 }
