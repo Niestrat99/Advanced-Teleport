@@ -1,10 +1,22 @@
 name: TBH_Teleport
-description: Teleportation plugin made for FNACraft
+description: Teleportation plugin made for FNACraft!
 authors: [Niestrat99,Thatsmusic99]
-version: TBH_T_1.0
+version: TBH_T_ALPHA_1.0
 main: io.github.teambanhammer.tbht_main
 
 commands:
+  tpaall:
+    description: (ADMIN ONLY COMMAND) Sends a "TPAHere"-request to every online player.
+  tpoff:
+    description: Stops you from receiving teleport requests.
+  tpon:
+    description: Allows you to receive teleport requests.
+  tpcancel:
+    description: Cancels a teleport request you've sent.
+  tpunblock:
+    description: Unblocks a player.
+  tpblock:
+    description: Blocks and prevents a player to send a teleport request to you.
   tpano:
     description: Declines a teleport request someone sent you.
   tpayes:
