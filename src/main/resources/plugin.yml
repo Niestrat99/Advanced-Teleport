@@ -7,25 +7,49 @@ main: io.github.teambanhammer.tbht_main
 commands:
   tpaall:
     description: (ADMIN ONLY COMMAND) Sends a "TPAHere"-request to every online player.
+    permission: tbh.tp.admin.all
+    default: false
   tpoff:
     description: Stops you from receiving teleport requests.
+    permission: tbh.tp.member.off
+    default: true
   tpon:
     description: Allows you to receive teleport requests.
+    permission: tbh.tp.member.on
+    default: true
   tpcancel:
     description: Cancels a teleport request you've sent.
+    permission: tbh.tp.member.cancel
+    default: true
   tpunblock:
     description: Unblocks a player.
+    permission: tbh.tp.member.unblock
+    default: true
   tpblock:
     description: Blocks and prevents a player to send a teleport request to you.
+    permission: tbh.tp.member.block
+    default: true
   tpano:
     description: Declines a teleport request someone sent you.
+    permission: tbh.tp.member.no
+    default: true
   tpayes:
     description: Accepts a teleport request someone sent you.
+    permission: tbh.tp.member.yes
+    default: true
   tpo:
     description: (ADMIN ONLY COMMAND) Instantly teleports you to another player.
+    permission: tbh.tp.admin.tpo
+    default: false
   tpahere:
     description: Sends the targeted player a teleport requests to where you are.
+    permission: tbh.tp.member.here
+    default: true
   tpa:
     description: Sends the targeted player a teleport request to where they are.
+    permission: tbh.tp.member.tpa
+    default: true
   tphelp:
     description: Sends you a list of commands.
+    permission: tbh.tp.member.help
+    default: true

@@ -25,17 +25,29 @@ private List<Player>tpoff = new ArrayList<>();
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (label.equalsIgnoreCase("tphelp")) {
-            sender.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.UNDERLINE + "Teleport Commands");
-            sender.sendMessage("/tpa <Player> - Sends the targeted player a teleport request to where they are.");
-            sender.sendMessage("/tpahere <Player> - Sends the targeted player a teleport requests to where you are.");
-            sender.sendMessage("/tpaall - Sends everyone a teleport request to where you are.");
-            sender.sendMessage("/tpcancel - Cancels your teleport request.");
-            sender.sendMessage("/tpayes - Accepts a teleport request someone sent you.");
-            sender.sendMessage("/tpano - Declines a teleport request someone sent you.");
-            sender.sendMessage("/tpon - Enables receiving teleport requests.");
-            sender.sendMessage("/tpoff - Disables receiving teleport requests.");
-            sender.sendMessage("/tpo <Player> - (ADMIN ONLY COMMAND) Instantly teleports you to another player.");
-            return false;
+            if (args.length == 0) {
+                sender.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Teleport Commands");
+                sender.sendMessage(ChatColor.AQUA + "/tpa <Player> - " + ChatColor.GREEN + "Sends the targeted player a teleport request to where they are.");
+                sender.sendMessage(ChatColor.AQUA + "/tpahere <Player> - " + ChatColor.GREEN + "Sends the targeted player a teleport requests to where you are.");
+                sender.sendMessage(ChatColor.AQUA + "/tpcancel - " + ChatColor.GREEN + "Cancels your teleport request.");
+                sender.sendMessage(ChatColor.AQUA + "/tpayes - " + ChatColor.GREEN + "Accepts a teleport request someone sent you.");
+                sender.sendMessage(ChatColor.AQUA + "/tpano - " + ChatColor.GREEN + "Declines a teleport request someone sent you.");
+                sender.sendMessage(ChatColor.AQUA + "/tpon - " + ChatColor.GREEN + "Enables receiving teleport requests.");
+                sender.sendMessage(ChatColor.AQUA + "/tpoff - " + ChatColor.GREEN + "Disables receiving teleport requests.");
+                return false;
+            } else {
+                if (args[0].equalsIgnoreCase("admin")) {
+                    if (sender.hasPermission("tbh.tp.admin.help")) {
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Teleport Commands for Admins");
+                        sender.sendMessage(ChatColor.RED + "/tpaall - " + ChatColor.GOLD + "Sends everyone a teleport request to where you are.");
+                        sender.sendMessage(ChatColor.RED + "/tpo <Player> - " + ChatColor.GOLD + "eleports you to another player instantly.");
+                        return false;
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                        return false;
+                    }
+                }
+            }
         } else if (label.equalsIgnoreCase("tpa")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
@@ -163,22 +175,27 @@ private List<Player>tpoff = new ArrayList<>();
                 }
             }
         } else if (label.equalsIgnoreCase("tpo")) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                if (args.length > 0) {
-                    Player target = Bukkit.getPlayer(args[0]);
-                    if (target == null) {
-                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
-                        return false;
+            if (sender.hasPermission("tbh.tp.admin.tpo")) {
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    if (args.length > 0) {
+                        Player target = Bukkit.getPlayer(args[0]);
+                        if (target == null) {
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                            return false;
+                        } else {
+                            sender.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
+                            player.teleport(target);
+                            return false;
+                        }
                     } else {
-                        sender.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
-                        player.teleport(target);
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
                         return false;
                     }
-                } else {
-                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
-                    return false;
                 }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                return false;
             }
         } else if (label.equalsIgnoreCase("tpcancel")) {
             if (sender instanceof Player) {
@@ -192,24 +209,29 @@ private List<Player>tpoff = new ArrayList<>();
                 }
             }
         } else if (label.equalsIgnoreCase("tpaall")) {
-            if (sender instanceof Player) {
-                Player player = (Player) sender;
-                for (Player target : Bukkit.getOnlinePlayers()) {
-                    if (target != player) {
-                        target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
-                        target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
-                        target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond to the request!");
-                        BukkitRunnable run = new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                TeleportRequest.removeRequest(TeleportRequest.getRequest(player));
-                            }
-                        };
-                        run.runTaskLater(this, 1200); // 60 seconds
-                        TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
-                        TeleportRequest.addRequest(request);
+            if (sender.hasPermission("tbh.tp.admin.all")) {
+                if (sender instanceof Player) {
+                    Player player = (Player) sender;
+                    for (Player target : Bukkit.getOnlinePlayers()) {
+                        if (target != player) {
+                            target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
+                            target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
+                            target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond to the request!");
+                            BukkitRunnable run = new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    TeleportRequest.removeRequest(TeleportRequest.getRequest(player));
+                                }
+                            };
+                            run.runTaskLater(this, 1200); // 60 seconds
+                            TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
+                            TeleportRequest.addRequest(request);
+                        }
                     }
                 }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                return false;
             }
         } else if (label.equalsIgnoreCase("tpoff")) {
             if (sender instanceof Player) {
