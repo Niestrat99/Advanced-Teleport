@@ -11,7 +11,6 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class tbht_main extends JavaPlugin {
@@ -30,7 +29,7 @@ private List<Player>tpoff = new ArrayList<>();
             sender.sendMessage("/tpa <Player> - Sends the targeted player a teleport request to where they are.");
             sender.sendMessage("/tpahere <Player> - Sends the targeted player a teleport requests to where you are.");
             sender.sendMessage("/tpaall - Sends everyone a teleport request to where you are.");
-            sender.sendMessage("/tpacancel - Cancels your teleport request.");
+            sender.sendMessage("/tpcancel - Cancels your teleport request.");
             sender.sendMessage("/tpayes - Accepts a teleport request someone sent you.");
             sender.sendMessage("/tpano - Declines a teleport request someone sent you.");
             sender.sendMessage("/tpon - Enables receiving teleport requests.");
@@ -48,6 +47,10 @@ private List<Player>tpoff = new ArrayList<>();
                     } else {
                         if (tpoff.contains(target)) {
                             sender.sendMessage(ChatColor.YELLOW + target.getName() + ChatColor.RED + " has disabled to receive teleport requests!");
+                            return false;
+                        }
+                        if (TeleportBlock.getBlockedPlayers(target).contains(player)) {
+                            sender.sendMessage(ChatColor.RED + "You can not teleport to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                             return false;
                         }
                         sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
@@ -84,6 +87,10 @@ private List<Player>tpoff = new ArrayList<>();
                     } else {
                         if (tpoff.contains(target)) {
                             sender.sendMessage(ChatColor.YELLOW + target.getName() + ChatColor.RED + " has disabled to receive teleport requests!");
+                            return false;
+                        }
+                        if (TeleportBlock.getBlockedPlayers(target).contains(player)) {
+                            sender.sendMessage(ChatColor.RED + "You can not teleport to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                             return false;
                         }
                         sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
@@ -173,7 +180,7 @@ private List<Player>tpoff = new ArrayList<>();
                     return false;
                 }
             }
-        } else if (label.equalsIgnoreCase("tpacancel")) {
+        } else if (label.equalsIgnoreCase("tpcancel")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (TeleportRequest.getRequestByRequester(player) != null) {
