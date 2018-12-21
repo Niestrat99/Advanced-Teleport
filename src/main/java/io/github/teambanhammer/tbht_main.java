@@ -132,8 +132,14 @@ private List<Player>tpoff = new ArrayList<>();
         } else if (label.equalsIgnoreCase("tpayes")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (teleportTests(player, args)) {
-                    Player target = Bukkit.getPlayer(args[0]);
+                if (teleportTests(player, args, "tpayes")) {
+                    Player target;
+                    if (args.length > 0) {
+                        target = Bukkit.getPlayer(args[0]);
+                    } else {
+                        target = TeleportRequest.getRequests(player).get(0).getRequester();
+                    }
+
                     TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
                     acceptRequest(request);
                     return false;
@@ -143,7 +149,7 @@ private List<Player>tpoff = new ArrayList<>();
         } else if (label.equalsIgnoreCase("tpano")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (teleportTests(player, args)) {
+                if (teleportTests(player, args, "tpano")) {
                     Player target = Bukkit.getPlayer(args[0]);
                     TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
                     request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
@@ -206,9 +212,9 @@ private List<Player>tpoff = new ArrayList<>();
                             player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to accept:");
                             for (TeleportRequest request : requests.getContentsInPage(1)) {
                                 new FancyMessage()
-                                        .command("/tpano " + request.getRequester())
+                                        .command("/tpacancel " + request.getRequester().getName())
                                         .color(ChatColor.AQUA)
-                                        .text("> " + request.getRequester())
+                                        .text("> " + request.getRequester().getName())
                                         .send(player);
                             }
                             if (requests.getTotalPages() > 1) {
@@ -351,7 +357,7 @@ private List<Player>tpoff = new ArrayList<>();
         request.destroy();
     }
 
-    private boolean teleportTests(Player player, String[] args) {
+    private boolean teleportTests(Player player, String[] args, String type) {
         // Checks if any players have sent a request at all.
         if (!TeleportRequest.getRequests(player).isEmpty()) {
             // Checks if there's more than one request.
@@ -370,7 +376,7 @@ private List<Player>tpoff = new ArrayList<>();
                             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests from " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                             return false;
                         } else {
-                            // Yes, the
+                            // Yes, the teleport request can be accepted/declined/cancelled.
                             return true;
                         }
                     }
@@ -380,9 +386,9 @@ private List<Player>tpoff = new ArrayList<>();
                     player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to accept:");
                     for (TeleportRequest request : requests.getContentsInPage(1)) {
                         new FancyMessage()
-                                .command("/tpano " + request.getRequester())
+                                .command("/" + type + " " + request.getRequester().getName())
                                 .color(ChatColor.AQUA)
-                                .text("> " + request.getRequester())
+                                .text("> " + request.getRequester().getName())
                                 .send(player);
                     }
                     if (requests.getTotalPages() > 1) {
