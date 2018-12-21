@@ -7,20 +7,29 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class tbht_main extends JavaPlugin {
+public class tbht_main extends JavaPlugin implements Listener {
 
 private List<Player>tpoff = new ArrayList<>();
+
+private HashMap<Player, BukkitRunnable>cooldown = new HashMap<>();
+
+private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
 
     @Override
     public void onEnable (){
         System.out.println("TBH_Teleport is now enabled!");
+        getServer().getPluginManager().registerEvents(this, this);
     }
 
     @Override
@@ -52,6 +61,10 @@ private List<Player>tpoff = new ArrayList<>();
         } else if (label.equalsIgnoreCase("tpa")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
+                if (cooldown.containsKey(player)) {
+                    sender.sendMessage(ChatColor.RED + "This command has a cooldown of 5 seconds each use - Please wait!");
+                    return false;
+                }
                 if (args.length > 0) {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == null) {
@@ -82,6 +95,14 @@ private List<Player>tpoff = new ArrayList<>();
                         run.runTaskLater(this, 1200); // 60 seconds
                         TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_NORMAL); // Creates a new teleport request.
                         TeleportRequest.addRequest(request);
+                        BukkitRunnable cooldowntimer = new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                cooldown.remove(player);
+                            }
+                        };
+                        cooldown.put(player, cooldowntimer);
+                        cooldowntimer.runTaskLater(this, 100); // 20 ticks = 1 second
                         return false;
                     }
                 } else {
@@ -92,6 +113,10 @@ private List<Player>tpoff = new ArrayList<>();
         } else if (label.equalsIgnoreCase("tpahere")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
+                if (cooldown.containsKey(player)) {
+                    sender.sendMessage(ChatColor.RED + "This command has a cooldown of 5 seconds each use - Please wait!");
+                    return false;
+                }
                 if (args.length > 0) {
                     Player target = Bukkit.getPlayer(args[0]);
                     if (target == null) {
@@ -122,6 +147,14 @@ private List<Player>tpoff = new ArrayList<>();
                         run.runTaskLater(this, 1200); // 60 seconds
                         TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
                         TeleportRequest.addRequest(request);
+                        BukkitRunnable cooldowntimer = new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                cooldown.remove(player);
+                            }
+                        };
+                        cooldown.put(player, cooldowntimer);
+                        cooldowntimer.runTaskLater(this, 100); // 20 ticks = 1 second
                         return false;
                     }
                 } else {
@@ -238,6 +271,10 @@ private List<Player>tpoff = new ArrayList<>();
             if (sender.hasPermission("tbh.tp.admin.all")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
+                    if (cooldown.containsKey(player)) {
+                        sender.sendMessage(ChatColor.RED + "This command has a cooldown of 5 seconds each use - Please wait!");
+                        return false;
+                    }
                     for (Player target : Bukkit.getOnlinePlayers()) {
                         if (target != player) {
                             target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
@@ -252,6 +289,14 @@ private List<Player>tpoff = new ArrayList<>();
                             run.runTaskLater(this, 1200); // 60 seconds
                             TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
                             TeleportRequest.addRequest(request);
+                            BukkitRunnable cooldowntimer = new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    cooldown.remove(player);
+                                }
+                            };
+                            cooldown.put(player, cooldowntimer);
+                            cooldowntimer.runTaskLater(this, 100); // 20 ticks = 1 second
                         }
                     }
                 }
@@ -338,20 +383,26 @@ private List<Player>tpoff = new ArrayList<>();
         request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has accepted your teleport request!");
         player.sendMessage(ChatColor.GREEN + "You've accepted the teleport request!");
         if (request.getType() == TeleportRequest.TeleportType.TPA_HERE) {
-            new BukkitRunnable() {
+            BukkitRunnable movementtimer = new BukkitRunnable() {
                 @Override
                 public void run() {
                     player.teleport(request.getRequester());
+                    movement.remove(player);
                 }
-            }.runTaskLater(this, 60); // 3 seconds
+            };
+            movement.put(player, movementtimer);
+            movementtimer.runTaskLater(this, 60);
             player.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + "3 seconds" + ChatColor.GREEN + ", please don't move!"); //TODO Add checker for movement!);
         } else {
-            new BukkitRunnable() {
+            BukkitRunnable movementtimer = new BukkitRunnable() {
                 @Override
                 public void run() {
                     request.getRequester().teleport(player);
+                    movement.remove(request.getRequester());
                 }
-            }.runTaskLater(this, 60); // 3 seconds
+            };
+            movement.put(request.getRequester(), movementtimer);
+            movementtimer.runTaskLater(this, 60);
             request.getRequester().sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + "3 seconds" + ChatColor.GREEN + ", please don't move!"); //TODO Add checker for movement!
         }
         request.destroy();
@@ -404,5 +455,14 @@ private List<Player>tpoff = new ArrayList<>();
             return false;
         }
         return false;
+    }
+    @EventHandler
+    public void onMovement(PlayerMoveEvent event) {
+        if (movement.containsKey(event.getPlayer())) {
+            BukkitRunnable timer = movement.get(event.getPlayer());
+            timer.cancel();
+            event.getPlayer().sendMessage(ChatColor.RED + "Teleport has been cancelled due to movement.");
+            movement.remove(event.getPlayer());
+        }
     }
 }

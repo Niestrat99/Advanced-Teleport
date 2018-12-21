@@ -1,7 +1,7 @@
-name: TBH_Teleport
-description: Teleportation plugin made for FNACraft!
+name: FNACraft_Teleport
+description: Teleportation plugin made for FNACraft by TeamBanHammer aka. Niestrat99 and Thatsmusic99
 authors: [Niestrat99,Thatsmusic99]
-version: TBH_T_ALPHA_1.0
+version: Beta 1.0
 main: io.github.teambanhammer.tbht_main
 
 commands:
