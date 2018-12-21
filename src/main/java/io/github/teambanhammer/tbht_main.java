@@ -1,5 +1,6 @@
 package io.github.teambanhammer;
 
+import fanciful.FancyMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.OfflinePlayer;
@@ -75,7 +76,7 @@ private List<Player>tpoff = new ArrayList<>();
                             @Override
                             public void run() {
                                 sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
-                                TeleportRequest.removeRequest(TeleportRequest.getRequest(player));
+                                TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
                             }
                         };
                         run.runTaskLater(this, 1200); // 60 seconds
@@ -115,7 +116,7 @@ private List<Player>tpoff = new ArrayList<>();
                             @Override
                             public void run() {
                                 sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
-                                TeleportRequest.removeRequest(TeleportRequest.getRequest(player));
+                                TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
                             }
                         };
                         run.runTaskLater(this, 1200); // 60 seconds
@@ -131,31 +132,10 @@ private List<Player>tpoff = new ArrayList<>();
         } else if (label.equalsIgnoreCase("tpayes")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (TeleportRequest.getRequest(player) != null) {
-                    TeleportRequest request = TeleportRequest.getRequest(player);
-                    request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has accepted your teleport request!");
-                    player.sendMessage(ChatColor.GREEN + "You've accepted the teleport request!");
-                    if (request.getType() == TeleportRequest.TeleportType.TPA_HERE) {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                player.teleport(request.getRequester());
-                            }
-                        }.runTaskLater(this, 60); // 3 seconds
-                        player.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + "3 seconds" + ChatColor.GREEN + ", please don't move!"); //TODO Add checker for movement!);
-                    } else {
-                        new BukkitRunnable() {
-                            @Override
-                            public void run() {
-                                request.getRequester().teleport(player);
-                            }
-                        }.runTaskLater(this, 60); // 3 seconds
-                        request.getRequester().sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + "3 seconds" + ChatColor.GREEN + ", please don't move!"); //TODO Add checker for movement!
-                    }
-                    request.destroy();
-                    return false;
-                } else {
-                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
+                if (teleportTests(player, args)) {
+                    Player target = Bukkit.getPlayer(args[0]);
+                    TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
+                    acceptRequest(request);
                     return false;
                 }
             }
@@ -163,14 +143,12 @@ private List<Player>tpoff = new ArrayList<>();
         } else if (label.equalsIgnoreCase("tpano")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (TeleportRequest.getRequest(player) != null) {
-                    TeleportRequest request = TeleportRequest.getRequest(player);
+                if (teleportTests(player, args)) {
+                    Player target = Bukkit.getPlayer(args[0]);
+                    TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
                     request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
                     player.sendMessage(ChatColor.GREEN + "You've declined the teleport request!");
                     request.destroy();
-                    return false;
-                } else {
-                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
                     return false;
                 }
             }
@@ -200,11 +178,53 @@ private List<Player>tpoff = new ArrayList<>();
         } else if (label.equalsIgnoreCase("tpcancel")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (TeleportRequest.getRequestByRequester(player) != null) {
-                    TeleportRequest request = TeleportRequest.getRequestByRequester(player);
-                    player.sendMessage(ChatColor.GREEN + "You have canceled your teleport request.");
-                    request.getResponder().sendMessage(ChatColor.YELLOW + "" + sender.getName() + ChatColor.RED + " has canceled their teleport request.");
-                    request.destroy();
+                // Checks if any players have sent a request at all.
+                if (!TeleportRequest.getRequests(player).isEmpty()) {
+                    // Checks if there's more than one request.
+                    if (TeleportRequest.getRequests(player).size() > 1) {
+                        // If the player has specified the request they're accepting.
+                        if (args.length > 0) {
+                            Player target = Bukkit.getPlayer(args[0]);
+                            if (target == null) {
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                                return false;
+                            } else {
+                                TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
+                                if (request == null) {
+                                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests from " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                                    return false;
+                                } else {
+                                    player.sendMessage(ChatColor.GREEN + "You have canceled your teleport request.");
+                                    request.getResponder().sendMessage(ChatColor.YELLOW + "" + sender.getName() + ChatColor.RED + " has canceled their teleport request.");
+                                    request.destroy();
+                                    return false;
+                                }
+                            }
+                        } else {
+                            // This utility helps in splitting lists into separate pages, like when you list your plots with PlotMe/PlotSquared.
+                            PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
+                            player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to accept:");
+                            for (TeleportRequest request : requests.getContentsInPage(1)) {
+                                new FancyMessage()
+                                        .command("/tpano " + request.getRequester())
+                                        .color(ChatColor.AQUA)
+                                        .text("> " + request.getRequester())
+                                        .send(player);
+                            }
+                            if (requests.getTotalPages() > 1) {
+                                player.sendMessage(ChatColor.GREEN + "Do /tpalist <Page Number> To check other requests.");
+                            }
+
+                        }
+                    } else {
+                        TeleportRequest request = TeleportRequest.getRequests(player).get(0);
+                        request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
+                        player.sendMessage(ChatColor.GREEN + "You've declined the teleport request!");
+                        request.destroy();
+                        return false;
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
                     return false;
                 }
             }
@@ -220,7 +240,7 @@ private List<Player>tpoff = new ArrayList<>();
                             BukkitRunnable run = new BukkitRunnable() {
                                 @Override
                                 public void run() {
-                                    TeleportRequest.removeRequest(TeleportRequest.getRequest(player));
+                                    TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
                                 }
                             };
                             run.runTaskLater(this, 1200); // 60 seconds
@@ -303,6 +323,79 @@ private List<Player>tpoff = new ArrayList<>();
                     return false;
                 }
             }
+        }
+        return false;
+    }
+
+    private void acceptRequest(TeleportRequest request) {
+        Player player = request.getResponder();
+        request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has accepted your teleport request!");
+        player.sendMessage(ChatColor.GREEN + "You've accepted the teleport request!");
+        if (request.getType() == TeleportRequest.TeleportType.TPA_HERE) {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    player.teleport(request.getRequester());
+                }
+            }.runTaskLater(this, 60); // 3 seconds
+            player.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + "3 seconds" + ChatColor.GREEN + ", please don't move!"); //TODO Add checker for movement!);
+        } else {
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    request.getRequester().teleport(player);
+                }
+            }.runTaskLater(this, 60); // 3 seconds
+            request.getRequester().sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + "3 seconds" + ChatColor.GREEN + ", please don't move!"); //TODO Add checker for movement!
+        }
+        request.destroy();
+    }
+
+    private boolean teleportTests(Player player, String[] args) {
+        // Checks if any players have sent a request at all.
+        if (!TeleportRequest.getRequests(player).isEmpty()) {
+            // Checks if there's more than one request.
+            if (TeleportRequest.getRequests(player).size() > 1) {
+                // If the player has specified the request they're accepting.
+                if (args.length > 0) {
+                    // Get the player.
+                    Player target = Bukkit.getPlayer(args[0]);
+                    if (target == null) {
+                        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                        return false;
+                    } else {
+                        // Get the request that was sent by the target.
+                        TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
+                        if (request == null) {
+                            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests from " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                            return false;
+                        } else {
+                            // Yes, the
+                            return true;
+                        }
+                    }
+                } else {
+                    // This utility helps in splitting lists into separate pages, like when you list your plots with PlotMe/PlotSquared.
+                    PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
+                    player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to accept:");
+                    for (TeleportRequest request : requests.getContentsInPage(1)) {
+                        new FancyMessage()
+                                .command("/tpano " + request.getRequester())
+                                .color(ChatColor.AQUA)
+                                .text("> " + request.getRequester())
+                                .send(player);
+                    }
+                    if (requests.getTotalPages() > 1) {
+                        player.sendMessage(ChatColor.GREEN + "Do /tpalist <Page Number> To check other requests.");
+                    }
+
+                }
+            } else {
+                return true;
+            }
+        } else {
+            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
+            return false;
         }
         return false;
     }

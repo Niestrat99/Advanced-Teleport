@@ -42,18 +42,29 @@ public class TeleportRequest { // A teleport request object.
         TPA_NORMAL
     }
 
-    public static TeleportRequest getRequest(Player responder) {
+    public static List<TeleportRequest> getRequests(Player responder) {
+        List<TeleportRequest> requests = new ArrayList<>();
         for (TeleportRequest request : requestList) {
             if (request.responder == responder) {
-                return request;
+                requests.add(request);
             }
         }
-        return null;
+        return requests;
     }
 
-    public static TeleportRequest getRequestByRequester(Player requester) {
+    public static List<TeleportRequest> getRequestsByRequester(Player requester) {
+        List<TeleportRequest> requests = new ArrayList<>(); // Requests that the requester has pending
         for (TeleportRequest request : requestList) {
             if (request.getRequester() == requester) {
+                requests.add(request);
+            }
+        }
+        return requests;
+    }
+
+    public static TeleportRequest getRequestByReqAndResponder(Player responder, Player requester) {
+        for (TeleportRequest request : requestList) {
+            if (request.getRequester() == requester && request.getResponder() == responder) {
                 return request;
             }
         }
