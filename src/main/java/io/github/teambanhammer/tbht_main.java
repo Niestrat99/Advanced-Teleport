@@ -79,6 +79,10 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                             sender.sendMessage(ChatColor.RED + "You can not teleport to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                             return false;
                         }
+                        if (TeleportRequest.getRequestByReqAndResponder(target, player) != null) {
+                            sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                            return false;
+                        }
                         sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
                         sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond!");
                         sender.sendMessage(ChatColor.GREEN + "To cancel the request use " + ChatColor.AQUA + "/tpcancel " + ChatColor.GREEN + "to cancel it.");
@@ -129,6 +133,10 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                         }
                         if (TeleportBlock.getBlockedPlayers(target).contains(player)) {
                             sender.sendMessage(ChatColor.RED + "You can not teleport to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                            return false;
+                        }
+                        if (TeleportRequest.getRequestByReqAndResponder(target, player) != null) {
+                            sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                             return false;
                         }
                         sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
