@@ -53,3 +53,7 @@ commands:
     description: Sends you a list of commands.
     permission: tbh.tp.member.help
     default: true
+  tpalist:
+    description: Lists your teleport requests.
+    permission: tbh.tp.member.list
+    default: true

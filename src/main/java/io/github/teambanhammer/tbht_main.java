@@ -374,6 +374,56 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                     return false;
                 }
             }
+        } else if (label.equalsIgnoreCase("tpalist")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                // If there are actually any pending teleport requests.
+                if (!TeleportRequest.getRequests(player).isEmpty()) {
+                    if (args.length > 0) {
+                        // Check if the argument can be parsed as an actual number.
+                        // ^ means at the start of the string.
+                        // [0-9] means any number in the range of 0 to 9.
+                        // + means one or more of, allowing two or three digits.
+                        // $ means the end of the string.
+                        if (args[0].matches("^[0-9]+$")) {
+                            // args[0] is officially an int.
+                            int page = Integer.parseInt(args[0]);
+                            PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
+                            player.sendMessage(ChatColor.GREEN + "Click one of the following to accept:");
+                            try {
+                                for (TeleportRequest request : requests.getContentsInPage(page)) {
+                                    new FancyMessage()
+                                            .command("/tpayes " + request.getRequester().getName())
+                                            .color(ChatColor.AQUA)
+                                            .text("> " + request.getRequester().getName())
+                                            .send(player);
+                                }
+                            } catch (IllegalArgumentException ex) {
+                                player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You've inserted an invalid page number!");
+                            }
+
+                        } else {
+                            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You've inserted an invalid page number!");
+
+                        }
+                    } else {
+                        PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
+                        player.sendMessage(ChatColor.GREEN + "Click one of the following to accept:");
+                        for (TeleportRequest request : requests.getContentsInPage(1)) {
+                            new FancyMessage()
+                                    .command("/tpayes " + request.getRequester().getName())
+                                    .color(ChatColor.AQUA)
+                                    .text("> " + request.getRequester().getName())
+                                    .send(player);
+                        }
+                        return false;
+                    }
+                } else {
+                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
+                    return false;
+                }
+
+            }
         }
         return false;
     }
@@ -434,7 +484,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 } else {
                     // This utility helps in splitting lists into separate pages, like when you list your plots with PlotMe/PlotSquared.
                     PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
-                    player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to accept:");
+                    player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to " + (type.equalsIgnoreCase("tpayes") ? "accept" : "deny") + ":");
                     for (TeleportRequest request : requests.getContentsInPage(1)) {
                         new FancyMessage()
                                 .command("/" + type + " " + request.getRequester().getName())
