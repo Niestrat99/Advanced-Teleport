@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>groupId</groupId>
-    <artifactId>FNACraft_Teleport</artifactId>
+    <artifactId>TeamBanHammer_Teleport</artifactId>
     <version>Beta_1.0</version>
 
     <build>

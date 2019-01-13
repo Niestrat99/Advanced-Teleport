@@ -30,6 +30,11 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
     public void onEnable (){
         System.out.println("TBH_Teleport is now enabled!");
         getServer().getPluginManager().registerEvents(this, this);
+        try {
+            configuration.setDefaults();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -62,7 +67,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (cooldown.containsKey(player)) {
-                    sender.sendMessage(ChatColor.RED + "This command has a cooldown of 5 seconds each use - Please wait!");
+                    sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
                     return false;
                 }
                 if (args.length > 0) {
@@ -84,11 +89,11 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                             return false;
                         }
                         sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
-                        sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond!");
+                        sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond!");
                         sender.sendMessage(ChatColor.GREEN + "To cancel the request use " + ChatColor.AQUA + "/tpcancel " + ChatColor.GREEN + "to cancel it.");
                         target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport to you!");
                         target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
-                        target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond to the request!");
+                        target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond to the request!");
                         BukkitRunnable run = new BukkitRunnable() {
                             @Override
                             public void run() {
@@ -96,7 +101,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                                 TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
                             }
                         };
-                        run.runTaskLater(this, 1200); // 60 seconds
+                        run.runTaskLater(this, configuration.requestLifetime()*20); // 60 seconds
                         TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_NORMAL); // Creates a new teleport request.
                         TeleportRequest.addRequest(request);
                         BukkitRunnable cooldowntimer = new BukkitRunnable() {
@@ -106,7 +111,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                             }
                         };
                         cooldown.put(player, cooldowntimer);
-                        cooldowntimer.runTaskLater(this, 100); // 20 ticks = 1 second
+                        cooldowntimer.runTaskLater(this, configuration.commandCooldown()*20); // 20 ticks = 1 second
                         return false;
                     }
                 } else {
@@ -118,7 +123,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (cooldown.containsKey(player)) {
-                    sender.sendMessage(ChatColor.RED + "This command has a cooldown of 5 seconds each use - Please wait!");
+                    sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
                     return false;
                 }
                 if (args.length > 0) {
@@ -140,11 +145,11 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                             return false;
                         }
                         sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
-                        sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond!");
+                        sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond!");
                         sender.sendMessage(ChatColor.GREEN + "To cancel the request use " + ChatColor.AQUA + "/tpcancel " + ChatColor.GREEN + "to cancel it.");
                         target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
                         target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
-                        target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond to the request!");
+                        target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond to the request!");
                         BukkitRunnable run = new BukkitRunnable() {
                             @Override
                             public void run() {
@@ -152,7 +157,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                                 TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
                             }
                         };
-                        run.runTaskLater(this, 1200); // 60 seconds
+                        run.runTaskLater(this, configuration.requestLifetime()*20); // 1200 ticks = 60 seconds
                         TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
                         TeleportRequest.addRequest(request);
                         BukkitRunnable cooldowntimer = new BukkitRunnable() {
@@ -162,7 +167,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                             }
                         };
                         cooldown.put(player, cooldowntimer);
-                        cooldowntimer.runTaskLater(this, 100); // 20 ticks = 1 second
+                        cooldowntimer.runTaskLater(this, configuration.commandCooldown()*20); // 20 ticks = 1 second
                         return false;
                     }
                 } else {
@@ -280,21 +285,21 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (cooldown.containsKey(player)) {
-                        sender.sendMessage(ChatColor.RED + "This command has a cooldown of 5 seconds each use - Please wait!");
+                        sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
                         return false;
                     }
                     for (Player target : Bukkit.getOnlinePlayers()) {
                         if (target != player) {
                             target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
                             target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
-                            target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + "60 " + ChatColor.GREEN + "seconds to respond to the request!");
+                            target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond to the request!");
                             BukkitRunnable run = new BukkitRunnable() {
                                 @Override
                                 public void run() {
                                     TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
                                 }
                             };
-                            run.runTaskLater(this, 1200); // 60 seconds
+                            run.runTaskLater(this, configuration.requestLifetime()*20); // 60 seconds
                             TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
                             TeleportRequest.addRequest(request);
                             BukkitRunnable cooldowntimer = new BukkitRunnable() {
@@ -304,7 +309,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                                 }
                             };
                             cooldown.put(player, cooldowntimer);
-                            cooldowntimer.runTaskLater(this, 100); // 20 ticks = 1 second
+                            cooldowntimer.runTaskLater(this, configuration.commandCooldown()*20); // 20 ticks = 1 second
                         }
                     }
                 }
@@ -449,8 +454,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
             };
             movement.put(player, movementtimer);
-            movementtimer.runTaskLater(this, 60);
-            player.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + "3 seconds" + ChatColor.GREEN + ", please don't move!"); //TODO Add checker for movement!);
+            movementtimer.runTaskLater(this, configuration.teleportTimer()*20);
+            player.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + configuration.teleportTimer() + " seconds" + ChatColor.GREEN + ", please don't move!");
         } else {
             BukkitRunnable movementtimer = new BukkitRunnable() {
                 @Override
@@ -460,8 +465,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
             };
             movement.put(request.getRequester(), movementtimer);
-            movementtimer.runTaskLater(this, 60);
-            request.getRequester().sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + "3 seconds" + ChatColor.GREEN + ", please don't move!"); //TODO Add checker for movement!
+            movementtimer.runTaskLater(this, configuration.teleportTimer()*20);
+            request.getRequester().sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + configuration.teleportTimer() + " seconds" + ChatColor.GREEN + ", please don't move!");
         }
         request.destroy();
     }

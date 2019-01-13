@@ -1,5 +1,5 @@
-name: FNACraft_Teleport
-description: Teleportation plugin made for FNACraft by TeamBanHammer aka. Niestrat99 and Thatsmusic99
+name: TeamBanHammer_Teleport
+description: A plugin which allows players to request a teleport to other players. Type /tphelp to get a list of commands.
 authors: [Niestrat99,Thatsmusic99]
 version: Beta 1.0
 main: io.github.teambanhammer.tbht_main
@@ -52,4 +52,8 @@ commands:
   tphelp:
     description: Sends you a list of commands.
     permission: tbh.tp.member.help
+    default: true
+  tpalist:
+    description: Lists your teleport requests.
+    permission: tbh.tp.member.list
     default: true
