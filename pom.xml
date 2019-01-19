@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>groupId</groupId>
-    <artifactId>TeamBanHammer_Teleport</artifactId>
-    <version>Beta_1.0</version>
+    <artifactId>Advanced_Teleport</artifactId>
+    <version>1.0</version>
 
     <build>
         <plugins>
