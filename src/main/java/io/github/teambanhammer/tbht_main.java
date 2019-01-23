@@ -437,6 +437,30 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
 
             }
+        } else if (label.equalsIgnoreCase("tpohere")){
+            if (sender.hasPermission("tbh.tp.admin.tpohere")){
+                if (sender instanceof Player){
+                    Player player = (Player)sender;
+                    if (args.length>0){
+                        Player target = Bukkit.getPlayer(args[0]);
+                        if (target == null){
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                            return false;
+                        } else {
+                            sender.sendMessage(ChatColor.GREEN + "Teleporting " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + " to you!");
+                            target.sendMessage(ChatColor.GREEN + "You have been teleported to " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + "!");
+                            target.teleport(player);
+                            return false;
+                        }
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
+                        return false;
+                    }
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                return false;
+            }
         }
         return false;
     }
