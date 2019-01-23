@@ -55,7 +55,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                     if (sender.hasPermission("tbh.tp.admin.help")) {
                         sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Teleport Commands for Admins");
                         sender.sendMessage(ChatColor.RED + "/tpaall - " + ChatColor.GOLD + "Sends everyone a teleport request to where you are.");
-                        sender.sendMessage(ChatColor.RED + "/tpo <Player> - " + ChatColor.GOLD + "eleports you to another player instantly.");
+                        sender.sendMessage(ChatColor.RED + "/tpohere <Player> - " + ChatColor.GOLD + "Teleports the player to you instantly.");
+                        sender.sendMessage(ChatColor.RED + "/tpo <Player> - " + ChatColor.GOLD + "Teleports you to another player instantly.");
                         return false;
                     } else {
                         sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
