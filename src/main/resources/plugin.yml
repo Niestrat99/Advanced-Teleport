@@ -1,10 +1,14 @@
 name: AdvancedTeleport
 description: A plugin which allows players to request a teleport to other players. Type /tphelp to get a list of commands.
 authors: [Niestrat99,Thatsmusic99]
-version: 1.1
+version: 1.2
 main: io.github.teambanhammer.tbht_main
 
 commands:
+  tpr:
+    description: Teleports you to a random place.
+    permission: tbh.tp.member.tpr
+    default: true
   tpohere:
     description: (ADMIN ONLY COMMAND) Instantly teleports a player to you.
     permission: tbh.tp.admin.tpohere

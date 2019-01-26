@@ -8,7 +8,7 @@ import java.io.IOException;
 
 public class configuration {
 
-    public static File ConfigFile = new File("plugins/TeamBanHammer_Teleport","config.yml");
+    public static File ConfigFile = new File("plugins/AdvancedTeleport","config.yml");
     public static FileConfiguration Config = YamlConfiguration.loadConfiguration(ConfigFile);
 
     public static void save() throws IOException {

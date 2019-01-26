@@ -1,9 +1,7 @@
 package io.github.teambanhammer;
 
 import fanciful.FancyMessage;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 public class tbht_main extends JavaPlugin implements Listener {
 
@@ -28,7 +27,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
 
     @Override
     public void onEnable (){
-        System.out.println("TBH_Teleport is now enabled!");
+        System.out.println("AdvancedTeleport is now enabled!");
+        System.out.println("AdvancedTeleport Version: " + getDescription().getVersion());
         getServer().getPluginManager().registerEvents(this, this);
         try {
             configuration.setDefaults();
@@ -40,6 +40,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (label.equalsIgnoreCase("tphelp")) {
+            if (sender.hasPermission("tbh.tp.member.help")) {
+        }
             if (args.length == 0) {
                 sender.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Teleport Commands");
                 sender.sendMessage(ChatColor.AQUA + "/tpa <Player> - " + ChatColor.GREEN + "Sends the targeted player a teleport request to where they are.");
@@ -65,6 +67,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
             }
         } else if (label.equalsIgnoreCase("tpa")) {
+            if (sender.hasPermission("tbh.tp.member.tpa")) {
+        }
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (cooldown.containsKey(player)) {
@@ -121,6 +125,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
             }
         } else if (label.equalsIgnoreCase("tpahere")) {
+            if (sender.hasPermission("tbh.tp.member.here")) {
+        }
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (cooldown.containsKey(player)) {
@@ -177,6 +183,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
             }
         } else if (label.equalsIgnoreCase("tpayes")) {
+            if (sender.hasPermission("tbh.tp.member.yes")) {
+        }
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (teleportTests(player, args, "tpayes")) {
@@ -194,6 +202,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
             }
 
         } else if (label.equalsIgnoreCase("tpano")) {
+            if (sender.hasPermission("tbh.tp.member.no")) {
+        }
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (teleportTests(player, args, "tpano")) {
@@ -229,6 +239,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 return false;
             }
         } else if (label.equalsIgnoreCase("tpcancel")) {
+            if (sender.hasPermission("tbh.tp.member.cancel")) {
+        }
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 // Checks if any players have sent a request at all.
@@ -319,6 +331,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 return false;
             }
         } else if (label.equalsIgnoreCase("tpoff")) {
+            if (sender.hasPermission("tbh.tp.member.off")) {
+        }
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (!tpoff.contains(player)) {
@@ -329,6 +343,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
             }
         } else if (label.equalsIgnoreCase("tpon")) {
+            if (sender.hasPermission("tbh.tp.member.on")) {
+        }
             if (sender instanceof Player) {
                 Player player = (Player)sender;
                 if (tpoff.contains(player)) {
@@ -338,6 +354,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
             }
         } else if (label.equalsIgnoreCase("tpblock")) {
+            if (sender.hasPermission("tbh.tp.member.block")) {
+        }
             if (sender instanceof Player){
                 Player player = (Player)sender;
                 if (args.length>0){
@@ -365,6 +383,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
             }
         } else if (label.equalsIgnoreCase("tpunblock")) {
+            if (sender.hasPermission("tbh.tp.member.unblock")) {
+        }
             if (sender instanceof Player){
                 Player player = (Player)sender;
                 if (args.length>0){
@@ -389,6 +409,8 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 }
             }
         } else if (label.equalsIgnoreCase("tpalist")) {
+            if (sender.hasPermission("tbh.tp.member.list")) {
+        }
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 // If there are actually any pending teleport requests.
@@ -462,8 +484,52 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
                 return false;
             }
+        } else if (label.equalsIgnoreCase("tpr")){
+            if (sender.hasPermission("tbh.tp.member.tpr")) {
+            if (sender instanceof Player) {
+                Player player = (Player) sender;
+                if (cooldown.containsKey(player)) {
+                    sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
+                    return false;
+                }
+                int x = getRandomCoords(-10000, 10000);
+                int z = getRandomCoords(-10000, 10000);
+                int y = 256;
+                Location location = new Location(player.getWorld(), x, y, z);
+                while (location.getBlock().getType() == Material.AIR) {
+                    location.subtract(0, 1, 0);
+                }
+                location.add(0, 1, 0);
+                BukkitRunnable cooldowntimer = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        cooldown.remove(player);
+                    }
+                };
+                cooldown.put(player, cooldowntimer);
+                cooldowntimer.runTaskLater(this, configuration.commandCooldown() * 20); // 20 ticks = 1 second
+
+                BukkitRunnable movementtimer = new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        player.teleport(location);
+                        movement.remove(player);
+                        sender.sendMessage(ChatColor.GREEN + "You've been teleported to a random place!");
+                    }
+                };
+                movement.put(player, movementtimer);
+                movementtimer.runTaskLater(this, configuration.teleportTimer() * 20);
+                player.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + configuration.teleportTimer() + " seconds" + ChatColor.GREEN + ", please don't move!");
+                return false;
+            
+            }
         }
         return false;
+    }
+
+    private static int getRandomCoords(int min, int max){
+        Random r = new Random();
+        return r.nextInt((max - min)+1)+min ;
     }
 
     private void acceptRequest(TeleportRequest request) {
