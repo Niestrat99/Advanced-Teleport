@@ -50,6 +50,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                     sender.sendMessage(ChatColor.AQUA + "/tpano - " + ChatColor.GREEN + "Declines a teleport request someone sent you.");
                     sender.sendMessage(ChatColor.AQUA + "/tpon - " + ChatColor.GREEN + "Enables receiving teleport requests.");
                     sender.sendMessage(ChatColor.AQUA + "/tpoff - " + ChatColor.GREEN + "Disables receiving teleport requests.");
+                    sender.sendMessage(ChatColor.AQUA + "/tpr - " + ChatColor.GREEN + "Teleports you to a random place.");
                     return false;
                 } else {
                     if (args[0].equalsIgnoreCase("admin")) {
@@ -75,6 +76,10 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                         return false;
                     }
                     if (args.length > 0) {
+                        if (args[0].equalsIgnoreCase(player.getName())){
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot send a teleport request to yourself!");
+                            return false;
+                        }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
                             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
@@ -133,6 +138,10 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                         return false;
                     }
                     if (args.length > 0) {
+                        if (args[0].equalsIgnoreCase(player.getName())){
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot send a teleport request to yourself!");
+                            return false;
+                        }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
                             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
@@ -219,6 +228,10 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (args.length > 0) {
+                        if (args[0].equalsIgnoreCase(player.getName())){
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot teleport to yourself!");
+                            return false;
+                        }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null) {
                             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
@@ -357,6 +370,10 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 if (sender instanceof Player){
                     Player player = (Player)sender;
                     if (args.length>0){
+                        if (args[0].equalsIgnoreCase(player.getName())){
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot block yourself!");
+                            return false;
+                        }
                         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                         if (target == null){
                             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " The player doesn't exist.");
@@ -386,6 +403,10 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 if (sender instanceof Player){
                     Player player = (Player)sender;
                     if (args.length>0){
+                        if (args[0].equalsIgnoreCase(player.getName())){
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You've never blocked yourself.");
+                            return false;
+                        }
                         OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
                         if (target == null){
                             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " The player doesn't exist.");
@@ -464,6 +485,10 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 if (sender instanceof Player){
                     Player player = (Player)sender;
                     if (args.length>0){
+                        if (args[0].equalsIgnoreCase(player.getName())){
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot teleport to yourself!");
+                            return false;
+                        }
                         Player target = Bukkit.getPlayer(args[0]);
                         if (target == null){
                             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
