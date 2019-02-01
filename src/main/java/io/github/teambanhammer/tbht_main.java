@@ -1,6 +1,9 @@
 package io.github.teambanhammer;
 
 import fanciful.FancyMessage;
+import gnu.trove.map.custom_hash.TObjectDoubleCustomHashMap;
+import net.milkbowl.vault.economy.Economy;
+import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -8,8 +11,10 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import sun.security.krb5.Config;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +30,20 @@ private HashMap<Player, BukkitRunnable>cooldown = new HashMap<>();
 
 private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
 
+private static Economy Vault;
+
+    private boolean setupEconomy() {
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+        RegisteredServiceProvider<Economy> rsp = getServer().getServicesManager().getRegistration(Economy.class);
+        if (rsp == null) {
+            return false;
+        }
+        Vault = rsp.getProvider();
+        return Vault != null;
+    }
+
     @Override
     public void onEnable (){
         System.out.println("AdvancedTeleport is now enabled!");
@@ -35,6 +54,7 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
         } catch (IOException e) {
             e.printStackTrace();
         }
+        setupEconomy();
     }
 
     @Override
@@ -97,6 +117,12 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                                 sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                                 return false;
                             }
+                            if (Vault != null && configuration.useVault()) {
+                                if (Vault.getBalance(player)<configuration.teleportPrice()){
+                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
+                                    return false;
+                                }
+                            }
                             sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
                             sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond!");
                             sender.sendMessage(ChatColor.GREEN + "To cancel the request use " + ChatColor.AQUA + "/tpcancel " + ChatColor.GREEN + "to cancel it.");
@@ -158,6 +184,12 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                             if (TeleportRequest.getRequestByReqAndResponder(target, player) != null) {
                                 sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                                 return false;
+                            }
+                            if (Vault != null && configuration.useVault()) {
+                                if (Vault.getBalance(player)<configuration.teleportPrice()){
+                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
+                                    return false;
+                                }
                             }
                             sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
                             sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond!");
@@ -568,6 +600,14 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 public void run() {
                     player.teleport(request.getRequester());
                     movement.remove(player);
+                    if  (Vault != null && configuration.useVault()) {
+                        EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
+                        if (Vault.getBalance(request.getRequester())>configuration.teleportPrice()){
+                            if (payment.transactionSuccess()){
+                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have " + ChatColor.AQUA + Vault.getBalance(player) + ChatColor.GREEN + "!");
+                            }
+                        }
+                    }
                 }
             };
             movement.put(player, movementtimer);
@@ -579,6 +619,14 @@ private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
                 public void run() {
                     request.getRequester().teleport(player);
                     movement.remove(request.getRequester());
+                    if  (Vault != null && configuration.useVault()) {
+                        EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
+                        if (Vault.getBalance(request.getRequester())>configuration.teleportPrice()){
+                            if (payment.transactionSuccess()){
+                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have " + ChatColor.AQUA + Vault.getBalance(player) + ChatColor.GREEN + "!");
+                            } //TODO Check why request.getRequester() does not receive the payment message!
+                        }
+                    }
                 }
             };
             movement.put(request.getRequester(), movementtimer);

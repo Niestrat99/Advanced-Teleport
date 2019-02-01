@@ -6,7 +6,7 @@
 
     <groupId>groupId</groupId>
     <artifactId>Advanced_Teleport</artifactId>
-    <version>1.2.1</version>
+    <version>PRE-2.0</version>
 
     <build>
         <plugins>
@@ -21,6 +21,13 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>vault-repo</id>
+            <url>http://nexus.hc.to/content/repositories/pub_releases</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
@@ -28,6 +35,12 @@
             <version>1.13.1</version>
             <scope>system</scope>
             <systemPath>H:\Pogo tutorials\spigot-1.13.1.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.milkbowl.vault</groupId>
+            <artifactId>VaultAPI</artifactId>
+            <version>1.7</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

@@ -18,6 +18,8 @@ public class configuration {
         Config.addDefault("commandCooldown",5);
         Config.addDefault("teleportTimer",3);
         Config.addDefault("requestLifetime",60);
+        Config.addDefault("useVault" , false);
+        Config.addDefault("teleportPrice" , 100);
         Config.options().copyDefaults(true);
         save();
     }
@@ -30,4 +32,6 @@ public class configuration {
     public static int requestLifetime(){
         return Config.getInt("requestLifetime");
     }
+    public static boolean useVault() {return Config.getBoolean("useVault");}
+    public static int teleportPrice() {return Config.getInt("teleportPrice");}
 }
