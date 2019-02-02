@@ -565,6 +565,20 @@ private static Economy Vault;
                         sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
                         return false;
                     }
+                    if (configuration.EXPPayment()){
+                        if (player.getLevel()<configuration.EXPTPRCost()){
+                            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to send a teleport request to someone else!");
+                            player.sendMessage(ChatColor.RED + "You need atleast " + ChatColor.YELLOW + configuration.EXPTPRCost() + ChatColor.RED + " EXP Levels!");
+                            return false;
+                        }
+                    }
+                    if (Vault != null && configuration.useVault()) {
+                        if (Vault.getBalance(player)<configuration.vaultTPRCost()){
+                            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
+                            player.sendMessage(ChatColor.RED + "You need atleast $" + ChatColor.YELLOW + configuration.vaultTPRCost() + ChatColor.RED + "!");
+                            return false;
+                        }
+                    }
                     int x = getRandomCoords(-10000, 10000);
                     int z = getRandomCoords(-10000, 10000);
                     int y = 256;
@@ -588,6 +602,21 @@ private static Economy Vault;
                             player.teleport(location);
                             movement.remove(player);
                             sender.sendMessage(ChatColor.GREEN + "You've been teleported to a random place!");
+                            if (configuration.EXPPayment()) {
+                                if (player.getLevel()>configuration.EXPTeleportPrice()){
+                                    int currentLevel = player.getLevel();
+                                   player.setLevel(currentLevel - configuration.EXPTeleportPrice());
+                                    player.sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.EXPTPRCost() + ChatColor.GREEN + " EXP Levels for your teleportation request. You now have " + ChatColor.AQUA + player.getLevel() + ChatColor.GREEN + " EXP Levels!");
+                                }
+                            }
+                            if  (Vault != null && configuration.useVault()) {
+                                if (Vault.getBalance(player)>configuration.teleportPrice()){
+                                    EconomyResponse payment = Vault.withdrawPlayer(player , configuration.vaultTPRCost());
+                                    if (payment.transactionSuccess()){
+                                        player.sendMessage(ChatColor.GREEN + "You have paid $" + ChatColor.AQUA + configuration.vaultTPRCost() + ChatColor.GREEN + " for your teleportation request. You now have $" + ChatColor.AQUA + Vault.getBalance(player) + ChatColor.GREEN + "!");
+                                    }
+                                }
+                            }
                         }
                     };
                     movement.put(player, movementtimer);
@@ -629,7 +658,7 @@ private static Economy Vault;
                         if (Vault.getBalance(request.getRequester())>configuration.teleportPrice()){
                             EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
                             if (payment.transactionSuccess()){
-                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid $" + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have $" + ChatColor.AQUA + Vault.getBalance(player) + ChatColor.GREEN + "!");
+                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid $" + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have $" + ChatColor.AQUA + Vault.getBalance(request.getRequester()) + ChatColor.GREEN + "!");
                             }
                         }
                     }

@@ -2,14 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69d9e5f8-f774-4b69-b48c-499570da9e42" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Advanced_Teleport-2.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/Advanced_Teleport-2.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$10.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$9.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -24,8 +18,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="50" column="48" lean-forward="true" selection-start-line="50" selection-start-column="48" selection-end-line="50" selection-end-column="48" />
+            <state relative-caret-position="1209">
+              <caret line="660" column="280" selection-start-line="660" selection-start-column="280" selection-end-line="660" selection-end-column="280" />
             </state>
           </provider>
         </entry>
@@ -33,8 +27,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="559">
-              <caret line="46" column="81" lean-forward="true" selection-start-line="46" selection-start-column="81" selection-end-line="46" selection-end-column="81" />
+            <state relative-caret-position="627">
+              <caret line="50" column="72" selection-start-line="50" selection-start-column="72" selection-end-line="50" selection-end-column="72" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -170,7 +164,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549112433865" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549113440280" />
     <property name="last_opened_file_path" value="H:/Pogo tutorials/spigot-1.13.1.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
@@ -304,8 +298,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="559">
-          <caret line="46" column="81" lean-forward="true" selection-start-line="46" selection-start-column="81" selection-end-line="46" selection-end-column="81" />
+        <state relative-caret-position="627">
+          <caret line="50" column="72" selection-start-line="50" selection-start-column="72" selection-end-line="50" selection-end-column="72" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -314,8 +308,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="50" column="48" lean-forward="true" selection-start-line="50" selection-start-column="48" selection-end-line="50" selection-end-column="48" />
+        <state relative-caret-position="1209">
+          <caret line="660" column="280" selection-start-line="660" selection-start-column="280" selection-end-line="660" selection-end-column="280" />
         </state>
       </provider>
     </entry>
