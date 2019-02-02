@@ -26,6 +26,8 @@ public class configuration {
         Config.addDefault("eventMovement" , "&cTeleport has been cancelled due to movement.");
         Config.addDefault("EXPPayment" , false);
         Config.addDefault("EXPTeleportPrice" , 2);
+        Config.addDefault("vaultTPRCost" , 200);
+        Config.addDefault("EXPTPRCost" , 4);
         Config.options().copyDefaults(true);
         save();
     }
@@ -45,4 +47,6 @@ public class configuration {
     public static String eventBeforeTP() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("eventBeforeTP"));}
     public static boolean EXPPayment() {return Config.getBoolean("EXPPayment");}
     public static int EXPTeleportPrice() {return Config.getInt("EXPTeleportPrice");}
+    public static int vaultTPRCost() {return Config.getInt("vaultTPRCost");}
+    public static int EXPTPRCost() {return Config.getInt("EXPTPRCost");}
 }
