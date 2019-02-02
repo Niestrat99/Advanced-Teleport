@@ -623,8 +623,10 @@ private static Economy Vault;
                         EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
                         if (Vault.getBalance(request.getRequester())>configuration.teleportPrice()){
                             if (payment.transactionSuccess()){
-                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have " + ChatColor.AQUA + Vault.getBalance(player) + ChatColor.GREEN + "!");
-                            } //TODO Check why request.getRequester() does not receive the payment message!
+                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have " + ChatColor.AQUA + Vault.getBalance(request.getRequester()) + ChatColor.GREEN + "!");
+                            } else {
+                                request.getRequester().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + payment.errorMessage);//TODO Check why request.getRequester() does not receive the payment message!
+                            }
                         }
                     }
                 }
