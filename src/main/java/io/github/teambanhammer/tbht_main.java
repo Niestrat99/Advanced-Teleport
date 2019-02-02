@@ -600,6 +600,7 @@ private static Economy Vault;
                 public void run() {
                     player.teleport(request.getRequester());
                     movement.remove(player);
+                    player.sendMessage(configuration.eventTeleport());
                     if  (Vault != null && configuration.useVault()) {
                         EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
                         if (Vault.getBalance(request.getRequester())>configuration.teleportPrice()){
@@ -612,13 +613,14 @@ private static Economy Vault;
             };
             movement.put(player, movementtimer);
             movementtimer.runTaskLater(this, configuration.teleportTimer()*20);
-            player.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + configuration.teleportTimer() + " seconds" + ChatColor.GREEN + ", please don't move!");
+            player.sendMessage(configuration.eventBeforeTP().replaceAll("\\{countdown}" , String.valueOf(configuration.teleportTimer())));
         } else {
             BukkitRunnable movementtimer = new BukkitRunnable() {
                 @Override
                 public void run() {
                     request.getRequester().teleport(player);
                     movement.remove(request.getRequester());
+                    request.getRequester().sendMessage(configuration.eventTeleport());
                     if  (Vault != null && configuration.useVault()) {
                         EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
                         if (Vault.getBalance(request.getRequester())>configuration.teleportPrice()){
@@ -633,7 +635,7 @@ private static Economy Vault;
             };
             movement.put(request.getRequester(), movementtimer);
             movementtimer.runTaskLater(this, configuration.teleportTimer()*20);
-            request.getRequester().sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + configuration.teleportTimer() + " seconds" + ChatColor.GREEN + ", please don't move!");
+            request.getRequester().sendMessage(configuration.eventBeforeTP().replaceAll("\\{countdown}" , String.valueOf(configuration.teleportTimer())));
         }
         request.destroy();
     }
@@ -691,7 +693,7 @@ private static Economy Vault;
         if (movement.containsKey(event.getPlayer())) {
             BukkitRunnable timer = movement.get(event.getPlayer());
             timer.cancel();
-            event.getPlayer().sendMessage(ChatColor.RED + "Teleport has been cancelled due to movement.");
+            event.getPlayer().sendMessage(configuration.eventMovement());
             movement.remove(event.getPlayer());
         }
     }

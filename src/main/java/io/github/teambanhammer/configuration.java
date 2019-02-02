@@ -1,5 +1,6 @@
 package io.github.teambanhammer;
 
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 
@@ -20,6 +21,9 @@ public class configuration {
         Config.addDefault("requestLifetime",60);
         Config.addDefault("useVault" , false);
         Config.addDefault("teleportPrice" , 100);
+        Config.addDefault("eventBeforeTP" , "&aTeleporting in &b{countdown} seconds&a, please don't move!");
+        Config.addDefault("eventTeleport" , "&aTeleporting...");
+        Config.addDefault("eventMovement" , "&cTeleport has been cancelled due to movement.");
         Config.options().copyDefaults(true);
         save();
     }
@@ -34,4 +38,7 @@ public class configuration {
     }
     public static boolean useVault() {return Config.getBoolean("useVault");}
     public static int teleportPrice() {return Config.getInt("teleportPrice");}
+    public static String eventMovement() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("eventMovement"));}
+    public static String eventTeleport() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("eventTeleport"));}
+    public static String eventBeforeTP() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("eventBeforeTP"));}
 }
