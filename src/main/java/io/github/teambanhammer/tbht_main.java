@@ -1,7 +1,6 @@
 package io.github.teambanhammer;
 
 import fanciful.FancyMessage;
-import gnu.trove.map.custom_hash.TObjectDoubleCustomHashMap;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.*;
@@ -14,14 +13,11 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import sun.security.krb5.Config;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Level;
 
 public class tbht_main extends JavaPlugin implements Listener {
 
@@ -569,10 +565,21 @@ private static Economy Vault;
                     int z = getRandomCoords(-10000, 10000);
                     int y = 256;
                     Location location = new Location(player.getWorld(), x, y, z);
-                    while (location.getBlock().getType() == Material.AIR) {
-                        location.subtract(0, 1, 0);
+                    player.sendMessage(ChatColor.GREEN + "Searching for a location...");
+                    boolean validLocation = false;
+                    while (!validLocation) {
+                        while (location.getBlock().getType() == Material.AIR) {
+                            location.subtract(0, 1, 0);
+                        }
+                        if (location.getBlock().getType() == Material.WATER || location.getBlock().getType() == Material.LAVA) {
+                            location = new Location(player.getWorld(), x, y, z);
+                        } else {
+                            location.add(0, 1, 0);
+                            validLocation = true;
+                        }
                     }
-                    location.add(0, 1, 0);
+                    Chunk chunk = player.getWorld().getChunkAt(location);
+                    chunk.load(true);
                     BukkitRunnable cooldowntimer = new BukkitRunnable() {
                         @Override
                         public void run() {
@@ -581,11 +588,11 @@ private static Economy Vault;
                     };
                     cooldown.put(player, cooldowntimer);
                     cooldowntimer.runTaskLater(this, configuration.commandCooldown() * 20); // 20 ticks = 1 second
-
+                    Location loc = location;
                     BukkitRunnable movementtimer = new BukkitRunnable() {
                         @Override
                         public void run() {
-                            player.teleport(location);
+                            player.teleport(loc);
                             movement.remove(player);
                             sender.sendMessage(ChatColor.GREEN + "You've been teleported to a random place!");
                         }
