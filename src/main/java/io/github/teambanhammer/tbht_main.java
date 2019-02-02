@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
+import java.util.logging.Level;
 
 public class tbht_main extends JavaPlugin implements Listener {
 
@@ -117,9 +118,17 @@ private static Economy Vault;
                                 sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                                 return false;
                             }
+                            if (configuration.EXPPayment()){
+                                if (player.getLevel()<configuration.EXPTeleportPrice()){
+                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to send a teleport request to someone else!");
+                                    player.sendMessage(ChatColor.RED + "You need atleast " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
+                                    return false;
+                                }
+                            }
                             if (Vault != null && configuration.useVault()) {
                                 if (Vault.getBalance(player)<configuration.teleportPrice()){
                                     player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
+                                    player.sendMessage(ChatColor.RED + "You need atleast $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
                                     return false;
                                 }
                             }
@@ -185,9 +194,17 @@ private static Economy Vault;
                                 sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                                 return false;
                             }
+                            if (configuration.EXPPayment()){
+                                if (player.getLevel()<configuration.EXPTeleportPrice()){
+                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to send a teleport request to someone else!");
+                                    player.sendMessage(ChatColor.RED + "You need atleast " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
+                                    return false;
+                                }
+                            }
                             if (Vault != null && configuration.useVault()) {
                                 if (Vault.getBalance(player)<configuration.teleportPrice()){
                                     player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
+                                    player.sendMessage(ChatColor.RED + "You need atleast $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
                                     return false;
                                 }
                             }
@@ -601,14 +618,22 @@ private static Economy Vault;
                     player.teleport(request.getRequester());
                     movement.remove(player);
                     player.sendMessage(configuration.eventTeleport());
+                    if (configuration.EXPPayment()) {
+                        if (request.getRequester().getLevel()>configuration.EXPTeleportPrice()){
+                            int currentLevel = request.getRequester().getLevel();
+                            request.getRequester().setLevel(currentLevel - configuration.EXPTeleportPrice());
+                            request.getRequester().sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.EXPTeleportPrice() + ChatColor.GREEN + " EXP Levels for your teleportation request. You now have " + ChatColor.AQUA + request.getRequester().getLevel() + ChatColor.GREEN + " EXP Levels!");
+                        }
+                    }
                     if  (Vault != null && configuration.useVault()) {
-                        EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
                         if (Vault.getBalance(request.getRequester())>configuration.teleportPrice()){
+                            EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
                             if (payment.transactionSuccess()){
-                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have " + ChatColor.AQUA + Vault.getBalance(player) + ChatColor.GREEN + "!");
+                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid $" + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have $" + ChatColor.AQUA + Vault.getBalance(player) + ChatColor.GREEN + "!");
                             }
                         }
                     }
+
                 }
             };
             movement.put(player, movementtimer);
@@ -621,15 +646,24 @@ private static Economy Vault;
                     request.getRequester().teleport(player);
                     movement.remove(request.getRequester());
                     request.getRequester().sendMessage(configuration.eventTeleport());
+                    if (configuration.EXPPayment()) {
+                        if (request.getRequester().getLevel()>configuration.EXPTeleportPrice()){
+                            int currentLevel = request.getRequester().getLevel();
+                            request.getRequester().setLevel(currentLevel - configuration.EXPTeleportPrice());
+                            request.getRequester().sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.EXPTeleportPrice() + ChatColor.GREEN + " EXP Levels for your teleportation request. You now have " + ChatColor.AQUA + request.getRequester().getLevel() + ChatColor.GREEN + " EXP Levels!");
+                        }
+                    }
                     if  (Vault != null && configuration.useVault()) {
-                        EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
                         if (Vault.getBalance(request.getRequester())>=configuration.teleportPrice()){
+                            EconomyResponse payment = Vault.withdrawPlayer(request.getRequester() , configuration.teleportPrice());
                             if (payment.transactionSuccess()){
-                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have " + ChatColor.AQUA + Vault.getBalance(request.getRequester()) + ChatColor.GREEN + "!");
+                                request.getRequester().sendMessage(ChatColor.GREEN + "You have paid $" + ChatColor.AQUA + configuration.teleportPrice() + ChatColor.GREEN + " for your teleportation request. You now have $" + ChatColor.AQUA + Vault.getBalance(request.getRequester()) + ChatColor.GREEN + "!");
                             } else {
-                                request.getRequester().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + payment.errorMessage);//TODO Check why request.getRequester() does not receive the payment message!
+                                request.getRequester().sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + payment.errorMessage);
                             }
                         }
+
+
                     }
                 }
             };
