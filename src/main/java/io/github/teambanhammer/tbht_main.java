@@ -582,15 +582,14 @@ private static WorldBorder worldBorder;
                             return false;
                         }
                     }
-                    int x = getRandomCoords(configuration.minX(), configuration.maxX());
-                    int z = getRandomCoords(configuration.minZ(), configuration.maxZ());
+                    double x = getRandomCoords(configuration.minX(), configuration.maxX());
+                    double z = getRandomCoords(configuration.minZ(), configuration.maxZ());
                     if (configuration.useWorldBorder() && worldBorder != null) {
                         BorderData border = Config.Border(player.getWorld().getName());
                         // If a border has been set
                         if (border != null) {
-                            // Surprisingly, Java allows this.
-                            x = getRandomCoords(-border.getRadiusX(), border.getRadiusX());
-                            z = getRandomCoords(-border.getRadiusZ(), border.getRadiusZ());
+                            x = getRandomCoords(border.getX() - border.getRadiusX(), border.getX() + border.getRadiusX());
+                            z = getRandomCoords(border.getZ() - border.getRadiusZ(), border.getZ() + border.getRadiusZ());
                         }
                     }
 
@@ -655,9 +654,9 @@ private static WorldBorder worldBorder;
         return false;
     }
 
-    private static int getRandomCoords(int min, int max){
+    private static double getRandomCoords(double min, double max){
         Random r = new Random();
-        return r.nextInt((max - min)+1)+min ;
+        return r.nextInt((int)Math.round(max - min)+1)+min ;
     }
 
     private void acceptRequest(TeleportRequest request) {
