@@ -28,6 +28,11 @@ public class configuration {
         Config.addDefault("EXPTeleportPrice" , 2);
         Config.addDefault("vaultTPRCost" , 200);
         Config.addDefault("EXPTPRCost" , 4);
+        Config.addDefault("tpr.maximum-x", 10000);
+        Config.addDefault("tpr.minimum-x", -10000);
+        Config.addDefault("tpr.maximum-z", 10000);
+        Config.addDefault("tpr.minimum-z", -10000);
+        Config.addDefault("tpr.useWorldBorder", true);
         Config.options().copyDefaults(true);
         save();
     }
@@ -49,4 +54,9 @@ public class configuration {
     public static int EXPTeleportPrice() {return Config.getInt("EXPTeleportPrice");}
     public static int vaultTPRCost() {return Config.getInt("vaultTPRCost");}
     public static int EXPTPRCost() {return Config.getInt("EXPTPRCost");}
+    public static boolean useWorldBorder() {return Config.getBoolean("tpr.useWorldBorder");}
+    public static int maxX() {return Config.getInt("tpr.maximum-x");}
+    public static int minX() {return Config.getInt("tpr.minimum-x");}
+    public static int maxZ() {return Config.getInt("tpr.maximum-z");}
+    public static int minZ() {return Config.getInt("tpr.minimum-z");}
 }

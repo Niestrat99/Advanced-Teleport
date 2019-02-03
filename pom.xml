@@ -42,5 +42,13 @@
             <version>1.7</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.wimbli</groupId>
+            <artifactId>worldborder</artifactId>
+            <version>1.6.7</version>
+            <scope>system</scope>
+            <!-->You'll need to download WorldBorder yourself and replace this system path with your own.<\!-->
+            <systemPath>C:/Users/Holly/Documents/Server1.12/plugins/WorldBorder_v1.8.7.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

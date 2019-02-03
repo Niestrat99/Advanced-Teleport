@@ -1,5 +1,8 @@
 package io.github.teambanhammer;
 
+import com.wimbli.WorldBorder.BorderData;
+import com.wimbli.WorldBorder.Config;
+import com.wimbli.WorldBorder.WorldBorder;
 import fanciful.FancyMessage;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -28,6 +31,7 @@ private HashMap<Player, BukkitRunnable>cooldown = new HashMap<>();
 private HashMap<Player, BukkitRunnable>movement = new HashMap<>();
 
 private static Economy Vault;
+private static WorldBorder worldBorder;
 
     private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
@@ -52,6 +56,9 @@ private static Economy Vault;
             e.printStackTrace();
         }
         setupEconomy();
+        if (getServer().getPluginManager().getPlugin("WorldBorder") != null) {
+            worldBorder = (WorldBorder) getServer().getPluginManager().getPlugin("WorldBorder");
+        }
     }
 
     @Override
@@ -575,8 +582,18 @@ private static Economy Vault;
                             return false;
                         }
                     }
-                    int x = getRandomCoords(-10000, 10000);
-                    int z = getRandomCoords(-10000, 10000);
+                    int x = getRandomCoords(configuration.minX(), configuration.maxX());
+                    int z = getRandomCoords(configuration.minZ(), configuration.maxZ());
+                    if (configuration.useWorldBorder() && worldBorder != null) {
+                        BorderData border = Config.Border(player.getWorld().getName());
+                        // If a border has been set
+                        if (border != null) {
+                            // Surprisingly, Java allows this.
+                            x = getRandomCoords(-border.getRadiusX(), border.getRadiusX());
+                            z = getRandomCoords(-border.getRadiusZ(), border.getRadiusZ());
+                        }
+                    }
+
                     int y = 256;
                     Location location = new Location(player.getWorld(), x, y, z);
                     player.sendMessage(ChatColor.GREEN + "Searching for a location...");
