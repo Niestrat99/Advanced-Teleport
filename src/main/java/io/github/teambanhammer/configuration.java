@@ -19,18 +19,18 @@ public class configuration {
         Config.save(ConfigFile);
     }
     public static void setDefaults() throws IOException {
-        Config.addDefault("commandCooldown",5);
-        Config.addDefault("teleportTimer",3);
-        Config.addDefault("requestLifetime",60);
-        Config.addDefault("useVault" , false);
-        Config.addDefault("teleportPrice" , 100.00);
-        Config.addDefault("eventBeforeTP" , "&aTeleporting in &b{countdown} seconds&a, please don't move!");
-        Config.addDefault("eventTeleport" , "&aTeleporting...");
-        Config.addDefault("eventMovement" , "&cTeleport has been cancelled due to movement.");
-        Config.addDefault("EXPPayment" , false);
-        Config.addDefault("EXPTeleportPrice" , 2);
-        Config.addDefault("vaultTPRCost" , 200);
-        Config.addDefault("EXPTPRCost" , 4);
+        Config.addDefault("timers.commandCooldown",5);
+        Config.addDefault("timers.teleportTimer",3);
+        Config.addDefault("timers.requestLifetime",60);
+        Config.addDefault("events.eventBeforeTP" , "&aTeleporting in &b{countdown} seconds&a, please don't move!");
+        Config.addDefault("events.eventTeleport" , "&aTeleporting...");
+        Config.addDefault("events.eventMovement" , "&cTeleport has been cancelled due to movement.");
+        Config.addDefault("booleans.useVault" , false);
+        Config.addDefault("booleans.EXPPayment" , false);
+        Config.addDefault("payments.vault.teleportPrice" , 100.00);
+        Config.addDefault("payments.vault.vaultTPRCost" , 200);
+        Config.addDefault("payments.exp.EXPTeleportPrice" , 2);
+        Config.addDefault("payments.exp.EXPTPRCost" , 4);
         Config.addDefault("tpr.maximum-x", 10000);
         Config.addDefault("tpr.minimum-x", -10000);
         Config.addDefault("tpr.maximum-z", 10000);
