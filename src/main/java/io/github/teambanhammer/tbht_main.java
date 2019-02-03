@@ -50,6 +50,7 @@ private static WorldBorder worldBorder;
         System.out.println("AdvancedTeleport is now enabled!");
         System.out.println("AdvancedTeleport Version: " + getDescription().getVersion());
         getServer().getPluginManager().registerEvents(this, this);
+        getServer().getPluginManager().registerEvents(new atSigns(), this);
         try {
             configuration.setDefaults();
         } catch (IOException e) {
@@ -59,6 +60,7 @@ private static WorldBorder worldBorder;
         if (getServer().getPluginManager().getPlugin("WorldBorder") != null) {
             worldBorder = (WorldBorder) getServer().getPluginManager().getPlugin("WorldBorder");
         }
+
     }
 
     @Override
@@ -601,11 +603,13 @@ private static WorldBorder worldBorder;
                         while (location.getBlock().getType() == Material.AIR) {
                             location.subtract(0, 1, 0);
                         }
-                        if (location.getBlock().getType() == Material.WATER || location.getBlock().getType() == Material.LAVA) {
-                            location = new Location(player.getWorld(), x, y, z);
-                        } else {
-                            location.add(0, 1, 0);
-                            validLocation = true;
+                        for (String Material: configuration.avoidBlocks()) {
+                            if (location.getBlock().getType().name().equalsIgnoreCase(Material)){
+                                location = new Location(player.getWorld(), x, y, z);
+                            } else {
+                                location.add(0 , 1 , 0);
+                                validLocation = true;
+                            }
                         }
                     }
                     Chunk chunk = player.getWorld().getChunkAt(location);

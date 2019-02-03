@@ -6,7 +6,7 @@
 
     <groupId>groupId</groupId>
     <artifactId>Advanced_Teleport</artifactId>
-    <version>2.1</version>
+    <version>Dev-2.2</version>
 
     <build>
         <plugins>

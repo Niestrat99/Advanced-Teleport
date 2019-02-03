@@ -6,6 +6,9 @@ import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class configuration {
 
@@ -33,6 +36,7 @@ public class configuration {
         Config.addDefault("tpr.maximum-z", 10000);
         Config.addDefault("tpr.minimum-z", -10000);
         Config.addDefault("tpr.useWorldBorder", true);
+        Config.addDefault("tpr.avoidBlocks", new ArrayList<>(Arrays.asList("Water","Lava")));
         Config.options().copyDefaults(true);
         save();
     }
@@ -59,4 +63,5 @@ public class configuration {
     public static int minX() {return Config.getInt("tpr.minimum-x");}
     public static int maxZ() {return Config.getInt("tpr.maximum-z");}
     public static int minZ() {return Config.getInt("tpr.minimum-z");}
+    public static List <String> avoidBlocks() {return Config.getStringList("tpr.avoidBlocks");}
 }

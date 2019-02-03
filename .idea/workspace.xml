@@ -2,9 +2,29 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69d9e5f8-f774-4b69-b48c-499570da9e42" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/FNACraftTeleports.iml" beforeDir="false" afterPath="$PROJECT_DIR$/FNACraftTeleports.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Advanced_Teleport-2.0.jar" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/configuration.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/configuration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$1.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$10.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$10.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$2.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$3.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$4.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$5.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$6.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$7.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$8.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$8.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$9.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main$9.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/tbht_main.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/plugin.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/createdFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -16,11 +36,27 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9860">
-              <caret line="580" column="133" selection-start-line="580" selection-start-column="133" selection-end-line="580" selection-end-column="133" />
+            <state relative-caret-position="1641">
+              <caret line="625" selection-start-line="625" selection-end-line="625" />
+              <folding>
+                <element signature="e#42069#42688#1" />
+                <element signature="e#42765#43438#1" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="338">
+              <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -28,8 +64,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="663">
-              <caret line="60" column="69" selection-start-line="60" selection-start-column="69" selection-end-line="60" selection-end-column="69" />
+            <state relative-caret-position="867">
+              <caret line="65" column="75" selection-start-line="65" selection-start-column="75" selection-end-line="65" selection-end-column="75" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -41,16 +77,16 @@
         <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="51">
-              <caret line="3" column="12" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+              <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/pom.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="544">
-              <caret line="50" column="57" selection-start-line="50" selection-start-column="57" selection-end-line="50" selection-end-column="57" />
+            <state relative-caret-position="136">
+              <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -79,10 +115,11 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/TeleportBlock.java" />
-        <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java" />
         <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java" />
       </list>
     </option>
   </component>
@@ -107,6 +144,8 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="PackagesPane" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -160,12 +199,10 @@
           <select />
         </subPane>
       </pane>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549114586433" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549214766523" />
     <property name="last_opened_file_path" value="H:/Pogo tutorials/spigot-1.13.1.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
@@ -237,7 +274,7 @@
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20179948" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20951156" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -283,17 +320,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9860">
-          <caret line="580" column="133" selection-start-line="580" selection-start-column="133" selection-end-line="580" selection-end-column="133" />
+        <state relative-caret-position="867">
+          <caret line="65" column="75" selection-start-line="65" selection-start-column="75" selection-end-line="65" selection-end-column="75" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="663">
-          <caret line="60" column="69" selection-start-line="60" selection-start-column="69" selection-end-line="60" selection-end-column="69" />
+        <state relative-caret-position="136">
+          <caret line="8" column="17" selection-start-line="8" selection-start-column="17" selection-end-line="8" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="338">
+          <caret line="24" column="42" selection-start-line="24" selection-start-column="42" selection-end-line="24" selection-end-column="42" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -303,14 +350,18 @@
     <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="51">
-          <caret line="3" column="12" selection-start-line="3" selection-start-column="12" selection-end-line="3" selection-end-column="12" />
+          <caret line="3" column="16" selection-start-line="3" selection-start-column="16" selection-end-line="3" selection-end-column="16" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="544">
-          <caret line="50" column="57" selection-start-line="50" selection-start-column="57" selection-end-line="50" selection-end-column="57" />
+        <state relative-caret-position="1641">
+          <caret line="625" selection-start-line="625" selection-end-line="625" />
+          <folding>
+            <element signature="e#42069#42688#1" />
+            <element signature="e#42765#43438#1" />
+          </folding>
         </state>
       </provider>
     </entry>
