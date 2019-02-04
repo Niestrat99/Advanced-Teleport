@@ -245,7 +245,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpayes")) {
+        } else if (label.equalsIgnoreCase("tpayes") || (label.equalsIgnoreCase("tpaccept")) || label.equalsIgnoreCase("tpyes")) {
             if (sender.hasPermission("tbh.tp.member.yes")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -263,7 +263,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpano")) {
+        } else if (label.equalsIgnoreCase("tpano") || label.equalsIgnoreCase("tpno") || label.equalsIgnoreCase("tpdeny")) {
             if (sender.hasPermission("tbh.tp.member.no")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -309,9 +309,9 @@ private static WorldBorder worldBorder;
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     // Checks if any players have sent a request at all.
-                    if (!TeleportRequest.getRequests(player).isEmpty()) {
+                    if (!TeleportRequest.getRequestsByRequester(player).isEmpty()) {
                         // Checks if there's more than one request.
-                        if (TeleportRequest.getRequests(player).size() > 1) {
+                        if (TeleportRequest.getRequestsByRequester(player).size() > 1) {
                             // If the player has specified the request they're accepting.
                             if (args.length > 0) {
                                 Player target = Bukkit.getPlayer(args[0]);
@@ -321,7 +321,7 @@ private static WorldBorder worldBorder;
                                 } else {
                                     TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
                                     if (request == null) {
-                                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests from " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests for " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
                                         return false;
                                     } else {
                                         player.sendMessage(ChatColor.GREEN + "You have canceled your teleport request.");
@@ -333,7 +333,7 @@ private static WorldBorder worldBorder;
                             } else {
                                 // This utility helps in splitting lists into separate pages, like when you list your plots with PlotMe/PlotSquared.
                                 PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
-                                player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to accept:");
+                                player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to cancel:");
                                 for (TeleportRequest request : requests.getContentsInPage(1)) {
                                     new FancyMessage()
                                             .command("/tpacancel " + request.getRequester().getName())
@@ -347,19 +347,19 @@ private static WorldBorder worldBorder;
 
                             }
                         } else {
-                            TeleportRequest request = TeleportRequest.getRequests(player).get(0);
-                            request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
-                            player.sendMessage(ChatColor.GREEN + "You've declined the teleport request!");
+                            TeleportRequest request = TeleportRequest.getRequestsByRequester(player).get(0);
+                            request.getResponder().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has cancelled teleport request!");
+                            player.sendMessage(ChatColor.GREEN + "You've cancelled the teleport request!");
                             request.destroy();
                             return false;
                         }
                     } else {
-                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You don't have any pending requests!");
                         return false;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpaall")) {
+        } else if (label.equalsIgnoreCase("tpaall") || label.equalsIgnoreCase("tpall")) {
             if (sender.hasPermission("tbh.tp.admin.all")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -562,7 +562,7 @@ private static WorldBorder worldBorder;
                 sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
                 return false;
             }
-        } else if (label.equalsIgnoreCase("tpr")){
+        } else if (label.equalsIgnoreCase("tpr") || label.equalsIgnoreCase("rtp")){
             if (sender.hasPermission("tbh.tp.member.tpr")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
