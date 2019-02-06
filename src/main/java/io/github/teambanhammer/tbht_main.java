@@ -606,6 +606,7 @@ private static WorldBorder worldBorder;
                         for (String Material: configuration.avoidBlocks()) {
                             if (location.getBlock().getType().name().equalsIgnoreCase(Material)){
                                 location = new Location(player.getWorld(), x, y, z);
+                                break;
                             } else {
                                 location.add(0 , 1 , 0);
                                 validLocation = true;
