@@ -42,9 +42,9 @@ public class atSigns implements Listener {
                     placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to make this sign!");
                     Place.setCancelled(true);
                 } else {
-                    sign.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[RandomTP]");
-                    sign.setLine(1, ChatColor.ITALIC + "Click me!");
-                    sign.update();
+
+                    Place.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[RandomTP]");
+                    Place.setLine(1, ChatColor.ITALIC + "Click me!");
                     placer.sendMessage(ChatColor.GREEN + "Successfully created the RandomTP sign!");
                 }
             }
