@@ -51,6 +51,7 @@ private static WorldBorder worldBorder;
         System.out.println("AdvancedTeleport Version: " + getDescription().getVersion());
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new atSigns(), this);
+        getCommand("warp").setExecutor(new warpCommand());
         try {
             configuration.setDefaults();
         } catch (IOException e) {
@@ -77,6 +78,7 @@ private static WorldBorder worldBorder;
                     sender.sendMessage(ChatColor.AQUA + "/tpon - " + ChatColor.GREEN + "Enables receiving teleport requests.");
                     sender.sendMessage(ChatColor.AQUA + "/tpoff - " + ChatColor.GREEN + "Disables receiving teleport requests.");
                     sender.sendMessage(ChatColor.AQUA + "/tpr - " + ChatColor.GREEN + "Teleports you to a random place.");
+                    sender.sendMessage(ChatColor.AQUA + "/warp - " + ChatColor.GREEN + "Gives you a list of sub commands from this command.");
                     return false;
                 } else {
                     if (args[0].equalsIgnoreCase("admin")) {
@@ -85,6 +87,7 @@ private static WorldBorder worldBorder;
                             sender.sendMessage(ChatColor.RED + "/tpaall - " + ChatColor.GOLD + "Sends everyone a teleport request to where you are.");
                             sender.sendMessage(ChatColor.RED + "/tpohere <Player> - " + ChatColor.GOLD + "Teleports the player to you instantly.");
                             sender.sendMessage(ChatColor.RED + "/tpo <Player> - " + ChatColor.GOLD + "Teleports you to another player instantly.");
+                            sender.sendMessage(ChatColor.RED + "/warp - " + ChatColor.GOLD + "Gives you a list of sub commands from this command.");
                             return false;
                         } else {
                             sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");

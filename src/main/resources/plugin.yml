@@ -5,6 +5,10 @@ version: Pre-2.1.2
 main: io.github.teambanhammer.tbht_main
 
 commands:
+
+  warp:
+    description: Gives you a list of sub commands from this command.
+    permission: tbh.tp.member.warph
   tpr:
     description: Teleports you to a random place.
     permission: tbh.tp.member.tpr
@@ -73,6 +77,8 @@ permissions:
       tbh.tp.member.here: true
       tbh.tp.member.help: true
       tbh.tp.member.list: true
+      tbh.tp.member.warph: true
+      tbh.tp.member.warps: true
   tbh.tp.admin.*:
     default: op
     description: Allows access to admin-based commands of the plugin.
@@ -82,3 +88,6 @@ permissions:
       tbh.tp.admin.tpo: true
       tbh.tp.admin.help: true
       tbh.tp.admin.rtpsign: true
+      tbh.tp.admin.warpset: true
+      tbh.tp.admin.warpdel: true
+      tbh.tp.admin.warph: true

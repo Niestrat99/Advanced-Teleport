@@ -5,6 +5,10 @@ version: Pre-2.1.2
 main: io.github.teambanhammer.tbht_main
 
 commands:
+
+  warp:
+    description: Gives you a list of sub commands from this command.
+    permission: tbh.tp.member.warp
   tpr:
     description: Teleports you to a random place.
     permission: tbh.tp.member.tpr
