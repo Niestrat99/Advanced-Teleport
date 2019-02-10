@@ -36,7 +36,7 @@ public class configuration {
         Config.addDefault("tpr.maximum-z", 10000);
         Config.addDefault("tpr.minimum-z", -10000);
         Config.addDefault("tpr.useWorldBorder", true);
-        Config.addDefault("tpr.avoidBlocks", new ArrayList<>(Arrays.asList("Water","Lava")));
+        Config.addDefault("tpr.avoidBlocks", new ArrayList<>(Arrays.asList("WATER","LAVA", "STATIONARY_WATER", "STATIONARY_LAVA")));
         Config.options().copyDefaults(true);
         save();
     }
