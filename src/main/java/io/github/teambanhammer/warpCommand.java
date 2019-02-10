@@ -59,9 +59,11 @@ public class warpCommand implements CommandExecutor {
                                     } catch (IOException e) {
                                         e.printStackTrace();
                                     }
+                                } else {
+                                    commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " This warp doesn't exist!");
                                 }
                             } else {
-                                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You have to include the warp's name!");
+                                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You have to include the warp's name!");
                                 return false;
                             }
                         }
@@ -88,7 +90,7 @@ public class warpCommand implements CommandExecutor {
         } else if (command.getLabel().equalsIgnoreCase("warps")){
             if (commandSender.hasPermission("tbh.tp.member.warps")){
                 StringBuilder wList = new StringBuilder();
-                wList.append(ChatColor.AQUA + "" + ChatColor.BOLD + "Warps" + ChatColor.YELLOW);
+                wList.append(ChatColor.AQUA + "" + ChatColor.BOLD + "Warps: " + ChatColor.YELLOW);
                 for (String warp:Warps.getWarps().keySet()) {
                     wList.append(warp + ", ");
                 }
@@ -98,9 +100,3 @@ public class warpCommand implements CommandExecutor {
         return false;
         }
     }
-
-//TODO Commands checklist:
-// •warp set (DONE)
-// •warp delete (DONE)
-// •warp <warp name> (DONE)
-// •warps ()

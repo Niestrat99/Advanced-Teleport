@@ -53,7 +53,7 @@ public class atSigns implements Listener {
                     placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to make this sign!");
                     Place.setCancelled(true);
                 } else {
-                    if (Place.getLine(1) == null) {
+                    if (Place.getLine(1).isEmpty()) {
                         placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You need to include a warp name!");
                         Place.setCancelled(true);
                     } else {
