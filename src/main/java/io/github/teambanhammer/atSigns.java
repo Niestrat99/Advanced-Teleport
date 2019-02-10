@@ -40,6 +40,7 @@ public class atSigns implements Listener {
             Sign sign = (Sign) state;
             if (Place.getLine(0).equalsIgnoreCase("[RandomTP]")) {
                 if (!placer.hasPermission("tbh.tp.admin.tprsign")){
+                    Place.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "[RandomTP]");
                     placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to make this sign!");
                     Place.setCancelled(true);
                 } else {
@@ -50,10 +51,12 @@ public class atSigns implements Listener {
                 }
             } else if (Place.getLine(0).equalsIgnoreCase("[Warp]")) {
                 if (!placer.hasPermission("tbh.tp.admin.warpsign")){
+                    Place.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "[Warp]");
                     placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to make this sign!");
                     Place.setCancelled(true);
                 } else {
                     if (Place.getLine(1).isEmpty()) {
+                        Place.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "[Warp]");
                         placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You need to include a warp name!");
                         Place.setCancelled(true);
                     } else {
@@ -62,6 +65,7 @@ public class atSigns implements Listener {
                             Place.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[Warp]");
                             Place.setLine(1, warpName);
                             Place.setLine(2, ChatColor.ITALIC + "Click here to teleport!");
+                            placer.sendMessage(ChatColor.GREEN + "Successfully created the Warp sign!");
                         } else {
                             placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " That warp doesn't exist!");
                             Place.setCancelled(true);
