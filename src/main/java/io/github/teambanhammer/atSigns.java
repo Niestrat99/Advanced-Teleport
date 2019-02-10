@@ -58,7 +58,6 @@ public class atSigns implements Listener {
                     if (Place.getLine(1).isEmpty()) {
                         Place.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "[Warp]");
                         placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You need to include a warp name!");
-                        Place.setCancelled(true);
                     } else {
                         if (Warps.getWarps().containsKey(Place.getLine(1))){
                             String warpName = Place.getLine(1);
@@ -67,12 +66,10 @@ public class atSigns implements Listener {
                             Place.setLine(2, ChatColor.ITALIC + "Click here to teleport!");
                             placer.sendMessage(ChatColor.GREEN + "Successfully created the Warp sign!");
                         } else {
+                            Place.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "[Warp]");
                             placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " That warp doesn't exist!");
-                            Place.setCancelled(true);
                         }
                     }
-
-
                 }
             }
         }
