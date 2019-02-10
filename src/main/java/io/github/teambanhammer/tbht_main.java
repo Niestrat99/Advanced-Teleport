@@ -52,6 +52,12 @@ private static WorldBorder worldBorder;
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new atSigns(), this);
         getCommand("warp").setExecutor(new warpCommand());
+        getCommand("warps").setExecutor(new warpCommand());
+        try {
+            Warps.save();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         try {
             configuration.setDefaults();
         } catch (IOException e) {
