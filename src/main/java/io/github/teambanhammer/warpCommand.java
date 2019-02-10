@@ -77,6 +77,9 @@ public class warpCommand implements CommandExecutor {
                             if (Warps.getWarps().containsKey(args[0])) {
                                 ((Player) commandSender).teleport(Warps.getWarps().get(args[0]));
                                 commandSender.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.YELLOW + args[0] + ChatColor.GREEN + "!");
+                            } else {
+                                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " This warp doesn't exist!");
+                                return false;
                             }
                         }
                     }

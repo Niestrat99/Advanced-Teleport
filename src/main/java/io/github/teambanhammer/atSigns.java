@@ -24,6 +24,8 @@ public class atSigns implements Listener {
                 String line1 = sign.getLine(0);
                 if (ChatColor.stripColor(line1).equalsIgnoreCase("[RandomTP]")){
                     player.performCommand("tpr");
+                } else if (ChatColor.stripColor(line1).equalsIgnoreCase("[Warp]")){
+                    player.performCommand("warp " + sign.getLine(1));
                 }
             }
         }
@@ -45,6 +47,28 @@ public class atSigns implements Listener {
                     Place.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[RandomTP]");
                     Place.setLine(1, ChatColor.ITALIC + "Click me!");
                     placer.sendMessage(ChatColor.GREEN + "Successfully created the RandomTP sign!");
+                }
+            } else if (Place.getLine(0).equalsIgnoreCase("[Warp]")) {
+                if (!placer.hasPermission("tbh.tp.admin.warpsign")){
+                    placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to make this sign!");
+                    Place.setCancelled(true);
+                } else {
+                    if (Place.getLine(1) == null) {
+                        placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You need to include a warp name!");
+                        Place.setCancelled(true);
+                    } else {
+                        if (Warps.getWarps().containsKey(Place.getLine(1))){
+                            String warpName = Place.getLine(1);
+                            Place.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[Warp]");
+                            Place.setLine(1, warpName);
+                            Place.setLine(2, ChatColor.ITALIC + "Click here to teleport!");
+                        } else {
+                            placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " That warp doesn't exist!");
+                            Place.setCancelled(true);
+                        }
+                    }
+
+
                 }
             }
         }

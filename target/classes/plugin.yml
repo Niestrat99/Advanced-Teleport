@@ -95,3 +95,4 @@ permissions:
       tbh.tp.admin.warpset: true
       tbh.tp.admin.warpdel: true
       tbh.tp.admin.warph: true
+      tbh.tp.admin.warpsign: true

@@ -2,16 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="69d9e5f8-f774-4b69-b48c-499570da9e42" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/Warps.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Advanced_Teleport-Pre-2.1.2.jar" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/util/ArrayWrapper.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/Advanced_Teleport-Pre-3.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/Advanced_Teleport-Pre-3.0.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/atSigns.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/atSigns.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -26,8 +23,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="223">
-              <caret line="611" column="26" selection-start-line="611" selection-start-column="26" selection-end-line="611" selection-end-column="26" />
+            <state relative-caret-position="9690">
+              <caret line="611" column="79" selection-start-line="611" selection-start-column="79" selection-end-line="611" selection-end-column="79" />
             </state>
           </provider>
         </entry>
@@ -35,8 +32,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="17">
-              <caret line="1" selection-start-line="1" selection-end-line="1" />
+            <state relative-caret-position="952">
+              <caret line="81" column="45" selection-start-line="81" selection-start-column="45" selection-end-line="81" selection-end-column="45" />
             </state>
           </provider>
         </entry>
@@ -44,7 +41,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/Warps.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="29">
+            <state relative-caret-position="34">
               <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
             </state>
           </provider>
@@ -62,8 +59,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="9">
-              <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+            <state relative-caret-position="423">
+              <caret line="57" column="49" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
             </state>
           </provider>
         </entry>
@@ -71,8 +68,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="170">
-              <caret line="10" column="35" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
+            <state relative-caret-position="610">
+              <caret line="97" column="33" selection-start-line="97" selection-start-column="33" selection-end-line="97" selection-end-column="33" />
             </state>
           </provider>
         </entry>
@@ -113,10 +110,10 @@
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/Warps.java" />
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java" />
-        <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java" />
-        <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java" />
       </list>
     </option>
   </component>
@@ -199,7 +196,7 @@
     </panes>
   </component>
   <component name="PropertiesComponent">
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549791653129" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1549793958723" />
     <property name="last_opened_file_path" value="H:/Pogo tutorials/spigot-1.13.1.jar!/" />
     <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
@@ -270,16 +267,14 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.21979435" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.22236504" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
       <window_info id="UI Designer" order="4" />
       <window_info id="Capture Tool" order="5" />
       <window_info id="Favorites" order="6" side_tool="true" />
-      <window_info anchor="bottom" id="Inspection Results" weight="0.32974428" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
       <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32839838" />
@@ -290,6 +285,7 @@
       <window_info anchor="bottom" id="Terminal" order="7" />
       <window_info anchor="bottom" id="Event Log" order="8" side_tool="true" />
       <window_info anchor="bottom" id="Version Control" order="9" />
+      <window_info anchor="bottom" id="Inspection Results" order="10" weight="0.32974428" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -319,17 +315,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/pom.xml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/Warps.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="136">
-          <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="170">
-          <caret line="10" column="35" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
+        <state relative-caret-position="34">
+          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
         </state>
       </provider>
     </entry>
@@ -340,31 +329,38 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/Warps.java">
+    <entry file="file://$PROJECT_DIR$/pom.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="29">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        <state relative-caret-position="136">
+          <caret line="8" column="20" selection-start-line="8" selection-start-column="20" selection-end-line="8" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="610">
+          <caret line="97" column="33" selection-start-line="97" selection-start-column="33" selection-end-line="97" selection-end-column="33" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="9">
-          <caret line="2" column="7" selection-start-line="2" selection-start-column="7" selection-end-line="2" selection-end-column="7" />
+        <state relative-caret-position="423">
+          <caret line="57" column="49" selection-start-line="57" selection-start-column="49" selection-end-line="57" selection-end-column="49" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="1" selection-start-line="1" selection-end-line="1" />
+        <state relative-caret-position="952">
+          <caret line="81" column="45" selection-start-line="81" selection-start-column="45" selection-end-line="81" selection-end-column="45" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="223">
-          <caret line="611" column="26" selection-start-line="611" selection-start-column="26" selection-end-line="611" selection-end-column="26" />
+        <state relative-caret-position="9690">
+          <caret line="611" column="79" selection-start-line="611" selection-start-column="79" selection-end-line="611" selection-end-column="79" />
         </state>
       </provider>
     </entry>
