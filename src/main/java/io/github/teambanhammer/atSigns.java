@@ -24,7 +24,7 @@ public class atSigns implements Listener {
                 String line1 = sign.getLine(0);
                 if (ChatColor.stripColor(line1).equalsIgnoreCase("[RandomTP]")){
                     player.performCommand("tpr");
-                } else if (ChatColor.stripColor(line1).equalsIgnoreCase("[Warp]")){
+                } else if (ChatColor.stripColor(line1).equalsIgnoreCase("[Warp]") && Warps.getWarps().containsKey(sign.getLine(1))){
                     player.performCommand("warp " + sign.getLine(1));
                 }
             }
@@ -63,7 +63,8 @@ public class atSigns implements Listener {
                             String warpName = Place.getLine(1);
                             Place.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[Warp]");
                             Place.setLine(1, warpName);
-                            Place.setLine(2, ChatColor.ITALIC + "Click here to teleport!");
+                            Place.setLine(2, ChatColor.ITALIC + "Click here to");
+                            Place.setLine(3, ChatColor.ITALIC + "teleport!");
                             placer.sendMessage(ChatColor.GREEN + "Successfully created the Warp sign!");
                         } else {
                             Place.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "[Warp]");
