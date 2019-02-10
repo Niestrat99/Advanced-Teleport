@@ -22,7 +22,7 @@ public class atSigns implements Listener {
             if (state instanceof org.bukkit.block.Sign) {
                 Sign sign = (Sign) state;
                 String line1 = sign.getLine(0);
-                if (line1.equalsIgnoreCase("[RandomTP]")){
+                if (ChatColor.stripColor(line1).equalsIgnoreCase("[RandomTP]")){
                     player.performCommand("tpr");
                 }
             }
