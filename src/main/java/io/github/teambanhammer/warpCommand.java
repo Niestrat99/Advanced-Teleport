@@ -17,7 +17,7 @@ public class warpCommand implements CommandExecutor {
                 if (args.length == 0) {
                     commandSender.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Warp Commands");
                     commandSender.sendMessage(ChatColor.AQUA + "/warp - " + ChatColor.GREEN + "Gives you a list of sub commands from this command.");
-                    commandSender.sendMessage(ChatColor.AQUA + "/warp <warp name> - " + ChatColor.GREEN + "Teleports you to a warp point you've set.");
+                    commandSender.sendMessage(ChatColor.AQUA + "/warp <warp name> - " + ChatColor.GREEN + "Teleports you to an existing warp point.");
                     commandSender.sendMessage(ChatColor.AQUA + "/warps - " + ChatColor.GREEN + "Gives you a list of warps.");
                     if (commandSender.hasPermission("tbh.tp.admin.warph")) {
                         commandSender.sendMessage(ChatColor.AQUA + "/warp set - " + ChatColor.GREEN + "Sets a warp point at the place you are.");
