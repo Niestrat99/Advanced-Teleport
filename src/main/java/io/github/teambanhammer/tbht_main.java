@@ -277,7 +277,13 @@ private static WorldBorder worldBorder;
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (teleportTests(player, args, "tpano")) {
-                        Player target = Bukkit.getPlayer(args[0]);
+                        Player target;
+                        if (args.length > 0) {
+                            target = Bukkit.getPlayer(args[0]);
+                        } else {
+                            target = TeleportRequest.getRequests(player).get(0).getRequester();
+                        }
+
                         TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
                         request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
                         player.sendMessage(ChatColor.GREEN + "You've declined the teleport request!");
