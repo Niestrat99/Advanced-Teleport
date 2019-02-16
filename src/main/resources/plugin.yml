@@ -38,14 +38,14 @@ commands:
   tpblock:
     description: Blocks and prevents a player to send a teleport request to you.
     permission: tbh.tp.member.block
-  tpano:
+  tpdeny:
     description: Declines a teleport request someone sent you.
     permission: tbh.tp.member.no
-    aliases: [tpdeny , tpno]
-  tpayes:
+    aliases: [tpano , tpno]
+  tpaccept:
     description: Accepts a teleport request someone sent you.
     permission: tbh.tp.member.yes
-    aliases: [tpaccept , tpyes]
+    aliases: [tpayes , tpyes]
   tpo:
     description: (ADMIN ONLY COMMAND) Instantly teleports you to another player.
     permission: tbh.tp.admin.tpo
