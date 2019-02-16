@@ -16,7 +16,7 @@ import java.util.HashMap;
 
 public class spawnCommand implements CommandExecutor, Listener {
 
-    private HashMap<Player, BukkitRunnable> movement = new HashMap<>();
+    private static HashMap<Player, BukkitRunnable> movement = new HashMap<>();
 
 
     @Override
@@ -38,16 +38,24 @@ public class spawnCommand implements CommandExecutor, Listener {
 
                         }
                     } else {
+                        Player player = (Player) commandSender;
                         BukkitRunnable movementtimer = new BukkitRunnable() {
 
                             @Override
                             public void run() {
-                                ((Player) commandSender).teleport(Warps.getSpawn());
-                                commandSender.sendMessage(ChatColor.GREEN + "Teleporting you to the spawn.");
-                                movement.remove(commandSender);
+                                if (Warps.getSpawn() != null) {
+                                    player.teleport(Warps.getSpawn());
+                                    commandSender.sendMessage(ChatColor.GREEN + "Teleporting you to the spawn.");
+                                    movement.remove(player);
+                                } else {
+                                    player.teleport(player.getWorld().getSpawnLocation());
+                                    commandSender.sendMessage(ChatColor.GREEN + "Teleporting you to the spawn.");
+                                    movement.remove(player);
+                                }
+
                             }
                         };
-                        movement.put((Player) commandSender, movementtimer);
+                        movement.put(player, movementtimer);
                         movementtimer.runTaskLater(tbht_main.getProvidingPlugin(tbht_main.class), configuration.teleportTimer() * 20);
                         commandSender.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + configuration.teleportTimer() + " seconds" + ChatColor.GREEN + ", please don't move!");
                         return false;
@@ -73,6 +81,7 @@ public class spawnCommand implements CommandExecutor, Listener {
         }
         return false;
     }
+
     @EventHandler
     public void onMovement(PlayerMoveEvent event) {
         if (movement.containsKey(event.getPlayer())) {
