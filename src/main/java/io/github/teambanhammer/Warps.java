@@ -39,4 +39,17 @@ public class Warps {
         Warps.set(warpName,null);
         save();
     }
+
+    public static void setSpawn(Location location) throws IOException {
+        Warps.set("spawnpoint.x", location.getBlockX());
+        Warps.set("spawnpoint.y", location.getBlockY());
+        Warps.set("spawnpoint.z", location.getBlockZ());
+        Warps.set("spawnpoint.world", location.getWorld().getName());
+        save();
+    }
+
+    public static Location getSpawn() {
+        Location location = new Location(Bukkit.getWorld(Warps.getString( "spawnpoint.world")), Warps.getInt(  "spawnpoint.x"), Warps.getInt("spawnpoint.y"), Warps.getInt("spawnpoint.z"));
+        return location;
+    }
 }

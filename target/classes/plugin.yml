@@ -1,7 +1,7 @@
 name: AdvancedTeleport
 description: A plugin which allows players to request a teleport to other players. Type /tphelp to get a list of commands.
 authors: [Niestrat99,Thatsmusic99]
-version: 3.0
+version: 3.1
 main: io.github.teambanhammer.tbht_main
 
 commands:
@@ -61,6 +61,12 @@ commands:
   tpalist:
     description: Lists your teleport requests.
     permission: tbh.tp.member.list
+  spawn:
+    description: Teleports you to the spawn location.
+    permission: tbh.tp.member.spawn
+  setspawn:
+    description: Sets a spawn at your location.
+    permission: tbh.tp.admin.setspawn
 
 permissions:
   # Allows all member permissions
@@ -83,6 +89,8 @@ permissions:
       tbh.tp.member.warp: true
       tbh.tp.member.warph: true
       tbh.tp.member.warps: true
+      tbh.tp.member.spawn: true
+      tbh.tp.member.spawnhelp: true
   tbh.tp.admin.*:
     default: op
     description: Allows access to admin-based commands of the plugin.
@@ -96,3 +104,5 @@ permissions:
       tbh.tp.admin.warpdel: true
       tbh.tp.admin.warph: true
       tbh.tp.admin.warpsign: true
+      tbh.tp.admin.setspawn: true
+      tbh.tp.admin.spawnhelp: true

@@ -53,6 +53,9 @@ private static WorldBorder worldBorder;
         getServer().getPluginManager().registerEvents(new atSigns(), this);
         getCommand("warp").setExecutor(new warpCommand());
         getCommand("warps").setExecutor(new warpCommand());
+        getCommand("spawn").setExecutor(new spawnCommand());
+        getCommand("setspawn").setExecutor(new spawnCommand());
+        getServer().getPluginManager().registerEvents(new spawnCommand(), this);
         try {
             Warps.save();
         } catch (IOException e) {
@@ -135,14 +138,14 @@ private static WorldBorder worldBorder;
                             if (configuration.EXPPayment()){
                                 if (player.getLevel()<configuration.EXPTeleportPrice()){
                                     player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to send a teleport request to someone else!");
-                                    player.sendMessage(ChatColor.RED + "You need atleast " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
+                                    player.sendMessage(ChatColor.RED + "You need at least " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
                                     return false;
                                 }
                             }
                             if (Vault != null && configuration.useVault()) {
                                 if (Vault.getBalance(player)<configuration.teleportPrice()){
                                     player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
-                                    player.sendMessage(ChatColor.RED + "You need atleast $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
+                                    player.sendMessage(ChatColor.RED + "You need at least $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
                                     return false;
                                 }
                             }
@@ -211,14 +214,14 @@ private static WorldBorder worldBorder;
                             if (configuration.EXPPayment()){
                                 if (player.getLevel()<configuration.EXPTeleportPrice()){
                                     player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to send a teleport request to someone else!");
-                                    player.sendMessage(ChatColor.RED + "You need atleast " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
+                                    player.sendMessage(ChatColor.RED + "You need at least " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
                                     return false;
                                 }
                             }
                             if (Vault != null && configuration.useVault()) {
                                 if (Vault.getBalance(player)<configuration.teleportPrice()){
                                     player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
-                                    player.sendMessage(ChatColor.RED + "You need atleast $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
+                                    player.sendMessage(ChatColor.RED + "You need at least $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
                                     return false;
                                 }
                             }
@@ -588,14 +591,14 @@ private static WorldBorder worldBorder;
                     if (configuration.EXPPayment()){
                         if (player.getLevel()<configuration.EXPTPRCost()){
                             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to use /tpr!");
-                            player.sendMessage(ChatColor.RED + "You need atleast " + ChatColor.YELLOW + configuration.EXPTPRCost() + ChatColor.RED + " EXP Levels!");
+                            player.sendMessage(ChatColor.RED + "You need at least " + ChatColor.YELLOW + configuration.EXPTPRCost() + ChatColor.RED + " EXP Levels!");
                             return false;
                         }
                     }
                     if (Vault != null && configuration.useVault()) {
                         if (Vault.getBalance(player)<configuration.vaultTPRCost()){
                             player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to use /tpr!");
-                            player.sendMessage(ChatColor.RED + "You need atleast $" + ChatColor.YELLOW + configuration.vaultTPRCost() + ChatColor.RED + "!");
+                            player.sendMessage(ChatColor.RED + "You need at least $" + ChatColor.YELLOW + configuration.vaultTPRCost() + ChatColor.RED + "!");
                             return false;
                         }
                     }
