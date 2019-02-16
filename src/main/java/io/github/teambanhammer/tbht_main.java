@@ -102,7 +102,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpa")) {
+        } else if (label.matches("(advancedteleport:)?tpa")) {
             if (sender.hasPermission("tbh.tp.member.tpa")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -178,7 +178,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpahere")) {
+        } else if (label.matches("(advancedteleport:)?tpahere")) {
             if (sender.hasPermission("tbh.tp.member.here")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -254,7 +254,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpayes") || (label.equalsIgnoreCase("tpaccept")) || label.equalsIgnoreCase("tpyes")) {
+        } else if (label.matches("(advancedteleport:)?(tp(a)?yes|tpaccept)")) {
             if (sender.hasPermission("tbh.tp.member.yes")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -272,7 +272,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpano") || label.equalsIgnoreCase("tpno") || label.equalsIgnoreCase("tpdeny")) {
+        } else if (label.matches("(advancedteleport:)?(tp(a)?no|tpadeny)")) {
             if (sender.hasPermission("tbh.tp.member.no")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -292,7 +292,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpo")) {
+        } else if (label.matches("(advancedteleport:)?tpa")) {
             if (sender.hasPermission("tbh.tp.admin.tpo")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -319,7 +319,7 @@ private static WorldBorder worldBorder;
                 sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
                 return false;
             }
-        } else if (label.equalsIgnoreCase("tpcancel")) {
+        } else if (label.matches("(advancedteleport:)?tpcancel")) {
             if (sender.hasPermission("tbh.tp.member.cancel")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -374,7 +374,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpaall") || label.equalsIgnoreCase("tpall")) {
+        } else if (label.matches("(advancedteleport:)?tp(a)?ll")) {
             if (sender.hasPermission("tbh.tp.admin.all")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -411,7 +411,7 @@ private static WorldBorder worldBorder;
                 sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
                 return false;
             }
-        } else if (label.equalsIgnoreCase("tpoff")) {
+        } else if (label.matches("(advancedteleport:)?tpoff")) {
             if (sender.hasPermission("tbh.tp.member.off")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -423,7 +423,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpon")) {
+        } else if (label.matches("(advancedteleport:)?tpon")) {
             if (sender.hasPermission("tbh.tp.member.on")) {
                 if (sender instanceof Player) {
                     Player player = (Player)sender;
@@ -434,7 +434,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpblock")) {
+        } else if (label.matches("(advancedteleport:)?tpblock")) {
             if (sender.hasPermission("tbh.tp.member.block")) {
                 if (sender instanceof Player){
                     Player player = (Player)sender;
@@ -467,7 +467,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpunblock")) {
+        } else if (label.matches("(advancedteleport:)?tpunblock")) {
             if (sender.hasPermission("tbh.tp.member.unblock")) {
                 if (sender instanceof Player){
                     Player player = (Player)sender;
@@ -497,7 +497,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.equalsIgnoreCase("tpalist")) {
+        } else if (label.matches("(advancedteleport:)?tpalist")) {
             if (sender.hasPermission("tbh.tp.member.list")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -549,7 +549,7 @@ private static WorldBorder worldBorder;
 
                 }
             }
-        } else if (label.equalsIgnoreCase("tpohere")){
+        } else if (label.matches("(advancedteleport:)?tpohere")){
             if (sender.hasPermission("tbh.tp.admin.tpohere")){
                 if (sender instanceof Player){
                     Player player = (Player)sender;
@@ -577,7 +577,7 @@ private static WorldBorder worldBorder;
                 sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
                 return false;
             }
-        } else if (label.equalsIgnoreCase("tpr") || label.equalsIgnoreCase("rtp")){
+        } else if (label.matches("(advancedteleport:)?(rtp:tpr)")){
             if (sender.hasPermission("tbh.tp.member.tpr")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -629,6 +629,7 @@ private static WorldBorder worldBorder;
                         }
                     }
                     Chunk chunk = player.getWorld().getChunkAt(location);
+
                     chunk.load(true);
                     BukkitRunnable cooldowntimer = new BukkitRunnable() {
                         @Override
