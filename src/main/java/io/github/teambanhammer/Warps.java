@@ -49,7 +49,12 @@ public class Warps {
     }
 
     public static Location getSpawn() {
-        Location location = new Location(Bukkit.getWorld(Warps.getString( "spawnpoint.world")), Warps.getInt(  "spawnpoint.x"), Warps.getInt("spawnpoint.y"), Warps.getInt("spawnpoint.z"));
-        return location;
+        try {
+            Location location = new Location(Bukkit.getWorld(Warps.getString( "spawnpoint.world")), Warps.getInt(  "spawnpoint.x"), Warps.getInt("spawnpoint.y"), Warps.getInt("spawnpoint.z"));
+            return location;
+        } catch (NullPointerException ex) {
+            return null;
+        }
+
     }
 }
