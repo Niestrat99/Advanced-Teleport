@@ -3,10 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="69d9e5f8-f774-4b69-b48c-499570da9e42" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/Advanced_Teleport-3.0.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/Advanced_Teleport-3.0.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/atSigns.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/io/github/teambanhammer/atSigns.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -18,11 +15,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="7905">
-              <caret line="611" column="79" selection-start-line="611" selection-start-column="79" selection-end-line="611" selection-end-column="79" />
+            <state relative-caret-position="-544">
+              <caret line="388" column="70" selection-start-line="388" selection-start-column="70" selection-end-line="388" selection-end-column="70" />
             </state>
           </provider>
         </entry>
@@ -30,17 +27,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-187">
-              <caret line="23" column="115" lean-forward="true" selection-start-line="23" selection-start-column="115" selection-end-line="23" selection-end-column="115" />
+            <state relative-caret-position="272">
+              <caret line="23" column="115" selection-start-line="23" selection-start-column="115" selection-end-line="23" selection-end-column="115" />
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-903">
-              <caret line="9" column="43" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="43" />
+            <state relative-caret-position="170">
+              <caret line="10" column="35" lean-forward="true" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
             </state>
           </provider>
         </entry>
@@ -57,7 +54,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="400">
+            <state relative-caret-position="661">
               <caret line="67" column="95" selection-start-line="67" selection-start-column="95" selection-end-line="67" selection-end-column="95" />
             </state>
           </provider>
@@ -89,11 +86,11 @@
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/TeleportBlock.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/configuration.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/Warps.java" />
-        <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" />
         <option value="$PROJECT_DIR$/src/main/resources/plugin.yml" />
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java" />
         <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java" />
+        <option value="$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java" />
       </list>
     </option>
   </component>
@@ -118,7 +115,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
       <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
@@ -173,6 +169,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -249,7 +246,7 @@
     <frame x="-8" y="-8" width="1616" height="876" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22236504" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22750643" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Image Layers" order="2" />
       <window_info id="Designer" order="3" />
@@ -310,10 +307,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="7905">
-          <caret line="611" column="79" selection-start-line="611" selection-start-column="79" selection-end-line="611" selection-end-column="79" />
+        <state relative-caret-position="272">
+          <caret line="23" column="115" selection-start-line="23" selection-start-column="115" selection-end-line="23" selection-end-column="115" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="170">
+          <caret line="10" column="35" lean-forward="true" selection-start-line="10" selection-start-column="35" selection-end-line="10" selection-end-column="35" />
         </state>
       </provider>
     </entry>
@@ -324,24 +328,17 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/warpCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-187">
-          <caret line="23" column="115" lean-forward="true" selection-start-line="23" selection-start-column="115" selection-end-line="23" selection-end-column="115" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/atSigns.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="400">
+        <state relative-caret-position="661">
           <caret line="67" column="95" selection-start-line="67" selection-start-column="95" selection-end-line="67" selection-end-column="95" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/resources/plugin.yml">
+    <entry file="file://$PROJECT_DIR$/src/main/java/io/github/teambanhammer/tbht_main.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-903">
-          <caret line="9" column="43" lean-forward="true" selection-start-line="9" selection-start-column="17" selection-end-line="9" selection-end-column="43" />
+        <state relative-caret-position="-544">
+          <caret line="388" column="70" selection-start-line="388" selection-start-column="70" selection-end-line="388" selection-end-column="70" />
         </state>
       </provider>
     </entry>
