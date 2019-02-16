@@ -12,7 +12,7 @@ import java.io.IOException;
 public class warpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
-        if (command.getLabel().equalsIgnoreCase("warp")) {
+        if (command.getLabel().matches("(advancedteleport:)?warp")) {
             if (commandSender.hasPermission("tbh.tp.member.warph")) {
                 if (args.length == 0) {
                     commandSender.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Warp Commands");
@@ -87,7 +87,7 @@ public class warpCommand implements CommandExecutor {
                     }
                 }
             }
-        } else if (command.getLabel().equalsIgnoreCase("warps")){
+        } else if (command.getLabel().matches("(advancedteleport:)?warps")){
             if (commandSender.hasPermission("tbh.tp.member.warps")){
                 StringBuilder wList = new StringBuilder();
                 wList.append(ChatColor.AQUA + "" + ChatColor.BOLD + "Warps: " + ChatColor.YELLOW);
