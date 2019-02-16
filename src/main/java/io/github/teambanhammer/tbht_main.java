@@ -53,6 +53,9 @@ private static WorldBorder worldBorder;
         getServer().getPluginManager().registerEvents(new atSigns(), this);
         getCommand("warp").setExecutor(new warpCommand());
         getCommand("warps").setExecutor(new warpCommand());
+        getCommand("spawn").setExecutor(new spawnCommand());
+        getCommand("setspawn").setExecutor(new spawnCommand());
+        getServer().getPluginManager().registerEvents(new spawnCommand(), this);
         try {
             Warps.save();
         } catch (IOException e) {
