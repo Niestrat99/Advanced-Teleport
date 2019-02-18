@@ -295,7 +295,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             }
-        } else if (label.matches("(advancedteleport:)?tpa")) {
+        } else if (label.matches("(advancedteleport:)?tpo")) {
             if (sender.hasPermission("tbh.tp.admin.tpo")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
