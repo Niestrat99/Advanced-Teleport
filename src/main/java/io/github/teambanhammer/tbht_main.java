@@ -580,7 +580,7 @@ private static WorldBorder worldBorder;
                 sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
                 return false;
             }
-        } else if (label.matches("(advancedteleport:)?(rtp:tpr)")){
+        } else if (label.matches("(advancedteleport:)?(rtp|tpr)")){
             if (sender.hasPermission("tbh.tp.member.tpr")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
