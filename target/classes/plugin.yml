@@ -1,7 +1,7 @@
 name: AdvancedTeleport
 description: A plugin which allows players to request a teleport to other players. Type /tphelp to get a list of commands.
 authors: [Niestrat99,Thatsmusic99]
-version: 3.1.2
+version: 3.1
 main: io.github.teambanhammer.tbht_main
 
 commands:
@@ -38,14 +38,14 @@ commands:
   tpblock:
     description: Blocks and prevents a player to send a teleport request to you.
     permission: tbh.tp.member.block
-  tpdeny:
+  tpano:
     description: Declines a teleport request someone sent you.
     permission: tbh.tp.member.no
-    aliases: [tpano , tpno]
-  tpaccept:
+    aliases: [tpdeny , tpno]
+  tpayes:
     description: Accepts a teleport request someone sent you.
     permission: tbh.tp.member.yes
-    aliases: [tpayes , tpyes]
+    aliases: [tpaccept , tpyes]
   tpo:
     description: (ADMIN ONLY COMMAND) Instantly teleports you to another player.
     permission: tbh.tp.admin.tpo
