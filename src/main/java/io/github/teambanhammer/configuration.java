@@ -41,23 +41,23 @@ public class configuration {
         save();
     }
     public static int commandCooldown(){
-        return Config.getInt("timers.commandCooldown");
+        return Config.getInt("commandCooldown");
     }
     public static int teleportTimer(){
-        return Config.getInt("timers.teleportTimer");
+        return Config.getInt("teleportTimer");
     }
     public static int requestLifetime(){
-        return Config.getInt("timers.requestLifetime");
+        return Config.getInt("requestLifetime");
     }
-    public static boolean useVault() {return Config.getBoolean("booleans.useVault");}
-    public static double teleportPrice() {return Config.getDouble("payments.vault.teleportPrice");}
-    public static String eventMovement() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("events.eventMovement"));}
-    public static String eventTeleport() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("events.eventTeleport"));}
-    public static String eventBeforeTP() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("events.eventBeforeTP"));}
-    public static boolean EXPPayment() {return Config.getBoolean("booleans.EXPPayment");}
-    public static int EXPTeleportPrice() {return Config.getInt("payments.exp.EXPTeleportPrice");}
-    public static int vaultTPRCost() {return Config.getInt("payments.vault.vaultTPRCost");}
-    public static int EXPTPRCost() {return Config.getInt("payments.exp.EXPTPRCost");}
+    public static boolean useVault() {return Config.getBoolean("useVault");}
+    public static double teleportPrice() {return Config.getDouble("teleportPrice");}
+    public static String eventMovement() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("eventMovement"));}
+    public static String eventTeleport() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("eventTeleport"));}
+    public static String eventBeforeTP() {return ChatColor.translateAlternateColorCodes('&' , Config.getString("eventBeforeTP"));}
+    public static boolean EXPPayment() {return Config.getBoolean("EXPPayment");}
+    public static int EXPTeleportPrice() {return Config.getInt("EXPTeleportPrice");}
+    public static int vaultTPRCost() {return Config.getInt("vaultTPRCost");}
+    public static int EXPTPRCost() {return Config.getInt("EXPTPRCost");}
     public static boolean useWorldBorder() {return Config.getBoolean("tpr.useWorldBorder");}
     public static int maxX() {return Config.getInt("tpr.maximum-x");}
     public static int minX() {return Config.getInt("tpr.minimum-x");}

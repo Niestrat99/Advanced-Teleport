@@ -1,7 +1,7 @@
 name: AdvancedTeleport
 description: A plugin which allows players to request a teleport to other players. Type /tphelp to get a list of commands.
 authors: [Niestrat99,Thatsmusic99]
-version: 3.1.2
+version: 3.1.1
 main: io.github.teambanhammer.tbht_main
 
 commands:
