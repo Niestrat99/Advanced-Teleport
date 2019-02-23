@@ -76,6 +76,9 @@ public class spawnCommand implements CommandExecutor, Listener {
                     }
 
                 }
+            } else {
+                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
+                return false;
             }
 
         }

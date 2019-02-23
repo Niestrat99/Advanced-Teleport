@@ -18,6 +18,13 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <outputDirectory>H:\Pogo tutorials\LocalHost Test Server\plugins</outputDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 

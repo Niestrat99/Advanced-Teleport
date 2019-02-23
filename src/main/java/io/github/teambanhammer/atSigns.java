@@ -26,6 +26,8 @@ public class atSigns implements Listener {
                     player.performCommand("tpr");
                 } else if (ChatColor.stripColor(line1).equalsIgnoreCase("[Warp]") && Warps.getWarps().containsKey(sign.getLine(1))){
                     player.performCommand("warp " + sign.getLine(1));
+                } else if (ChatColor.stripColor(line1).equalsIgnoreCase("[Spawn]")) {
+                    player.performCommand("spawn");
                 }
             }
         }
@@ -71,6 +73,15 @@ public class atSigns implements Listener {
                             placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " That warp doesn't exist!");
                         }
                     }
+                }
+            } else if (Place.getLine(0).equalsIgnoreCase("[Spawn]")) {
+                if (!placer.hasPermission("tbh.tp.admin.spawnsign")) {
+                    Place.setLine(0, ChatColor.RED + "" + ChatColor.BOLD + "[Spawn]");
+                    placer.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to make this sign!");
+                    Place.setCancelled(true);
+                } else {
+                    Place.setLine(0, ChatColor.BLUE + "" + ChatColor.BOLD + "[Spawn]");
+                    placer.sendMessage(ChatColor.GREEN + "Successfully created the Spawn sign!");
                 }
             }
         }

@@ -67,6 +67,9 @@ commands:
   setspawn:
     description: Sets a spawn at your location.
     permission: tbh.tp.admin.setspawn
+  atreload:
+    description: Reloads the Config.
+    permission: tbh.tp.admin.reload
 
 permissions:
   # Allows all member permissions
@@ -106,3 +109,5 @@ permissions:
       tbh.tp.admin.warpsign: true
       tbh.tp.admin.setspawn: true
       tbh.tp.admin.spawnhelp: true
+      tbh.tp.admin.spawnsign: true
+      tbh.tp.admin.reload: true

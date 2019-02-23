@@ -16,6 +16,8 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import sun.security.provider.ConfigFile;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -99,7 +101,7 @@ private static WorldBorder worldBorder;
                             sender.sendMessage(ChatColor.RED + "/warp - " + ChatColor.GOLD + "Gives you a list of sub commands from this command.");
                             return false;
                         } else {
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
                             return false;
                         }
                     }
@@ -319,7 +321,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
                 return false;
             }
         } else if (label.matches("(advancedteleport:)?tpcancel")) {
@@ -411,7 +413,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
                 return false;
             }
         } else if (label.matches("(advancedteleport:)?tpoff")) {
@@ -577,7 +579,7 @@ private static WorldBorder worldBorder;
                     }
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
                 return false;
             }
         } else if (label.matches("(advancedteleport:)?(rtp|tpr)")){
@@ -674,6 +676,19 @@ private static WorldBorder worldBorder;
                 }
             }
 
+        } else if (label.matches("(advancedteleport:)?atreload")) {
+            if (!sender.hasPermission("tbh.tp.admin.reload")) {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
+                return false;
+            } else {
+                sender.sendMessage(ChatColor.GOLD + "Reloading Config of " + ChatColor.AQUA + "AdvancedTeleport" + ChatColor.GOLD + "...");
+                try {
+                    configuration.reloadConfig();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                sender.sendMessage(ChatColor.GREEN + "Done!");
+            }
         }
         return false;
     }

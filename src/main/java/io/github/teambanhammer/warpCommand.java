@@ -44,7 +44,7 @@ public class warpCommand implements CommandExecutor {
                             }
                         }
                     } else {
-                        commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                        commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
                         return false;
                     }
                 } else if (args[0].equalsIgnoreCase("delete")) {
@@ -68,7 +68,7 @@ public class warpCommand implements CommandExecutor {
                             }
                         }
                     } else {
-                        commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to this command!");
+                        commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
                         return false;
                     }
 

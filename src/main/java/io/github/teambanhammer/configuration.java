@@ -15,6 +15,11 @@ public class configuration {
     public static File ConfigFile = new File("plugins/AdvancedTeleport","config.yml");
     public static FileConfiguration Config = YamlConfiguration.loadConfiguration(ConfigFile);
 
+    public static void reloadConfig() throws IOException {
+        Config = YamlConfiguration.loadConfiguration(ConfigFile);
+        save();
+    }
+
     public static void save() throws IOException {
         Config.save(ConfigFile);
     }
