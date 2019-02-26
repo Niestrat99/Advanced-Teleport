@@ -16,7 +16,6 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
-import sun.security.provider.ConfigFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -670,7 +669,7 @@ private static WorldBorder worldBorder;
                     };
                     movement.put(player, movementtimer);
                     movementtimer.runTaskLater(this, configuration.teleportTimer() * 20);
-                    player.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + configuration.teleportTimer() + " seconds" + ChatColor.GREEN + ", please don't move!");
+                    player.sendMessage(configuration.eventBeforeTP().replaceAll("\\{countdown}", String.valueOf(configuration.teleportTimer())));
                     return false;
 
                 }
