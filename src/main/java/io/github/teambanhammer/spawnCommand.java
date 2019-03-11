@@ -24,42 +24,27 @@ public class spawnCommand implements CommandExecutor, Listener {
         if (command.getLabel().equalsIgnoreCase("spawn")){
             if (commandSender.hasPermission("tbh.tp.member.spawn")){
                 if (commandSender instanceof Player) {
-                    if (args.length>0) {
-                        if (args[0].equalsIgnoreCase("help")) {
-                            if (commandSender.hasPermission("tbh.tp.member.spawnhelp")){
-                                commandSender.sendMessage(ChatColor.GOLD + "" + ChatColor.BOLD + "Spawn Commands");
-                                commandSender.sendMessage(ChatColor.AQUA + "/spawn - " + ChatColor.GREEN + "Teleports you to the spawn location.");
-                                commandSender.sendMessage(ChatColor.AQUA + "/spawn help - " + ChatColor.GREEN + "Gives you a list of spawn commands.");
-                                if (commandSender.hasPermission("tbh.tp.admin.spawnhelp")) {
-                                    commandSender.sendMessage(ChatColor.AQUA + "/setspawn -" + ChatColor.GREEN + "Sets a spawn at your location.");
-                                    return false;
-                                }
+                    Player player = (Player) commandSender;
+                    BukkitRunnable movementtimer = new BukkitRunnable() {
+
+                        @Override
+                        public void run() {
+                            if (Warps.getSpawn() != null) {
+                                player.teleport(Warps.getSpawn());
+                                commandSender.sendMessage(ChatColor.GREEN + "Teleporting you to the spawn.");
+                                movement.remove(player);
+                            } else {
+                                player.teleport(player.getWorld().getSpawnLocation());
+                                commandSender.sendMessage(ChatColor.GREEN + "Teleporting you to the spawn.");
+                                movement.remove(player);
                             }
 
                         }
-                    } else {
-                        Player player = (Player) commandSender;
-                        BukkitRunnable movementtimer = new BukkitRunnable() {
-
-                            @Override
-                            public void run() {
-                                if (Warps.getSpawn() != null) {
-                                    player.teleport(Warps.getSpawn());
-                                    commandSender.sendMessage(ChatColor.GREEN + "Teleporting you to the spawn.");
-                                    movement.remove(player);
-                                } else {
-                                    player.teleport(player.getWorld().getSpawnLocation());
-                                    commandSender.sendMessage(ChatColor.GREEN + "Teleporting you to the spawn.");
-                                    movement.remove(player);
-                                }
-
-                            }
-                        };
-                        movement.put(player, movementtimer);
-                        movementtimer.runTaskLater(tbht_main.getProvidingPlugin(tbht_main.class), configuration.teleportTimer() * 20);
-                        commandSender.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + configuration.teleportTimer() + " seconds" + ChatColor.GREEN + ", please don't move!");
-                        return false;
-                    }
+                    };
+                    movement.put(player, movementtimer);
+                    movementtimer.runTaskLater(tbht_main.getProvidingPlugin(tbht_main.class), configuration.teleportTimer() * 20);
+                    commandSender.sendMessage(ChatColor.GREEN + "Teleporting in " + ChatColor.AQUA + configuration.teleportTimer() + " seconds" + ChatColor.GREEN + ", please don't move!");
+                    return false;
 
                 }
             }

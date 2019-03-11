@@ -15,11 +15,6 @@ public class configuration {
     public static File ConfigFile = new File("plugins/AdvancedTeleport","config.yml");
     public static FileConfiguration Config = YamlConfiguration.loadConfiguration(ConfigFile);
 
-    public static void reloadConfig() throws IOException {
-        Config = YamlConfiguration.loadConfiguration(ConfigFile);
-        save();
-    }
-
     public static void save() throws IOException {
         Config.save(ConfigFile);
     }
@@ -27,7 +22,7 @@ public class configuration {
         Config.addDefault("timers.commandCooldown",5);
         Config.addDefault("timers.teleportTimer",3);
         Config.addDefault("timers.requestLifetime",60);
-        Config.addDefault("events.eventBeforeTP" , "&aTeleporting in &b{countdown} seconds&a, please don't move!");
+        Config.addDefault("events.eventBeforeTP" , "&aTeleporting in &b{countdown} seconds&a, please do not move!");
         Config.addDefault("events.eventTeleport" , "&aTeleporting...");
         Config.addDefault("events.eventMovement" , "&cTeleport has been cancelled due to movement.");
         Config.addDefault("booleans.useVault" , false);
@@ -69,4 +64,9 @@ public class configuration {
     public static int maxZ() {return Config.getInt("tpr.maximum-z");}
     public static int minZ() {return Config.getInt("tpr.minimum-z");}
     public static List <String> avoidBlocks() {return Config.getStringList("tpr.avoidBlocks");}
+
+    public static void reloadConfig() throws IOException {
+        Config = YamlConfiguration.loadConfiguration(ConfigFile);
+        save();
+    }
 }

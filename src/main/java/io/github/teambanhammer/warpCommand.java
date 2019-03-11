@@ -14,17 +14,17 @@ public class warpCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (command.getLabel().matches("(advancedteleport:)?warp")) {
             if (commandSender.hasPermission("tbh.tp.member.warph")) {
-                if (args.length == 0) {
-                    commandSender.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Warp Commands");
-                    commandSender.sendMessage(ChatColor.AQUA + "/warp - " + ChatColor.GREEN + "Gives you a list of sub commands from this command.");
-                    commandSender.sendMessage(ChatColor.AQUA + "/warp <warp name> - " + ChatColor.GREEN + "Teleports you to an existing warp point.");
-                    commandSender.sendMessage(ChatColor.AQUA + "/warps - " + ChatColor.GREEN + "Gives you a list of warps.");
-                    if (commandSender.hasPermission("tbh.tp.admin.warph")) {
-                        commandSender.sendMessage(ChatColor.AQUA + "/warp set - " + ChatColor.GREEN + "Sets a warp point at the place you are.");
-                        commandSender.sendMessage(ChatColor.AQUA + "/warp delete - " + ChatColor.GREEN + "Deletes a warp point you've set.");
-                        return false;
+                if (commandSender.hasPermission("tbh.tp.member.warp")) {
+                    if (commandSender instanceof Player) {
+                        Player player = (Player) commandSender;
+                        if (Warps.getWarps().containsKey(args[0])) {
+                            ((Player) commandSender).teleport(Warps.getWarps().get(args[0]));
+                            commandSender.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.YELLOW + args[0] + ChatColor.GREEN + "!");
+                        } else {
+                            commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " This warp doesn't exist!");
+                            return false;
+                        }
                     }
-                    return false;
                 } else if (args[0].equalsIgnoreCase("set")) {
                     if (commandSender.hasPermission("tbh.tp.admin.warpset")) {
                         if (commandSender instanceof Player) {
@@ -70,20 +70,6 @@ public class warpCommand implements CommandExecutor {
                     } else {
                         commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
                         return false;
-                    }
-
-                } else {
-                    if (commandSender.hasPermission("tbh.tp.member.warp")) {
-                        if (commandSender instanceof Player) {
-                            Player player = (Player) commandSender;
-                            if (Warps.getWarps().containsKey(args[0])) {
-                                ((Player) commandSender).teleport(Warps.getWarps().get(args[0]));
-                                commandSender.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.YELLOW + args[0] + ChatColor.GREEN + "!");
-                            } else {
-                                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " This warp doesn't exist!");
-                                return false;
-                            }
-                        }
                     }
                 }
             }

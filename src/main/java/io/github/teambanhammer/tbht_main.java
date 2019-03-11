@@ -77,33 +77,52 @@ private static WorldBorder worldBorder;
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (label.equalsIgnoreCase("tphelp")) {
+        if (label.equalsIgnoreCase("athelp")) {
             if (sender.hasPermission("tbh.tp.member.help")) {
                 if (args.length == 0) {
-                    sender.sendMessage(ChatColor.LIGHT_PURPLE + "" + ChatColor.BOLD + "Teleport Commands");
-                    sender.sendMessage(ChatColor.AQUA + "/tpa <Player> - " + ChatColor.GREEN + "Sends the targeted player a teleport request to where they are.");
-                    sender.sendMessage(ChatColor.AQUA + "/tpahere <Player> - " + ChatColor.GREEN + "Sends the targeted player a teleport requests to where you are.");
-                    sender.sendMessage(ChatColor.AQUA + "/tpcancel - " + ChatColor.GREEN + "Cancels your teleport request.");
-                    sender.sendMessage(ChatColor.AQUA + "/tpayes - " + ChatColor.GREEN + "Accepts a teleport request someone sent you.");
-                    sender.sendMessage(ChatColor.AQUA + "/tpano - " + ChatColor.GREEN + "Declines a teleport request someone sent you.");
-                    sender.sendMessage(ChatColor.AQUA + "/tpon - " + ChatColor.GREEN + "Enables receiving teleport requests.");
-                    sender.sendMessage(ChatColor.AQUA + "/tpoff - " + ChatColor.GREEN + "Disables receiving teleport requests.");
-                    sender.sendMessage(ChatColor.AQUA + "/tpr - " + ChatColor.GREEN + "Teleports you to a random place.");
-                    sender.sendMessage(ChatColor.AQUA + "/warp - " + ChatColor.GREEN + "Gives you a list of sub commands from this command.");
+                    sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "AdvancedTeleport Help");
+                    sender.sendMessage(ChatColor.GOLD + "Please type " + ChatColor.AQUA + "/athelp <category>" + ChatColor.GOLD + " to get a command list of one of these categories.");
+                    sender.sendMessage(ChatColor.AQUA + "--[" + ChatColor.GOLD + "Categories" + ChatColor.AQUA + "]--");
+                    sender.sendMessage(ChatColor.GOLD + "- Teleport");
+                    sender.sendMessage(ChatColor.GOLD + "- Warps");
+                    sender.sendMessage(ChatColor.GOLD + "- Spawn");
+                    sender.sendMessage(ChatColor.GOLD + "- RandomTP");
                     return false;
-                } else {
-                    if (args[0].equalsIgnoreCase("admin")) {
+                } else if (args[0].equalsIgnoreCase("teleport")){
+                    sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Teleport help");
+                    sender.sendMessage(ChatColor.GOLD + "/tpa <Player> - Sends a request to teleport to the player.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpahere <Player> - Sends a request to the player to teleport to you");
+                    sender.sendMessage(ChatColor.GOLD + "/tpaccept - Accepts a player's teleport request.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpdeny - Declines a player's teleport request.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpcancel - Lets you cancel the request you have sent to a player.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpon - Enables teleport requests to you.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpoff - Disables teleport requests to you.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpblock <Player> - Blocks the player so that they cannot send you teleport requests anymore.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpunblock <Player> - Unblocks the player so that they can send you teleport requests.");
+                    if (sender.hasPermission("tbh.tp.admin.help")){
+                        sender.sendMessage(ChatColor.GOLD + "/tpo <Player> - Instantly teleports you to the player.");
+                        sender.sendMessage(ChatColor.GOLD + "/tpohere <Player> - Instantly teleports the player to you.");
+                        sender.sendMessage(ChatColor.GOLD + "/tpall - Sends a teleport request to every online player to teleport to you.");
+                        return false;
+                    }
+                } else if (args[0].equalsIgnoreCase("warps")) {
+                    sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Warps help");
+                    sender.sendMessage(ChatColor.GOLD + "/warp <warp name> - Teleports you to an existing warp point.");
+                    sender.sendMessage(ChatColor.GOLD + "/warps - Gives you a list of warps.");
+                    if (sender.hasPermission("tbh.tp.admin.help")) {
+                        sender.sendMessage(ChatColor.GOLD + "/warp set <warp name> - Sets a warp point at your location.");
+                        sender.sendMessage(ChatColor.GOLD + "/warp delete <warp name> - Deletes an existing warp point.");
+                        return false;
+                    } else if (args[0].equalsIgnoreCase("Spawn")) {
+                        sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Spawn help");
+                        sender.sendMessage(ChatColor.GOLD + "/spawn - Teleports you to the spawn point.");
                         if (sender.hasPermission("tbh.tp.admin.help")) {
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "Teleport Commands for Admins");
-                            sender.sendMessage(ChatColor.RED + "/tpaall - " + ChatColor.GOLD + "Sends everyone a teleport request to where you are.");
-                            sender.sendMessage(ChatColor.RED + "/tpohere <Player> - " + ChatColor.GOLD + "Teleports the player to you instantly.");
-                            sender.sendMessage(ChatColor.RED + "/tpo <Player> - " + ChatColor.GOLD + "Teleports you to another player instantly.");
-                            sender.sendMessage(ChatColor.RED + "/warp - " + ChatColor.GOLD + "Gives you a list of sub commands from this command.");
-                            return false;
-                        } else {
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
+                            sender.sendMessage(ChatColor.GOLD + "/setspawn - Sets a spawn point at your location.");
                             return false;
                         }
+                    } else if (args[0].equalsIgnoreCase("RandomTP")) {
+                        sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "RandomTP help");
+                        sender.sendMessage(ChatColor.GOLD + "/rtp - Teleports you to a random location.");
                     }
                 }
             }
