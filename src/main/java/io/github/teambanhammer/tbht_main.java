@@ -89,18 +89,18 @@ private static WorldBorder worldBorder;
                     return false;
                 } else if (args[0].equalsIgnoreCase("teleport")){
                     sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Teleport help");
-                    sender.sendMessage(ChatColor.GOLD + "/tpa <Player> - Sends a request to teleport to the player.");
-                    sender.sendMessage(ChatColor.GOLD + "/tpahere <Player> - Sends a request to the player to teleport to you");
+                    sender.sendMessage(ChatColor.GOLD + "/tpa <player> - Sends a request to teleport to the player.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpahere <player> - Sends a request to the player to teleport to you");
                     sender.sendMessage(ChatColor.GOLD + "/tpaccept - Accepts a player's teleport request.");
                     sender.sendMessage(ChatColor.GOLD + "/tpdeny - Declines a player's teleport request.");
                     sender.sendMessage(ChatColor.GOLD + "/tpcancel - Lets you cancel the request you have sent to a player.");
                     sender.sendMessage(ChatColor.GOLD + "/tpon - Enables teleport requests to you.");
                     sender.sendMessage(ChatColor.GOLD + "/tpoff - Disables teleport requests to you.");
-                    sender.sendMessage(ChatColor.GOLD + "/tpblock <Player> - Blocks the player so that they cannot send you teleport requests anymore.");
-                    sender.sendMessage(ChatColor.GOLD + "/tpunblock <Player> - Unblocks the player so that they can send you teleport requests.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpblock <player> - Blocks the player so that they cannot send you teleport requests anymore.");
+                    sender.sendMessage(ChatColor.GOLD + "/tpunblock <player> - Unblocks the player so that they can send you teleport requests.");
                     if (sender.hasPermission("tbh.tp.admin.help")){
-                        sender.sendMessage(ChatColor.GOLD + "/tpo <Player> - Instantly teleports you to the player.");
-                        sender.sendMessage(ChatColor.GOLD + "/tpohere <Player> - Instantly teleports the player to you.");
+                        sender.sendMessage(ChatColor.GOLD + "/tpo <player> - Instantly teleports you to the player.");
+                        sender.sendMessage(ChatColor.GOLD + "/tpohere <player> - Instantly teleports the player to you.");
                         sender.sendMessage(ChatColor.GOLD + "/tpall - Sends a teleport request to every online player to teleport to you.");
                         return false;
                     }
