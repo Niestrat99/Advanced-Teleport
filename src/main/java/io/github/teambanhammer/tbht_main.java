@@ -112,17 +112,20 @@ private static WorldBorder worldBorder;
                         sender.sendMessage(ChatColor.GOLD + "/warp set <warp name> - Sets a warp point at your location.");
                         sender.sendMessage(ChatColor.GOLD + "/warp delete <warp name> - Deletes an existing warp point.");
                         return false;
-                    } else if (args[0].equalsIgnoreCase("Spawn")) {
-                        sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Spawn help");
-                        sender.sendMessage(ChatColor.GOLD + "/spawn - Teleports you to the spawn point.");
-                        if (sender.hasPermission("tbh.tp.admin.help")) {
-                            sender.sendMessage(ChatColor.GOLD + "/setspawn - Sets a spawn point at your location.");
-                            return false;
-                        }
-                    } else if (args[0].equalsIgnoreCase("RandomTP")) {
+                    }
+                } else if (args[0].equalsIgnoreCase("Spawn")) {
+                    sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Spawn help");
+                    sender.sendMessage(ChatColor.GOLD + "/spawn - Teleports you to the spawn point.");
+                    if (sender.hasPermission("tbh.tp.admin.help")) {
+                        sender.sendMessage(ChatColor.GOLD + "/setspawn - Sets a spawn point at your location.");
+                        return false;
+                    }
+                } else if (args[0].equalsIgnoreCase("RandomTP")) {
                         sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "RandomTP help");
                         sender.sendMessage(ChatColor.GOLD + "/rtp - Teleports you to a random location.");
-                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This category does not exist! Type /athelp to get a list of existing categories.");
+                    return false;
                 }
             }
         } else if (label.matches("(advancedteleport:)?tpa")) {
