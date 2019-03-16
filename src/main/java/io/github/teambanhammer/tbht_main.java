@@ -155,6 +155,7 @@ private static WorldBorder worldBorder;
                     if (configuration.featRTP()) {
                         sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "RandomTP help");
                         sender.sendMessage(ChatColor.GOLD + "- /rtp - Teleports you to a random location.");
+                        return false;
                     } else {
                         sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "RandomTP " + ChatColor.RED + "is disabled!");
                         return false;
@@ -166,6 +167,13 @@ private static WorldBorder worldBorder;
                         sender.sendMessage(ChatColor.GOLD + "- /delhome <home name> - Deletes a home point you've set.");
                         sender.sendMessage(ChatColor.GOLD + "- /home <home name> - Teleports you to your home.");
                         sender.sendMessage(ChatColor.GOLD + "- /homes - Gives you a list of homes you've set.");
+                        if (sender.hasPermission("tbh.tp.admin.help")) {
+                            sender.sendMessage(ChatColor.GOLD + "- /sethome <player> <home name> - Sets a home point at your location for the player.");
+                            sender.sendMessage(ChatColor.GOLD + "- /delhome <player> <home name> - Deletes a home point of a player.");
+                            sender.sendMessage(ChatColor.GOLD + "- /home <player> <home name> - Teleports you to a home point a player has set.");
+                            sender.sendMessage(ChatColor.GOLD + "- /homes <player> - Gives you a list of homes of a player.");
+                            return false;
+                        }
                     }
                 } else {
                     sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This category does not exist! Type /athelp to get a list of existing categories.");
