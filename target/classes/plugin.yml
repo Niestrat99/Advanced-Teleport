@@ -70,6 +70,18 @@ commands:
   atreload:
     description: Reloads the Config.
     permission: tbh.tp.admin.reload
+  sethome:
+    description: Sets a home point at your location.
+    permission: tbh.tp.member.sethome
+  delhome:
+    description: Deletes a home point you've set.
+    permission: tbh.tp.member.delhome
+  home:
+    description: Sends you to your home point.
+    permission: tbh.tp.member.home
+  homes:
+    description: Gives a list of homes you've set.
+    permission: tbh.tp.member.homes
 
 permissions:
   # Allows all member permissions
@@ -92,6 +104,10 @@ permissions:
       tbh.tp.member.warp: true
       tbh.tp.member.warps: true
       tbh.tp.member.spawn: true
+      tbh.tp.member.sethome: true
+      tbh.tp.member.delhome: true
+      tbh.tp.member.home: true
+      tbh.tp.member.homes: true
   tbh.tp.admin.*:
     default: op
     description: Allows access to admin-based commands of the plugin.
@@ -107,3 +123,7 @@ permissions:
       tbh.tp.admin.setspawn: true
       tbh.tp.admin.spawnsign: true
       tbh.tp.admin.reload: true
+      tbh.tp.admin.sethome: true
+      tbh.tp.admin.delhome: true
+      tbh.tp.admin.homes: true
+      tbh.tp.admin.home: true

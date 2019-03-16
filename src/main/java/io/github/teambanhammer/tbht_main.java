@@ -52,11 +52,16 @@ private static WorldBorder worldBorder;
         System.out.println("AdvancedTeleport Version: " + getDescription().getVersion());
         getServer().getPluginManager().registerEvents(this, this);
         getServer().getPluginManager().registerEvents(new atSigns(), this);
+        getServer().getPluginManager().registerEvents(new spawnCommand(), this);
+        getServer().getPluginManager().registerEvents(new homeCommand(), this);
         getCommand("warp").setExecutor(new warpCommand());
         getCommand("warps").setExecutor(new warpCommand());
         getCommand("spawn").setExecutor(new spawnCommand());
         getCommand("setspawn").setExecutor(new spawnCommand());
-        getServer().getPluginManager().registerEvents(new spawnCommand(), this);
+        getCommand("sethome").setExecutor(new homeCommand());
+        getCommand("delhome").setExecutor(new homeCommand());
+        getCommand("home").setExecutor(new homeCommand());
+        getCommand("homes").setExecutor(new homeCommand());
         try {
             Warps.save();
         } catch (IOException e) {
@@ -82,203 +87,252 @@ private static WorldBorder worldBorder;
                     sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "AdvancedTeleport Help");
                     sender.sendMessage(ChatColor.GOLD + "Please type " + ChatColor.AQUA + "/athelp <category>" + ChatColor.GOLD + " to get a command list of one of these categories.");
                     sender.sendMessage(ChatColor.AQUA + "--[" + ChatColor.GOLD + "Categories" + ChatColor.AQUA + "]--");
-                    sender.sendMessage(ChatColor.GOLD + "- Teleport");
-                    sender.sendMessage(ChatColor.GOLD + "- Warps");
-                    sender.sendMessage(ChatColor.GOLD + "- Spawn");
-                    sender.sendMessage(ChatColor.GOLD + "- RandomTP");
+                    if (configuration.featTP()) {
+                        sender.sendMessage(ChatColor.GOLD + "- Teleport");
+                    }
+                    if (configuration.featWarps()) {
+                        sender.sendMessage(ChatColor.GOLD + "- Warps");
+                    }
+                    if (configuration.featSpawn()) {
+                        sender.sendMessage(ChatColor.GOLD + "- Spawn");
+                    }
+                    if (configuration.featRTP()) {
+                        sender.sendMessage(ChatColor.GOLD + "- RandomTP");
+                    }
+                    if (configuration.featHomes()) {
+                        sender.sendMessage(ChatColor.GOLD + "- Homes");
+                    }
                     return false;
                 } else if (args[0].equalsIgnoreCase("teleport")){
-                    sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Teleport help");
-                    sender.sendMessage(ChatColor.GOLD + "- /tpa <player> - Sends a request to teleport to the player.");
-                    sender.sendMessage(ChatColor.GOLD + "- /tpahere <player> - Sends a request to the player to teleport to you");
-                    sender.sendMessage(ChatColor.GOLD + "- /tpaccept - Accepts a player's teleport request.");
-                    sender.sendMessage(ChatColor.GOLD + "- /tpdeny - Declines a player's teleport request.");
-                    sender.sendMessage(ChatColor.GOLD + "- /tpcancel - Lets you cancel the request you have sent to a player.");
-                    sender.sendMessage(ChatColor.GOLD + "- /tpon - Enables teleport requests to you.");
-                    sender.sendMessage(ChatColor.GOLD + "- /tpoff - Disables teleport requests to you.");
-                    sender.sendMessage(ChatColor.GOLD + "- /tpblock <player> - Blocks the player so that they cannot send you teleport requests anymore.");
-                    sender.sendMessage(ChatColor.GOLD + "- /tpunblock <player> - Unblocks the player so that they can send you teleport requests.");
-                    if (sender.hasPermission("tbh.tp.admin.help")){
-                        sender.sendMessage(ChatColor.GOLD + "- /tpo <player> - Instantly teleports you to the player.");
-                        sender.sendMessage(ChatColor.GOLD + "- /tpohere <player> - Instantly teleports the player to you.");
-                        sender.sendMessage(ChatColor.GOLD + "- /tpall - Sends a teleport request to every online player to teleport to you.");
+                    if (configuration.featTP()) {
+                        sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Teleport help");
+                        sender.sendMessage(ChatColor.GOLD + "- /tpa <player> - Sends a request to teleport to the player.");
+                        sender.sendMessage(ChatColor.GOLD + "- /tpahere <player> - Sends a request to the player to teleport to you");
+                        sender.sendMessage(ChatColor.GOLD + "- /tpaccept - Accepts a player's teleport request.");
+                        sender.sendMessage(ChatColor.GOLD + "- /tpdeny - Declines a player's teleport request.");
+                        sender.sendMessage(ChatColor.GOLD + "- /tpcancel - Lets you cancel the request you have sent to a player.");
+                        sender.sendMessage(ChatColor.GOLD + "- /tpon - Enables teleport requests to you.");
+                        sender.sendMessage(ChatColor.GOLD + "- /tpoff - Disables teleport requests to you.");
+                        sender.sendMessage(ChatColor.GOLD + "- /tpblock <player> - Blocks the player so that they cannot send you teleport requests anymore.");
+                        sender.sendMessage(ChatColor.GOLD + "- /tpunblock <player> - Unblocks the player so that they can send you teleport requests.");
+                        if (sender.hasPermission("tbh.tp.admin.help")){
+                            sender.sendMessage(ChatColor.GOLD + "- /tpo <player> - Instantly teleports you to the player.");
+                            sender.sendMessage(ChatColor.GOLD + "- /tpohere <player> - Instantly teleports the player to you.");
+                            sender.sendMessage(ChatColor.GOLD + "- /tpall - Sends a teleport request to every online player to teleport to you.");
+                            return false;
+                        }
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
                         return false;
                     }
                 } else if (args[0].equalsIgnoreCase("warps")) {
-                    sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Warps help");
-                    sender.sendMessage(ChatColor.GOLD + "- /warp <warp name> - Teleports you to an existing warp point.");
-                    sender.sendMessage(ChatColor.GOLD + "- /warps - Gives you a list of warps.");
-                    if (sender.hasPermission("tbh.tp.admin.help")) {
-                        sender.sendMessage(ChatColor.GOLD + "- /warp set <warp name> - Sets a warp point at your location.");
-                        sender.sendMessage(ChatColor.GOLD + "- /warp delete <warp name> - Deletes an existing warp point.");
+                    if (configuration.featWarps()) {
+                        sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Warps help");
+                        sender.sendMessage(ChatColor.GOLD + "- /warp <warp name> - Teleports you to an existing warp point.");
+                        sender.sendMessage(ChatColor.GOLD + "- /warps - Gives you a list of warps.");
+                        if (sender.hasPermission("tbh.tp.admin.help")) {
+                            sender.sendMessage(ChatColor.GOLD + "- /warp set <warp name> - Sets a warp point at your location.");
+                            sender.sendMessage(ChatColor.GOLD + "- /warp delete <warp name> - Deletes an existing warp point.");
+                            return false;
+                        }
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Warps " + ChatColor.RED + "is disabled!");
                         return false;
                     }
                 } else if (args[0].equalsIgnoreCase("Spawn")) {
-                    sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Spawn help");
-                    sender.sendMessage(ChatColor.GOLD + "- /spawn - Teleports you to the spawn point.");
-                    if (sender.hasPermission("tbh.tp.admin.help")) {
-                        sender.sendMessage(ChatColor.GOLD + "- /setspawn - Sets a spawn point at your location.");
+                    if (configuration.featSpawn()) {
+                        sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Spawn help");
+                        sender.sendMessage(ChatColor.GOLD + "- /spawn - Teleports you to the spawn point.");
+                        if (sender.hasPermission("tbh.tp.admin.help")) {
+                            sender.sendMessage(ChatColor.GOLD + "- /setspawn - Sets a spawn point at your location.");
+                            return false;
+                        }
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Spawn " + ChatColor.RED + "is disabled!");
                         return false;
                     }
                 } else if (args[0].equalsIgnoreCase("RandomTP")) {
+                    if (configuration.featRTP()) {
                         sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "RandomTP help");
                         sender.sendMessage(ChatColor.GOLD + "- /rtp - Teleports you to a random location.");
+                    } else {
+                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "RandomTP " + ChatColor.RED + "is disabled!");
+                        return false;
+                    }
+                } else if (args[0].equalsIgnoreCase("Homes")) {
+                    if (configuration.featHomes()) {
+                        sender.sendMessage(ChatColor.AQUA + "" + ChatColor.BOLD + "Homes help");
+                        sender.sendMessage(ChatColor.GOLD + "- /sethome <home name> - Sets a home point at your location.");
+                        sender.sendMessage(ChatColor.GOLD + "- /delhome <home name> - Deletes a home point you've set.");
+                        sender.sendMessage(ChatColor.GOLD + "- /home <home name> - Teleports you to your home.");
+                        sender.sendMessage(ChatColor.GOLD + "- /homes - Gives you a list of homes you've set.");
+                    }
                 } else {
                     sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This category does not exist! Type /athelp to get a list of existing categories.");
                     return false;
                 }
             }
         } else if (label.matches("(advancedteleport:)?tpa")) {
-            if (sender.hasPermission("tbh.tp.member.tpa")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (cooldown.containsKey(player)) {
-                        sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
-                        return false;
-                    }
-                    if (args.length > 0) {
-                        if (args[0].equalsIgnoreCase(player.getName())){
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot send a teleport request to yourself!");
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.member.tpa")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        if (cooldown.containsKey(player)) {
+                            sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
                             return false;
                         }
-                        Player target = Bukkit.getPlayer(args[0]);
-                        if (target == null) {
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
-                            return false;
+                        if (args.length > 0) {
+                            if (args[0].equalsIgnoreCase(player.getName())){
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot send a teleport request to yourself!");
+                                return false;
+                            }
+                            Player target = Bukkit.getPlayer(args[0]);
+                            if (target == null) {
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                                return false;
+                            } else {
+                                if (tpoff.contains(target)) {
+                                    sender.sendMessage(ChatColor.YELLOW + target.getName() + ChatColor.RED + " has disabled to receive teleport requests!");
+                                    return false;
+                                }
+                                if (TeleportBlock.getBlockedPlayers(target).contains(player)) {
+                                    sender.sendMessage(ChatColor.RED + "You can not teleport to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                                    return false;
+                                }
+                                if (TeleportRequest.getRequestByReqAndResponder(target, player) != null) {
+                                    sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                                    return false;
+                                }
+                                if (configuration.EXPPayment()){
+                                    if (player.getLevel()<configuration.EXPTeleportPrice()){
+                                        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to send a teleport request to someone else!");
+                                        player.sendMessage(ChatColor.RED + "You need at least " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
+                                        return false;
+                                    }
+                                }
+                                if (Vault != null && configuration.useVault()) {
+                                    if (Vault.getBalance(player)<configuration.teleportPrice()){
+                                        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
+                                        player.sendMessage(ChatColor.RED + "You need at least $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
+                                        return false;
+                                    }
+                                }
+                                sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
+                                sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond!");
+                                sender.sendMessage(ChatColor.GREEN + "To cancel the request use " + ChatColor.AQUA + "/tpcancel " + ChatColor.GREEN + "to cancel it.");
+                                target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport to you!");
+                                target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
+                                target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond to the request!");
+                                BukkitRunnable run = new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
+                                        TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
+                                    }
+                                };
+                                run.runTaskLater(this, configuration.requestLifetime()*20); // 60 seconds
+                                TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_NORMAL); // Creates a new teleport request.
+                                TeleportRequest.addRequest(request);
+                                BukkitRunnable cooldowntimer = new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        cooldown.remove(player);
+                                    }
+                                };
+                                cooldown.put(player, cooldowntimer);
+                                cooldowntimer.runTaskLater(this, configuration.commandCooldown()*20); // 20 ticks = 1 second
+                                return false;
+                            }
                         } else {
-                            if (tpoff.contains(target)) {
-                                sender.sendMessage(ChatColor.YELLOW + target.getName() + ChatColor.RED + " has disabled to receive teleport requests!");
-                                return false;
-                            }
-                            if (TeleportBlock.getBlockedPlayers(target).contains(player)) {
-                                sender.sendMessage(ChatColor.RED + "You can not teleport to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
-                                return false;
-                            }
-                            if (TeleportRequest.getRequestByReqAndResponder(target, player) != null) {
-                                sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
-                                return false;
-                            }
-                            if (configuration.EXPPayment()){
-                                if (player.getLevel()<configuration.EXPTeleportPrice()){
-                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to send a teleport request to someone else!");
-                                    player.sendMessage(ChatColor.RED + "You need at least " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
-                                    return false;
-                                }
-                            }
-                            if (Vault != null && configuration.useVault()) {
-                                if (Vault.getBalance(player)<configuration.teleportPrice()){
-                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
-                                    player.sendMessage(ChatColor.RED + "You need at least $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
-                                    return false;
-                                }
-                            }
-                            sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
-                            sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond!");
-                            sender.sendMessage(ChatColor.GREEN + "To cancel the request use " + ChatColor.AQUA + "/tpcancel " + ChatColor.GREEN + "to cancel it.");
-                            target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport to you!");
-                            target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
-                            target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond to the request!");
-                            BukkitRunnable run = new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
-                                    TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
-                                }
-                            };
-                            run.runTaskLater(this, configuration.requestLifetime()*20); // 60 seconds
-                            TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_NORMAL); // Creates a new teleport request.
-                            TeleportRequest.addRequest(request);
-                            BukkitRunnable cooldowntimer = new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    cooldown.remove(player);
-                                }
-                            };
-                            cooldown.put(player, cooldowntimer);
-                            cooldowntimer.runTaskLater(this, configuration.commandCooldown()*20); // 20 ticks = 1 second
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
                             return false;
                         }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
-                        return false;
                     }
                 }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
             }
         } else if (label.matches("(advancedteleport:)?tpahere")) {
-            if (sender.hasPermission("tbh.tp.member.here")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (cooldown.containsKey(player)) {
-                        sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
-                        return false;
-                    }
-                    if (args.length > 0) {
-                        if (args[0].equalsIgnoreCase(player.getName())){
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot send a teleport request to yourself!");
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.member.here")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        if (cooldown.containsKey(player)) {
+                            sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
                             return false;
                         }
-                        Player target = Bukkit.getPlayer(args[0]);
-                        if (target == null) {
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
-                            return false;
+                        if (args.length > 0) {
+                            if (args[0].equalsIgnoreCase(player.getName())){
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot send a teleport request to yourself!");
+                                return false;
+                            }
+                            Player target = Bukkit.getPlayer(args[0]);
+                            if (target == null) {
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                                return false;
+                            } else {
+                                if (tpoff.contains(target)) {
+                                    sender.sendMessage(ChatColor.YELLOW + target.getName() + ChatColor.RED + " has disabled to receive teleport requests!");
+                                    return false;
+                                }
+                                if (TeleportBlock.getBlockedPlayers(target).contains(player)) {
+                                    sender.sendMessage(ChatColor.RED + "You can not teleport to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                                    return false;
+                                }
+                                if (TeleportRequest.getRequestByReqAndResponder(target, player) != null) {
+                                    sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                                    return false;
+                                }
+                                if (configuration.EXPPayment()){
+                                    if (player.getLevel()<configuration.EXPTeleportPrice()){
+                                        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to send a teleport request to someone else!");
+                                        player.sendMessage(ChatColor.RED + "You need at least " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
+                                        return false;
+                                    }
+                                }
+                                if (Vault != null && configuration.useVault()) {
+                                    if (Vault.getBalance(player)<configuration.teleportPrice()){
+                                        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
+                                        player.sendMessage(ChatColor.RED + "You need at least $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
+                                        return false;
+                                    }
+                                }
+                                sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
+                                sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond!");
+                                sender.sendMessage(ChatColor.GREEN + "To cancel the request use " + ChatColor.AQUA + "/tpcancel " + ChatColor.GREEN + "to cancel it.");
+                                target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
+                                target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
+                                target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond to the request!");
+                                BukkitRunnable run = new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
+                                        TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
+                                    }
+                                };
+                                run.runTaskLater(this, configuration.requestLifetime()*20); // 1200 ticks = 60 seconds
+                                TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
+                                TeleportRequest.addRequest(request);
+                                BukkitRunnable cooldowntimer = new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        cooldown.remove(player);
+                                    }
+                                };
+                                cooldown.put(player, cooldowntimer);
+                                cooldowntimer.runTaskLater(this, configuration.commandCooldown()*20); // 20 ticks = 1 second
+                                return false;
+                            }
                         } else {
-                            if (tpoff.contains(target)) {
-                                sender.sendMessage(ChatColor.YELLOW + target.getName() + ChatColor.RED + " has disabled to receive teleport requests!");
-                                return false;
-                            }
-                            if (TeleportBlock.getBlockedPlayers(target).contains(player)) {
-                                sender.sendMessage(ChatColor.RED + "You can not teleport to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
-                                return false;
-                            }
-                            if (TeleportRequest.getRequestByReqAndResponder(target, player) != null) {
-                                sender.sendMessage(ChatColor.RED + "You already have sent a teleport request to " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
-                                return false;
-                            }
-                            if (configuration.EXPPayment()){
-                                if (player.getLevel()<configuration.EXPTeleportPrice()){
-                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to send a teleport request to someone else!");
-                                    player.sendMessage(ChatColor.RED + "You need at least " + ChatColor.YELLOW + configuration.EXPTeleportPrice() + ChatColor.RED + " EXP Levels!");
-                                    return false;
-                                }
-                            }
-                            if (Vault != null && configuration.useVault()) {
-                                if (Vault.getBalance(player)<configuration.teleportPrice()){
-                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to send a teleport request to someone else!");
-                                    player.sendMessage(ChatColor.RED + "You need at least $" + ChatColor.YELLOW + configuration.teleportPrice() + ChatColor.RED + "!");
-                                    return false;
-                                }
-                            }
-                            sender.sendMessage(ChatColor.GREEN + "Teleport request send to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
-                            sender.sendMessage(ChatColor.GREEN + "They've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond!");
-                            sender.sendMessage(ChatColor.GREEN + "To cancel the request use " + ChatColor.AQUA + "/tpcancel " + ChatColor.GREEN + "to cancel it.");
-                            target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
-                            target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
-                            target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond to the request!");
-                            BukkitRunnable run = new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    sender.sendMessage(ChatColor.GREEN + "Your teleport request to " + ChatColor.AQUA + target.getName() + ChatColor.GREEN + " has expired!");
-                                    TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
-                                }
-                            };
-                            run.runTaskLater(this, configuration.requestLifetime()*20); // 1200 ticks = 60 seconds
-                            TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
-                            TeleportRequest.addRequest(request);
-                            BukkitRunnable cooldowntimer = new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    cooldown.remove(player);
-                                }
-                            };
-                            cooldown.put(player, cooldowntimer);
-                            cooldowntimer.runTaskLater(this, configuration.commandCooldown()*20); // 20 ticks = 1 second
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
                             return false;
                         }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
-                        return false;
                     }
                 }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
             }
         } else if (label.matches("(advancedteleport:)?(tp(a)?yes|tpaccept)")) {
             if (sender.hasPermission("tbh.tp.member.yes")) {
@@ -299,404 +353,458 @@ private static WorldBorder worldBorder;
                 }
             }
         } else if (label.matches("(advancedteleport:)?(tp(a)?no|tpadeny)")) {
-            if (sender.hasPermission("tbh.tp.member.no")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (teleportTests(player, args, "tpano")) {
-                        Player target;
-                        if (args.length > 0) {
-                            target = Bukkit.getPlayer(args[0]);
-                        } else {
-                            target = TeleportRequest.getRequests(player).get(0).getRequester();
-                        }
-
-                        TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
-                        request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
-                        player.sendMessage(ChatColor.GREEN + "You've declined the teleport request!");
-                        request.destroy();
-                        return false;
-                    }
-                }
-            }
-        } else if (label.matches("(advancedteleport:)?tpo")) {
-            if (sender.hasPermission("tbh.tp.admin.tpo")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (args.length > 0) {
-                        if (args[0].equalsIgnoreCase(player.getName())){
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot teleport to yourself!");
-                            return false;
-                        }
-                        Player target = Bukkit.getPlayer(args[0]);
-                        if (target == null) {
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
-                            return false;
-                        } else {
-                            sender.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
-                            player.teleport(target);
-                            return false;
-                        }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
-                        return false;
-                    }
-                }
-            } else {
-                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
-                return false;
-            }
-        } else if (label.matches("(advancedteleport:)?tpcancel")) {
-            if (sender.hasPermission("tbh.tp.member.cancel")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    // Checks if any players have sent a request at all.
-                    if (!TeleportRequest.getRequestsByRequester(player).isEmpty()) {
-                        // Checks if there's more than one request.
-                        if (TeleportRequest.getRequestsByRequester(player).size() > 1) {
-                            // If the player has specified the request they're accepting.
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.member.no")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        if (teleportTests(player, args, "tpano")) {
+                            Player target;
                             if (args.length > 0) {
-                                Player target = Bukkit.getPlayer(args[0]);
-                                if (target == null) {
-                                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
-                                    return false;
-                                } else {
-                                    TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
-                                    if (request == null) {
-                                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests for " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
-                                        return false;
-                                    } else {
-                                        player.sendMessage(ChatColor.GREEN + "You have canceled your teleport request.");
-                                        request.getResponder().sendMessage(ChatColor.YELLOW + "" + sender.getName() + ChatColor.RED + " has canceled their teleport request.");
-                                        request.destroy();
-                                        return false;
-                                    }
-                                }
+                                target = Bukkit.getPlayer(args[0]);
                             } else {
-                                // This utility helps in splitting lists into separate pages, like when you list your plots with PlotMe/PlotSquared.
-                                PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
-                                player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to cancel:");
-                                for (TeleportRequest request : requests.getContentsInPage(1)) {
-                                    new FancyMessage()
-                                            .command("/tpacancel " + request.getRequester().getName())
-                                            .color(ChatColor.AQUA)
-                                            .text("> " + request.getRequester().getName())
-                                            .send(player);
-                                }
-                                if (requests.getTotalPages() > 1) {
-                                    player.sendMessage(ChatColor.GREEN + "Do /tpalist <Page Number> To check other requests.");
-                                }
-
+                                target = TeleportRequest.getRequests(player).get(0).getRequester();
                             }
-                        } else {
-                            TeleportRequest request = TeleportRequest.getRequestsByRequester(player).get(0);
-                            request.getResponder().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has cancelled teleport request!");
-                            player.sendMessage(ChatColor.GREEN + "You've cancelled the teleport request!");
+
+                            TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
+                            request.getRequester().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has declined your teleport request!");
+                            player.sendMessage(ChatColor.GREEN + "You've declined the teleport request!");
                             request.destroy();
                             return false;
                         }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You don't have any pending requests!");
-                        return false;
-                    }
-                }
-            }
-        } else if (label.matches("(advancedteleport:)?tp(a)?ll")) {
-            if (sender.hasPermission("tbh.tp.admin.all")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (cooldown.containsKey(player)) {
-                        sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
-                        return false;
-                    }
-                    for (Player target : Bukkit.getOnlinePlayers()) {
-                        if (target != player) {
-                            target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
-                            target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
-                            target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond to the request!");
-                            BukkitRunnable run = new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
-                                }
-                            };
-                            run.runTaskLater(this, configuration.requestLifetime()*20); // 60 seconds
-                            TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
-                            TeleportRequest.addRequest(request);
-                            BukkitRunnable cooldowntimer = new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    cooldown.remove(player);
-                                }
-                            };
-                            cooldown.put(player, cooldowntimer);
-                            cooldowntimer.runTaskLater(this, configuration.commandCooldown()*20); // 20 ticks = 1 second
-                        }
                     }
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
                 return false;
             }
-        } else if (label.matches("(advancedteleport:)?tpoff")) {
-            if (sender.hasPermission("tbh.tp.member.off")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (!tpoff.contains(player)) {
-                        tpoff.add(player);
-                        sender.sendMessage(ChatColor.GREEN + "Successfully disabled teleport requests!");
-                        sender.sendMessage(ChatColor.GREEN + "You can no longer receive any teleport requests.");
-                        sender.sendMessage(ChatColor.AQUA + "If you want to receive teleport requests type " + ChatColor.YELLOW + "/tpon " + ChatColor.AQUA + "to enable it.");
-                    }
-                }
-            }
-        } else if (label.matches("(advancedteleport:)?tpon")) {
-            if (sender.hasPermission("tbh.tp.member.on")) {
-                if (sender instanceof Player) {
-                    Player player = (Player)sender;
-                    if (tpoff.contains(player)) {
-                        tpoff.remove(player);
-                        sender.sendMessage(ChatColor.GREEN + "Successfully enabled teleport requests!");
-                        sender.sendMessage(ChatColor.GREEN + "You can now receive teleport requests.");
-                    }
-                }
-            }
-        } else if (label.matches("(advancedteleport:)?tpblock")) {
-            if (sender.hasPermission("tbh.tp.member.block")) {
-                if (sender instanceof Player){
-                    Player player = (Player)sender;
-                    if (args.length>0){
-                        if (args[0].equalsIgnoreCase(player.getName())){
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot block yourself!");
-                            return false;
-                        }
-                        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-                        if (target == null){
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " The player doesn't exist.");
-                            return false;
-                        } else {
-                            if (TeleportBlock.getBlockedPlayers(player).contains(target.getPlayer())){
-                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " The player is already blocked.");
+        } else if (label.matches("(advancedteleport:)?tpo")) {
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.admin.tpo")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        if (args.length > 0) {
+                            if (args[0].equalsIgnoreCase(player.getName())){
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot teleport to yourself!");
+                                return false;
+                            }
+                            Player target = Bukkit.getPlayer(args[0]);
+                            if (target == null) {
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
                                 return false;
                             } else {
-                                try {
-                                    TeleportBlock.addBlockedPlayer(player, target.getPlayer());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                sender.sendMessage(ChatColor.YELLOW + target.getName() + ChatColor.GREEN + " has been blocked.");
+                                sender.sendMessage(ChatColor.GREEN + "Teleporting to " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + "!");
+                                player.teleport(target);
                                 return false;
                             }
-                        }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
-                        return false;
-                    }
-                }
-            }
-        } else if (label.matches("(advancedteleport:)?tpunblock")) {
-            if (sender.hasPermission("tbh.tp.member.unblock")) {
-                if (sender instanceof Player){
-                    Player player = (Player)sender;
-                    if (args.length>0){
-                        if (args[0].equalsIgnoreCase(player.getName())){
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You've never blocked yourself.");
-                            return false;
-                        }
-                        OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
-                        if (target == null){
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " The player doesn't exist.");
-                            return false;
                         } else {
-                            if (TeleportBlock.getBlockedPlayers(player).contains(target.getPlayer())){
-                                try {
-                                    TeleportBlock.remBlockedPlayer(player, target.getPlayer());
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                                sender.sendMessage(ChatColor.GREEN + "Successfully unblocked " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + " .");
-                                return false;
-                            }
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
+                            return false;
                         }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
-                        return false;
                     }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
+                    return false;
                 }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
             }
-        } else if (label.matches("(advancedteleport:)?tpalist")) {
-            if (sender.hasPermission("tbh.tp.member.list")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    // If there are actually any pending teleport requests.
-                    if (!TeleportRequest.getRequests(player).isEmpty()) {
-                        if (args.length > 0) {
-                            // Check if the argument can be parsed as an actual number.
-                            // ^ means at the start of the string.
-                            // [0-9] means any number in the range of 0 to 9.
-                            // + means one or more of, allowing two or three digits.
-                            // $ means the end of the string.
-                            if (args[0].matches("^[0-9]+$")) {
-                                // args[0] is officially an int.
-                                int page = Integer.parseInt(args[0]);
-                                PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
-                                player.sendMessage(ChatColor.GREEN + "Click one of the following to accept:");
-                                try {
-                                    for (TeleportRequest request : requests.getContentsInPage(page)) {
+        } else if (label.matches("(advancedteleport:)?tpcancel")) {
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.member.cancel")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        // Checks if any players have sent a request at all.
+                        if (!TeleportRequest.getRequestsByRequester(player).isEmpty()) {
+                            // Checks if there's more than one request.
+                            if (TeleportRequest.getRequestsByRequester(player).size() > 1) {
+                                // If the player has specified the request they're accepting.
+                                if (args.length > 0) {
+                                    Player target = Bukkit.getPlayer(args[0]);
+                                    if (target == null) {
+                                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                                        return false;
+                                    } else {
+                                        TeleportRequest request = TeleportRequest.getRequestByReqAndResponder(player, target);
+                                        if (request == null) {
+                                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests for " + ChatColor.YELLOW + target.getName() + ChatColor.RED + "!");
+                                            return false;
+                                        } else {
+                                            player.sendMessage(ChatColor.GREEN + "You have canceled your teleport request.");
+                                            request.getResponder().sendMessage(ChatColor.YELLOW + "" + sender.getName() + ChatColor.RED + " has canceled their teleport request.");
+                                            request.destroy();
+                                            return false;
+                                        }
+                                    }
+                                } else {
+                                    // This utility helps in splitting lists into separate pages, like when you list your plots with PlotMe/PlotSquared.
+                                    PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
+                                    player.sendMessage(ChatColor.GREEN + "You have multiple teleport requests pending! Click one of the following to cancel:");
+                                    for (TeleportRequest request : requests.getContentsInPage(1)) {
                                         new FancyMessage()
-                                                .command("/tpayes " + request.getRequester().getName())
+                                                .command("/tpacancel " + request.getRequester().getName())
                                                 .color(ChatColor.AQUA)
                                                 .text("> " + request.getRequester().getName())
                                                 .send(player);
                                     }
-                                } catch (IllegalArgumentException ex) {
-                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You've inserted an invalid page number!");
+                                    if (requests.getTotalPages() > 1) {
+                                        player.sendMessage(ChatColor.GREEN + "Do /tpalist <Page Number> To check other requests.");
+                                    }
+
                                 }
-
                             } else {
-                                player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You've inserted an invalid page number!");
-
+                                TeleportRequest request = TeleportRequest.getRequestsByRequester(player).get(0);
+                                request.getResponder().sendMessage(ChatColor.YELLOW + "" + player.getName() + ChatColor.GREEN + " has cancelled teleport request!");
+                                player.sendMessage(ChatColor.GREEN + "You've cancelled the teleport request!");
+                                request.destroy();
+                                return false;
                             }
                         } else {
-                            PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
-                            player.sendMessage(ChatColor.GREEN + "Click one of the following to accept:");
-                            for (TeleportRequest request : requests.getContentsInPage(1)) {
-                                new FancyMessage()
-                                        .command("/tpayes " + request.getRequester().getName())
-                                        .color(ChatColor.AQUA)
-                                        .text("> " + request.getRequester().getName())
-                                        .send(player);
-                            }
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You don't have any pending requests!");
                             return false;
                         }
-                    } else {
-                        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
-                        return false;
-                    }
-
-                }
-            }
-        } else if (label.matches("(advancedteleport:)?tpohere")){
-            if (sender.hasPermission("tbh.tp.admin.tpohere")){
-                if (sender instanceof Player){
-                    Player player = (Player)sender;
-                    if (args.length>0){
-                        if (args[0].equalsIgnoreCase(player.getName())){
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot teleport to yourself!");
-                            return false;
-                        }
-                        Player target = Bukkit.getPlayer(args[0]);
-                        if (target == null){
-                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
-                            return false;
-                        } else {
-                            sender.sendMessage(ChatColor.GREEN + "Teleporting " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + " to you!");
-                            target.sendMessage(ChatColor.GREEN + "You have been teleported to " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + "!");
-                            target.teleport(player);
-                            return false;
-                        }
-                    } else {
-                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
-                        return false;
                     }
                 }
             } else {
-                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
+            }
+        } else if (label.matches("(advancedteleport:)?tp(a)?ll")) {
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.admin.all")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        if (cooldown.containsKey(player)) {
+                            sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
+                            return false;
+                        }
+                        for (Player target : Bukkit.getOnlinePlayers()) {
+                            if (target != player) {
+                                target.sendMessage(ChatColor.GREEN + "The Player " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + " wants to teleport you to them!");
+                                target.sendMessage(ChatColor.GREEN + "If you want to accept it use " + ChatColor.AQUA + "/tpayes " + ChatColor.GREEN + ", if not use" + ChatColor.AQUA + "/tpano" + ChatColor.GREEN + ".");
+                                target.sendMessage(ChatColor.GREEN + "You've got " + ChatColor.AQUA + configuration.requestLifetime() + ChatColor.GREEN + " seconds to respond to the request!");
+                                BukkitRunnable run = new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        TeleportRequest.removeRequest(TeleportRequest.getRequestByReqAndResponder(target, player));
+                                    }
+                                };
+                                run.runTaskLater(this, configuration.requestLifetime()*20); // 60 seconds
+                                TeleportRequest request = new TeleportRequest(player, target, run, TeleportRequest.TeleportType.TPA_HERE); // Creates a new teleport request.
+                                TeleportRequest.addRequest(request);
+                                BukkitRunnable cooldowntimer = new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        cooldown.remove(player);
+                                    }
+                                };
+                                cooldown.put(player, cooldowntimer);
+                                cooldowntimer.runTaskLater(this, configuration.commandCooldown()*20); // 20 ticks = 1 second
+                            }
+                        }
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
+                    return false;
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
+            }
+        } else if (label.matches("(advancedteleport:)?tpoff")) {
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.member.off")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        if (!tpoff.contains(player)) {
+                            tpoff.add(player);
+                            sender.sendMessage(ChatColor.GREEN + "Successfully disabled teleport requests!");
+                            sender.sendMessage(ChatColor.GREEN + "You can no longer receive any teleport requests.");
+                            sender.sendMessage(ChatColor.AQUA + "If you want to receive teleport requests type " + ChatColor.YELLOW + "/tpon " + ChatColor.AQUA + "to enable it.");
+                        }
+                    }
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
+            }
+        } else if (label.matches("(advancedteleport:)?tpon")) {
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.member.on")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player)sender;
+                        if (tpoff.contains(player)) {
+                            tpoff.remove(player);
+                            sender.sendMessage(ChatColor.GREEN + "Successfully enabled teleport requests!");
+                            sender.sendMessage(ChatColor.GREEN + "You can now receive teleport requests.");
+                        }
+                    }
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
+            }
+        } else if (label.matches("(advancedteleport:)?tpblock")) {
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.member.block")) {
+                    if (sender instanceof Player){
+                        Player player = (Player)sender;
+                        if (args.length>0){
+                            if (args[0].equalsIgnoreCase(player.getName())){
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot block yourself!");
+                                return false;
+                            }
+                            OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                            if (target == null){
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " The player doesn't exist.");
+                                return false;
+                            } else {
+                                if (TeleportBlock.getBlockedPlayers(player).contains(target.getPlayer())){
+                                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " The player is already blocked.");
+                                    return false;
+                                } else {
+                                    try {
+                                        TeleportBlock.addBlockedPlayer(player, target.getPlayer());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    sender.sendMessage(ChatColor.YELLOW + target.getName() + ChatColor.GREEN + " has been blocked.");
+                                    return false;
+                                }
+                            }
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
+                            return false;
+                        }
+                    }
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
+            }
+        } else if (label.matches("(advancedteleport:)?tpunblock")) {
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.member.unblock")) {
+                    if (sender instanceof Player){
+                        Player player = (Player)sender;
+                        if (args.length>0){
+                            if (args[0].equalsIgnoreCase(player.getName())){
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You've never blocked yourself.");
+                                return false;
+                            }
+                            OfflinePlayer target = Bukkit.getOfflinePlayer(args[0]);
+                            if (target == null){
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " The player doesn't exist.");
+                                return false;
+                            } else {
+                                if (TeleportBlock.getBlockedPlayers(player).contains(target.getPlayer())){
+                                    try {
+                                        TeleportBlock.remBlockedPlayer(player, target.getPlayer());
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    sender.sendMessage(ChatColor.GREEN + "Successfully unblocked " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + " .");
+                                    return false;
+                                }
+                            }
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
+                            return false;
+                        }
+                    }
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
+            }
+        } else if (label.matches("(advancedteleport:)?tpalist")) {
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.member.list")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        // If there are actually any pending teleport requests.
+                        if (!TeleportRequest.getRequests(player).isEmpty()) {
+                            if (args.length > 0) {
+                                // Check if the argument can be parsed as an actual number.
+                                // ^ means at the start of the string.
+                                // [0-9] means any number in the range of 0 to 9.
+                                // + means one or more of, allowing two or three digits.
+                                // $ means the end of the string.
+                                if (args[0].matches("^[0-9]+$")) {
+                                    // args[0] is officially an int.
+                                    int page = Integer.parseInt(args[0]);
+                                    PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
+                                    player.sendMessage(ChatColor.GREEN + "Click one of the following to accept:");
+                                    try {
+                                        for (TeleportRequest request : requests.getContentsInPage(page)) {
+                                            new FancyMessage()
+                                                    .command("/tpayes " + request.getRequester().getName())
+                                                    .color(ChatColor.AQUA)
+                                                    .text("> " + request.getRequester().getName())
+                                                    .send(player);
+                                        }
+                                    } catch (IllegalArgumentException ex) {
+                                        player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You've inserted an invalid page number!");
+                                    }
+
+                                } else {
+                                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You've inserted an invalid page number!");
+
+                                }
+                            } else {
+                                PagedLists<TeleportRequest> requests = new PagedLists<>(TeleportRequest.getRequests(player), 8);
+                                player.sendMessage(ChatColor.GREEN + "Click one of the following to accept:");
+                                for (TeleportRequest request : requests.getContentsInPage(1)) {
+                                    new FancyMessage()
+                                            .command("/tpayes " + request.getRequester().getName())
+                                            .color(ChatColor.AQUA)
+                                            .text("> " + request.getRequester().getName())
+                                            .send(player);
+                                }
+                                return false;
+                            }
+                        } else {
+                            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You don't have any pending requests!");
+                            return false;
+                        }
+
+                    }
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
+                return false;
+            }
+        } else if (label.matches("(advancedteleport:)?tpohere")){
+            if (configuration.featTP()) {
+                if (sender.hasPermission("tbh.tp.admin.tpohere")){
+                    if (sender instanceof Player){
+                        Player player = (Player)sender;
+                        if (args.length>0){
+                            if (args[0].equalsIgnoreCase(player.getName())){
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You cannot teleport to yourself!");
+                                return false;
+                            }
+                            Player target = Bukkit.getPlayer(args[0]);
+                            if (target == null){
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " Either the player is currently offline or doesn't exist.");
+                                return false;
+                            } else {
+                                sender.sendMessage(ChatColor.GREEN + "Teleporting " + ChatColor.YELLOW + target.getName() + ChatColor.GREEN + " to you!");
+                                target.sendMessage(ChatColor.GREEN + "You have been teleported to " + ChatColor.YELLOW + sender.getName() + ChatColor.GREEN + "!");
+                                target.teleport(player);
+                                return false;
+                            }
+                        } else {
+                            sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You must include a player name!");
+                            return false;
+                        }
+                    }
+                } else {
+                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
+                    return false;
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Teleport " + ChatColor.RED + "is disabled!");
                 return false;
             }
         } else if (label.matches("(advancedteleport:)?(rtp|tpr)")){
-            if (sender.hasPermission("tbh.tp.member.tpr")) {
-                if (sender instanceof Player) {
-                    Player player = (Player) sender;
-                    if (cooldown.containsKey(player)) {
-                        sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
-                        return false;
-                    }
-                    if (configuration.EXPPayment()){
-                        if (player.getLevel()<configuration.EXPTPRCost()){
-                            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to use /tpr!");
-                            player.sendMessage(ChatColor.RED + "You need at least " + ChatColor.YELLOW + configuration.EXPTPRCost() + ChatColor.RED + " EXP Levels!");
+            if (configuration.featRTP()) {
+                if (sender.hasPermission("tbh.tp.member.tpr")) {
+                    if (sender instanceof Player) {
+                        Player player = (Player) sender;
+                        if (cooldown.containsKey(player)) {
+                            sender.sendMessage(ChatColor.RED + "This command has a cooldown of " + configuration.commandCooldown() + " seconds each use - Please wait!");
                             return false;
                         }
-                    }
-                    if (Vault != null && configuration.useVault()) {
-                        if (Vault.getBalance(player)<configuration.vaultTPRCost()){
-                            player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to use /tpr!");
-                            player.sendMessage(ChatColor.RED + "You need at least $" + ChatColor.YELLOW + configuration.vaultTPRCost() + ChatColor.RED + "!");
-                            return false;
-                        }
-                    }
-                    double x = getRandomCoords(configuration.minX(), configuration.maxX());
-                    double z = getRandomCoords(configuration.minZ(), configuration.maxZ());
-                    if (configuration.useWorldBorder() && worldBorder != null) {
-                        BorderData border = Config.Border(player.getWorld().getName());
-                        // If a border has been set
-                        if (border != null) {
-                            x = getRandomCoords(border.getX() - border.getRadiusX(), border.getX() + border.getRadiusX());
-                            z = getRandomCoords(border.getZ() - border.getRadiusZ(), border.getZ() + border.getRadiusZ());
-                        }
-                    }
-
-                    int y = 256;
-                    Location location = new Location(player.getWorld(), x, y, z);
-                    player.sendMessage(ChatColor.GREEN + "Searching for a location...");
-                    boolean validLocation = false;
-                    while (!validLocation) {
-                        while (location.getBlock().getType() == Material.AIR) {
-                            location.subtract(0, 1, 0);
-                        }
-                        for (String Material: configuration.avoidBlocks()) {
-                            if (location.getBlock().getType().name().equalsIgnoreCase(Material)){
-                                location = new Location(player.getWorld(), x, y, z);
-                                break;
-                            } else {
-                                location.add(0 , 1 , 0);
-                                validLocation = true;
+                        if (configuration.EXPPayment()){
+                            if (player.getLevel()<configuration.EXPTPRCost()){
+                                player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough EXP Levels to use /tpr!");
+                                player.sendMessage(ChatColor.RED + "You need at least " + ChatColor.YELLOW + configuration.EXPTPRCost() + ChatColor.RED + " EXP Levels!");
+                                return false;
                             }
                         }
-                    }
-                    Chunk chunk = player.getWorld().getChunkAt(location);
-
-                    chunk.load(true);
-                    BukkitRunnable cooldowntimer = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            cooldown.remove(player);
+                        if (Vault != null && configuration.useVault()) {
+                            if (Vault.getBalance(player)<configuration.vaultTPRCost()){
+                                player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + "You do not have enough money to use /tpr!");
+                                player.sendMessage(ChatColor.RED + "You need at least $" + ChatColor.YELLOW + configuration.vaultTPRCost() + ChatColor.RED + "!");
+                                return false;
+                            }
                         }
-                    };
-                    cooldown.put(player, cooldowntimer);
-                    cooldowntimer.runTaskLater(this, configuration.commandCooldown() * 20); // 20 ticks = 1 second
-                    Location loc = location;
-                    BukkitRunnable movementtimer = new BukkitRunnable() {
-                        @Override
-                        public void run() {
-                            player.teleport(loc);
-                            movement.remove(player);
-                            sender.sendMessage(ChatColor.GREEN + "You've been teleported to a random place!");
-                            if (configuration.EXPPayment()) {
-                                if (player.getLevel()>configuration.EXPTeleportPrice()){
-                                    int currentLevel = player.getLevel();
-                                   player.setLevel(currentLevel - configuration.EXPTeleportPrice());
-                                    player.sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.EXPTPRCost() + ChatColor.GREEN + " EXP Levels for your teleportation request. You now have " + ChatColor.AQUA + player.getLevel() + ChatColor.GREEN + " EXP Levels!");
+                        double x = getRandomCoords(configuration.minX(), configuration.maxX());
+                        double z = getRandomCoords(configuration.minZ(), configuration.maxZ());
+                        if (configuration.useWorldBorder() && worldBorder != null) {
+                            BorderData border = Config.Border(player.getWorld().getName());
+                            // If a border has been set
+                            if (border != null) {
+                                x = getRandomCoords(border.getX() - border.getRadiusX(), border.getX() + border.getRadiusX());
+                                z = getRandomCoords(border.getZ() - border.getRadiusZ(), border.getZ() + border.getRadiusZ());
+                            }
+                        }
+
+                        int y = 256;
+                        Location location = new Location(player.getWorld(), x, y, z);
+                        player.sendMessage(ChatColor.GREEN + "Searching for a location...");
+                        boolean validLocation = false;
+                        while (!validLocation) {
+                            while (location.getBlock().getType() == Material.AIR) {
+                                location.subtract(0, 1, 0);
+                            }
+                            for (String Material: configuration.avoidBlocks()) {
+                                if (location.getBlock().getType().name().equalsIgnoreCase(Material)){
+                                    location = new Location(player.getWorld(), x, y, z);
+                                    break;
+                                } else {
+                                    location.add(0 , 1 , 0);
+                                    validLocation = true;
                                 }
                             }
-                            if  (Vault != null && configuration.useVault()) {
-                                if (Vault.getBalance(player)>configuration.teleportPrice()){
-                                    EconomyResponse payment = Vault.withdrawPlayer(player , configuration.vaultTPRCost());
-                                    if (payment.transactionSuccess()){
-                                        player.sendMessage(ChatColor.GREEN + "You have paid $" + ChatColor.AQUA + configuration.vaultTPRCost() + ChatColor.GREEN + " for your teleportation request. You now have $" + ChatColor.AQUA + Vault.getBalance(player) + ChatColor.GREEN + "!");
+                        }
+                        Chunk chunk = player.getWorld().getChunkAt(location);
+
+                        chunk.load(true);
+                        BukkitRunnable cooldowntimer = new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                cooldown.remove(player);
+                            }
+                        };
+                        cooldown.put(player, cooldowntimer);
+                        cooldowntimer.runTaskLater(this, configuration.commandCooldown() * 20); // 20 ticks = 1 second
+                        Location loc = location;
+                        BukkitRunnable movementtimer = new BukkitRunnable() {
+                            @Override
+                            public void run() {
+                                player.teleport(loc);
+                                movement.remove(player);
+                                sender.sendMessage(ChatColor.GREEN + "You've been teleported to a random place!");
+                                if (configuration.EXPPayment()) {
+                                    if (player.getLevel()>configuration.EXPTeleportPrice()){
+                                        int currentLevel = player.getLevel();
+                                        player.setLevel(currentLevel - configuration.EXPTeleportPrice());
+                                        player.sendMessage(ChatColor.GREEN + "You have paid " + ChatColor.AQUA + configuration.EXPTPRCost() + ChatColor.GREEN + " EXP Levels for your teleportation request. You now have " + ChatColor.AQUA + player.getLevel() + ChatColor.GREEN + " EXP Levels!");
+                                    }
+                                }
+                                if  (Vault != null && configuration.useVault()) {
+                                    if (Vault.getBalance(player)>configuration.teleportPrice()){
+                                        EconomyResponse payment = Vault.withdrawPlayer(player , configuration.vaultTPRCost());
+                                        if (payment.transactionSuccess()){
+                                            player.sendMessage(ChatColor.GREEN + "You have paid $" + ChatColor.AQUA + configuration.vaultTPRCost() + ChatColor.GREEN + " for your teleportation request. You now have $" + ChatColor.AQUA + Vault.getBalance(player) + ChatColor.GREEN + "!");
+                                        }
                                     }
                                 }
                             }
-                        }
-                    };
-                    movement.put(player, movementtimer);
-                    movementtimer.runTaskLater(this, configuration.teleportTimer() * 20);
-                    player.sendMessage(configuration.eventBeforeTP().replaceAll("\\{countdown}", String.valueOf(configuration.teleportTimer())));
-                    return false;
+                        };
+                        movement.put(player, movementtimer);
+                        movementtimer.runTaskLater(this, configuration.teleportTimer() * 20);
+                        player.sendMessage(configuration.eventBeforeTP().replaceAll("\\{countdown}", String.valueOf(configuration.teleportTimer())));
+                        return false;
 
+                    }
                 }
+            } else {
+                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "RandomTP " + ChatColor.RED + "is disabled!");
+                return false;
             }
-
         } else if (label.matches("(advancedteleport:)?atreload")) {
             if (!sender.hasPermission("tbh.tp.admin.reload")) {
                 sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");

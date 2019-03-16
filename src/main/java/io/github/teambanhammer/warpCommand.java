@@ -13,7 +13,7 @@ public class warpCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (command.getLabel().matches("(advancedteleport:)?warp")) {
-            if (commandSender.hasPermission("tbh.tp.member.warph")) {
+            if (configuration.featWarps()) {
                 if (commandSender.hasPermission("tbh.tp.member.warp")) {
                     if (commandSender instanceof Player) {
                         Player player = (Player) commandSender;
@@ -72,15 +72,23 @@ public class warpCommand implements CommandExecutor {
                         return false;
                     }
                 }
+            } else {
+                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Warps " + ChatColor.RED + "is disabled!");
+                return false;
             }
         } else if (command.getLabel().matches("(advancedteleport:)?warps")){
-            if (commandSender.hasPermission("tbh.tp.member.warps")){
-                StringBuilder wList = new StringBuilder();
-                wList.append(ChatColor.AQUA + "" + ChatColor.BOLD + "Warps: " + ChatColor.YELLOW);
-                for (String warp:Warps.getWarps().keySet()) {
-                    wList.append(warp + ", ");
+            if (configuration.featWarps()) {
+                if (commandSender.hasPermission("tbh.tp.member.warps")){
+                    StringBuilder wList = new StringBuilder();
+                    wList.append(ChatColor.AQUA + "" + ChatColor.BOLD + "Warps: " + ChatColor.YELLOW);
+                    for (String warp:Warps.getWarps().keySet()) {
+                        wList.append(warp + ", ");
+                    }
+                    commandSender.sendMessage(wList.toString());
                 }
-                commandSender.sendMessage(wList.toString());
+            } else {
+                commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "The feature " + ChatColor.GOLD + "Warps " + ChatColor.RED + "is disabled!");
+                return false;
             }
         }
         return false;
