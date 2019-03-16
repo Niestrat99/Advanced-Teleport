@@ -65,9 +65,6 @@ public class homeCommand implements CommandExecutor, Listener {
                                         return false;
                                     }
                                 }
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This player does not exist!");
-                                return false;
                             }
                             Location home = player.getLocation();
                             try {
@@ -142,9 +139,6 @@ public class homeCommand implements CommandExecutor, Listener {
                                         return false;
                                     }
                                 }
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This player does not exist!");
-                                return false;
                             }
                             try {
                                 if (configuration.getHomes(player).containsKey(args[0])) {
@@ -183,7 +177,7 @@ public class homeCommand implements CommandExecutor, Listener {
                         if (args.length>0) {
                             if (Bukkit.getPlayer(args[0]) != null) {
                                 if (sender.hasPermission("tbh.tp.admin.home")) {
-                                    if (args.length>1) {
+                                    if (args.length > 1) {
                                         Player target = Bukkit.getOfflinePlayer(args[0]).getPlayer();
                                         try {
                                             if (configuration.getHomes(target).containsKey(args[1])) {
@@ -206,9 +200,6 @@ public class homeCommand implements CommandExecutor, Listener {
                                         return false;
                                     }
                                 }
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This player does not exist!");
-                                return false;
                             }
                             try {
                                 if (configuration.getHomes(player).containsKey(args[0])) {
@@ -277,9 +268,6 @@ public class homeCommand implements CommandExecutor, Listener {
                                     return false;
                                 }
                                 sender.sendMessage(hlist.toString());
-                                return false;
-                            } else {
-                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This player does not exist!");
                                 return false;
                             }
                         }
