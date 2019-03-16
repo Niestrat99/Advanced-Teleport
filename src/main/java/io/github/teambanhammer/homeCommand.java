@@ -1,5 +1,6 @@
 package io.github.teambanhammer;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -27,6 +28,46 @@ public class homeCommand implements CommandExecutor, Listener {
                     Player player = (Player)sender;
                     if (sender.hasPermission("tbh.tp.member.sethome")) {
                         if (args.length>0) {
+                            if (Bukkit.getPlayer(args[0]) != null) {
+                                if (sender.hasPermission("tbh.tp.admin.sethome")) {
+                                    if (args.length>1) {
+                                        Player target = (Player)Bukkit.getPlayer(args[0]);
+                                        Location thome = player.getLocation();
+                                        try {
+                                            if (configuration.getHomes(target).containsKey(args[1])) {
+                                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.GOLD + args[0] + ChatColor.RED + " already has a home named " + ChatColor.GOLD + args[1] + ChatColor.RED + "!");
+                                                return false;
+                                            } else {
+                                                try {
+                                                    configuration.setHome(target,args[1],thome);
+                                                    sender.sendMessage(ChatColor.GREEN + "Successfully set the home " + ChatColor.GOLD + args[1] + ChatColor.GREEN + " for " + ChatColor.GOLD + args[0] + ChatColor.GREEN + "!");
+                                                    if (target.isOnline()) {
+                                                        target.sendMessage(ChatColor.GREEN + "An admin has set the home named " + ChatColor.GOLD + args[1] + ChatColor.GREEN + " for you!");
+                                                    }
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            }
+                                        } catch (NullPointerException ex) {
+                                            try {
+                                                configuration.setHome(target,args[1],thome);
+                                                sender.sendMessage(ChatColor.GREEN + "Successfully set the home " + ChatColor.GOLD + args[1] + ChatColor.GREEN + " for " + ChatColor.GOLD + args[0] + ChatColor.GREEN + "!");
+                                                if (target.isOnline()) {
+                                                    target.sendMessage(ChatColor.GREEN + "An admin has set the home named " + ChatColor.GOLD + args[1] + ChatColor.GREEN + " for you!");
+                                                }
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    } else {
+                                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You have to include the home name!");
+                                        return false;
+                                    }
+                                }
+                            } else {
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This player does not exist!");
+                                return false;
+                            }
                             Location home = player.getLocation();
                             try {
                                 if (configuration.getHomes(player).containsKey(args[0])) {
@@ -64,6 +105,45 @@ public class homeCommand implements CommandExecutor, Listener {
                     Player player = (Player)sender;
                     if (sender.hasPermission("tbh.tp.member.delhome")) {
                         if (args.length>0) {
+                            if (Bukkit.getPlayer(args[0]) != null) {
+                                if (sender.hasPermission("tbh.tp.admin.delhome")) {
+                                    if (args.length>1) {
+                                        Player target = (Player)Bukkit.getPlayer(args[0]);
+                                        try {
+                                            if (configuration.getHomes(target).containsKey(args[1])) {
+                                                try {
+                                                    configuration.delHome(target, args[1]);
+                                                    sender.sendMessage(ChatColor.GREEN + "Successfully deleted " + ChatColor.GOLD + args[0] + ChatColor.GREEN + "'s home named " +ChatColor.GOLD + args[1] + ChatColor.GREEN + "!");
+                                                    if (target.isOnline()) {
+                                                        target.sendMessage(ChatColor.GOLD + "An admin has deleted your home named " + ChatColor.YELLOW + args [1] + ChatColor.GOLD + "!");
+                                                    }
+                                                } catch (IOException e) {
+                                                    e.printStackTrace();
+                                                }
+                                            } else {
+                                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.GOLD + args[0] + ChatColor.RED + " does not have a home named " + ChatColor.GOLD + args[1] + ChatColor.RED + "!");
+                                                return false;
+                                            }
+                                        } catch (NullPointerException ex) {
+                                            try {
+                                                configuration.delHome(target, args[1]);
+                                                sender.sendMessage(ChatColor.GREEN + "Successfully deleted " + ChatColor.GOLD + args[0] + ChatColor.GREEN + "'s home named " +ChatColor.GOLD + args[1] + ChatColor.GREEN + "!");
+                                                if (target.isOnline()) {
+                                                    target.sendMessage(ChatColor.GOLD + "An admin has deleted your home named " + ChatColor.YELLOW + args [1] + ChatColor.GOLD + "!");
+                                                }
+                                            } catch (IOException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    } else {
+                                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You have to include the home name!");
+                                        return false;
+                                    }
+                                }
+                            } else {
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This player does not exist!");
+                                return false;
+                            }
                             try {
                                 if (configuration.getHomes(player).containsKey(args[0])) {
                                     try {
@@ -99,6 +179,31 @@ public class homeCommand implements CommandExecutor, Listener {
                     if (sender instanceof Player) {
                         Player player = (Player)sender;
                         if (args.length>0) {
+                            if (Bukkit.getPlayer(args[0]) != null) {
+                                if (sender.hasPermission("tbh.tp.admin.home")) {
+                                    if (args.length>1) {
+                                        Player target = (Player)Bukkit.getPlayer(args[0]);
+                                        try {
+                                            if (configuration.getHomes(target).containsKey(args[1])) {
+
+                                            } else {
+                                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This home does not exist!");
+                                            }
+                                        } catch (NullPointerException ex) {
+                                            Location tlocation = configuration.getHomes(target).get(args[1]);
+                                            player.teleport(tlocation);
+                                            sender.sendMessage(ChatColor.GREEN + "Successfully teleported you to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + "'s home!");
+                                            return false;
+                                        }
+                                    } else {
+                                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "You have to include the home name!");
+                                        return false;
+                                    }
+                                }
+                            } else {
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This player does not exist!");
+                                return false;
+                            }
                             try {
                                 if (configuration.getHomes(player).containsKey(args[0])) {
                                     Location location = configuration.getHomes(player).get(args[0]);
@@ -145,6 +250,34 @@ public class homeCommand implements CommandExecutor, Listener {
         } else if (command.getLabel().equalsIgnoreCase("homes")) {
             if (configuration.featHomes()) {
                 if (sender.hasPermission("tbh.tp.member.homes")) {
+                    if (args.length>0) {
+                        if (sender.hasPermission("tbh.tp.admin.homes")) {
+                            Player player = (Player)Bukkit.getPlayer(args[0]);
+                            StringBuilder hlist = new StringBuilder();
+                            hlist.append(ChatColor.GOLD + "" + ChatColor.BOLD + args[0] + ChatColor.AQUA + "" + ChatColor.BOLD + "'s Homes: " + ChatColor.WHITE);
+                            if (Bukkit.getPlayer(args[0]) != null) {
+                                try {
+                                    if (configuration.getHomes(player).size()>0) {
+                                        for (String home:configuration.getHomes(player).keySet()) {
+                                            hlist.append(home + ", ");
+                                        }
+                                    } else {
+                                        sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.GOLD + args[0] + ChatColor.RED + " does not have any homes!");
+                                        return false;
+                                    }
+
+                                } catch (NullPointerException ex) {
+                                    sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.GOLD + args[0] + ChatColor.RED + " does not have any homes!");
+                                    return false;
+                                }
+                                sender.sendMessage(hlist.toString());
+                                return false;
+                            } else {
+                                sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This player does not exist!");
+                                return false;
+                            }
+                        }
+                    }
                     if (sender instanceof Player) {
                         Player player = (Player)sender;
                         StringBuilder hlist = new StringBuilder();
