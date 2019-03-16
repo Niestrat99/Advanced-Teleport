@@ -109,7 +109,7 @@ public class homeCommand implements CommandExecutor, Listener {
                             if (Bukkit.getPlayer(args[0]) != null) {
                                 if (sender.hasPermission("tbh.tp.admin.delhome")) {
                                     if (args.length>1) {
-                                        Player target = (Player)Bukkit.getPlayer(args[0]);
+                                        Player target = Bukkit.getOfflinePlayer(args[0]).getPlayer();
                                         try {
                                             if (configuration.getHomes(target).containsKey(args[1])) {
                                                 try {
