@@ -187,7 +187,10 @@ public class homeCommand implements CommandExecutor, Listener {
                                         Player target = Bukkit.getOfflinePlayer(args[0]).getPlayer();
                                         try {
                                             if (configuration.getHomes(target).containsKey(args[1])) {
-
+                                                Location tlocation = configuration.getHomes(target).get(args[1]);
+                                                player.teleport(tlocation);
+                                                sender.sendMessage(ChatColor.GREEN + "Successfully teleported you to " + ChatColor.GOLD + args[0] + ChatColor.GREEN + "'s home!");
+                                                return false;
                                             } else {
                                                 sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This home does not exist!");
                                                 return false;
