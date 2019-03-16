@@ -31,7 +31,7 @@ public class homeCommand implements CommandExecutor, Listener {
                             if (Bukkit.getPlayer(args[0]) != null) {
                                 if (sender.hasPermission("tbh.tp.admin.sethome")) {
                                     if (args.length>1) {
-                                        Player target = (Player)Bukkit.getPlayer(args[0]);
+                                        Player target = Bukkit.getOfflinePlayer(args[0]).getPlayer();
                                         Location thome = player.getLocation();
                                         try {
                                             if (configuration.getHomes(target).containsKey(args[1])) {
@@ -44,6 +44,7 @@ public class homeCommand implements CommandExecutor, Listener {
                                                     if (target.isOnline()) {
                                                         target.sendMessage(ChatColor.GREEN + "An admin has set the home named " + ChatColor.GOLD + args[1] + ChatColor.GREEN + " for you!");
                                                     }
+                                                    return false;
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
@@ -117,6 +118,7 @@ public class homeCommand implements CommandExecutor, Listener {
                                                     if (target.isOnline()) {
                                                         target.sendMessage(ChatColor.GOLD + "An admin has deleted your home named " + ChatColor.YELLOW + args [1] + ChatColor.GOLD + "!");
                                                     }
+                                                    return false;
                                                 } catch (IOException e) {
                                                     e.printStackTrace();
                                                 }
@@ -182,12 +184,13 @@ public class homeCommand implements CommandExecutor, Listener {
                             if (Bukkit.getPlayer(args[0]) != null) {
                                 if (sender.hasPermission("tbh.tp.admin.home")) {
                                     if (args.length>1) {
-                                        Player target = (Player)Bukkit.getPlayer(args[0]);
+                                        Player target = Bukkit.getOfflinePlayer(args[0]).getPlayer();
                                         try {
                                             if (configuration.getHomes(target).containsKey(args[1])) {
 
                                             } else {
                                                 sender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR: " + ChatColor.RED + "This home does not exist!");
+                                                return false;
                                             }
                                         } catch (NullPointerException ex) {
                                             Location tlocation = configuration.getHomes(target).get(args[1]);
