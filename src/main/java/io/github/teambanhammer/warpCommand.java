@@ -14,18 +14,7 @@ public class warpCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args) {
         if (command.getLabel().matches("(advancedteleport:)?warp")) {
             if (configuration.featWarps()) {
-                if (commandSender.hasPermission("tbh.tp.member.warp")) {
-                    if (commandSender instanceof Player) {
-                        Player player = (Player) commandSender;
-                        if (Warps.getWarps().containsKey(args[0])) {
-                            ((Player) commandSender).teleport(Warps.getWarps().get(args[0]));
-                            commandSender.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.YELLOW + args[0] + ChatColor.GREEN + "!");
-                        } else {
-                            commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " This warp doesn't exist!");
-                            return false;
-                        }
-                    }
-                } else if (args[0].equalsIgnoreCase("set")) {
+                if (args[0].equalsIgnoreCase("set")) {
                     if (commandSender.hasPermission("tbh.tp.admin.warpset")) {
                         if (commandSender instanceof Player) {
                             Player player = (Player) commandSender;
@@ -70,6 +59,17 @@ public class warpCommand implements CommandExecutor {
                     } else {
                         commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " You do not have permission to use this command!");
                         return false;
+                    }
+                } else if (commandSender.hasPermission("tbh.tp.member.warp")) {
+                    if (commandSender instanceof Player) {
+                        Player player = (Player) commandSender;
+                        if (Warps.getWarps().containsKey(args[0])) {
+                            ((Player) commandSender).teleport(Warps.getWarps().get(args[0]));
+                            commandSender.sendMessage(ChatColor.GREEN + "Successfully teleported to " + ChatColor.YELLOW + args[0] + ChatColor.GREEN + "!");
+                        } else {
+                            commandSender.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "ERROR:" + ChatColor.RED + " This warp doesn't exist!");
+                            return false;
+                        }
                     }
                 }
             } else {
