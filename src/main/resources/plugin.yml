@@ -12,7 +12,7 @@ commands:
     permission: tbh.tp.member.warps
   warp:
     description: Gives you a list of sub commands from this command.
-    permission: tbh.tp.member.warph
+    permission: tbh.tp.member.warp
   tpr:
     description: Teleports you to a random place.
     permission: tbh.tp.member.tpr
