@@ -33,17 +33,15 @@
             <id>essx-repo</id>
             <url>https://ci.ender.zone/plugin/repository/everything/</url>
         </repository>
-        <repository>
-            <id>spigot-repo</id>
-            <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
-        </repository>
     </repositories>
 
     <dependencies>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
-            <version>1.13.2-R0.1-SNAPSHOT</version>
+            <artifactId>spigot-5</artifactId>
+            <version>1.13.1</version>
+            <scope>system</scope>
+            <systemPath>H:\Pogo tutorials\spigot-1.13.1.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.milkbowl.vault</groupId>
@@ -57,7 +55,7 @@
             <version>1.9.0</version>
             <scope>system</scope>
             <!-->You'll need to download WorldBorder yourself and replace this system path with your own.<\!-->
-            <systemPath>${project.basedir}/libs/WorldBorder_v1.8.7.jar</systemPath>
+            <systemPath>H:\Pogo tutorials\WorldBorder.jar</systemPath>
         </dependency>
     </dependencies>
 </project>
