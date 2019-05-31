@@ -12,15 +12,7 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="spigot-1.13.1" level="project" />
-    <orderEntry type="module-library">
-      <library name="Maven: org.spigotmc:spigot-5:1.13.1">
-        <CLASSES>
-          <root url="jar://H:/Pogo tutorials/spigot-1.13.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="Maven: org.spigotmc:spigot:1.13.2-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: net.milkbowl.vault:VaultAPI:1.7" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: org.bukkit:bukkit:1.13.1-R0.1-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Maven: commons-lang:commons-lang:2.6" level="project" />
@@ -33,7 +25,7 @@
     <orderEntry type="module-library">
       <library name="Maven: com.wimbli:worldborder:1.9.0">
         <CLASSES>
-          <root url="jar://H:/Pogo tutorials/WorldBorder.jar!/" />
+          <root url="jar://$MODULE_DIR$/libs/WorldBorder_v1.8.7.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
