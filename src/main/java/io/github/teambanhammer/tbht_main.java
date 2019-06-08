@@ -952,6 +952,15 @@ private static WorldBorder worldBorder;
     }
     @EventHandler
     public void onMovement(PlayerMoveEvent event) {
+        if (!configuration.cancelOnRotate()) {
+            Location locTo = event.getTo();
+            Location locFrom = event.getFrom();
+            if (locTo.getBlockX() == locFrom.getBlockX() // If the player rotated instead of moved
+                    && locTo.getBlockY() == locFrom.getBlockY()
+                    && locTo.getBlockZ() == locTo.getBlockZ()) {
+                return;
+            }
+        }
         if (movement.containsKey(event.getPlayer())) {
             BukkitRunnable timer = movement.get(event.getPlayer());
             timer.cancel();

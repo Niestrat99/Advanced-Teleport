@@ -61,6 +61,7 @@ public class configuration {
         Config.addDefault("timers.commandCooldown",5);
         Config.addDefault("timers.teleportTimer",3);
         Config.addDefault("timers.requestLifetime",60);
+        Config.addDefault("timers.cancel-on-rotate", false);
         Config.addDefault("events.eventBeforeTP" , "&aTeleporting in &b{countdown} seconds&a, please do not move!");
         Config.addDefault("events.eventTeleport" , "&aTeleporting...");
         Config.addDefault("events.eventMovement" , "&cTeleport has been cancelled due to movement.");
@@ -108,6 +109,7 @@ public class configuration {
     public static boolean featSpawn() {return Config.getBoolean("features.spawn");}
     public static boolean featRTP() {return Config.getBoolean("features.randomTP");}
     public static boolean featHomes() {return Config.getBoolean("features.homes");}
+    public static boolean cancelOnRotate() {return Config.getBoolean("timers.cancel-on-rotate");}
 
     public static void reloadConfig() throws IOException {
         Config = YamlConfiguration.loadConfiguration(ConfigFile);
