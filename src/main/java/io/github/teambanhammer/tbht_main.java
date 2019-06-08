@@ -738,37 +738,27 @@ private static WorldBorder worldBorder;
                                 return false;
                             }
                         }
-                        double x = getRandomCoords(configuration.minX(), configuration.maxX());
-                        double z = getRandomCoords(configuration.minZ(), configuration.maxZ());
-                        if (configuration.useWorldBorder() && worldBorder != null) {
-                            BorderData border = Config.Border(player.getWorld().getName());
-                            // If a border has been set
-                            if (border != null) {
-                                x = getRandomCoords(border.getX() - border.getRadiusX(), border.getX() + border.getRadiusX());
-                                z = getRandomCoords(border.getZ() - border.getRadiusZ(), border.getZ() + border.getRadiusZ());
-                            }
-                        }
-
-                        int y = 256;
-                        Location location = new Location(player.getWorld(), x, y, z);
+                        Location location = generateCoords(player);
                         player.sendMessage(ChatColor.GREEN + "Searching for a location...");
                         boolean validLocation = false;
                         while (!validLocation) {
                             while (location.getBlock().getType() == Material.AIR) {
                                 location.subtract(0, 1, 0);
                             }
+                            boolean b = true;
                             for (String Material: configuration.avoidBlocks()) {
                                 if (location.getBlock().getType().name().equalsIgnoreCase(Material)){
-                                    location = new Location(player.getWorld(), x, y, z);
+                                    location = generateCoords(player);
+                                    b = false;
                                     break;
-                                } else {
-                                    location.add(0 , 1 , 0);
-                                    validLocation = true;
                                 }
+                            }
+                            if (b) {
+                                location.add(0 , 1 , 0);
+                                validLocation = true;
                             }
                         }
                         Chunk chunk = player.getWorld().getChunkAt(location);
-
                         chunk.load(true);
                         BukkitRunnable cooldowntimer = new BukkitRunnable() {
                             @Override
@@ -777,7 +767,7 @@ private static WorldBorder worldBorder;
                             }
                         };
                         cooldown.put(player, cooldowntimer);
-                        cooldowntimer.runTaskLater(this, configuration.commandCooldown() * 20); // 20 ticks = 1 second
+                        cooldowntimer.runTaskLater(tbht_main.getProvidingPlugin(tbht_main.class), configuration.commandCooldown() * 20); // 20 ticks = 1 second
                         Location loc = location;
                         BukkitRunnable movementtimer = new BukkitRunnable() {
                             @Override
@@ -803,7 +793,7 @@ private static WorldBorder worldBorder;
                             }
                         };
                         movement.put(player, movementtimer);
-                        movementtimer.runTaskLater(this, configuration.teleportTimer() * 20);
+                        movementtimer.runTaskLater(tbht_main.getProvidingPlugin(tbht_main.class), configuration.teleportTimer() * 20);
                         player.sendMessage(configuration.eventBeforeTP().replaceAll("\\{countdown}", String.valueOf(configuration.teleportTimer())));
                         return false;
 
@@ -967,5 +957,21 @@ private static WorldBorder worldBorder;
             event.getPlayer().sendMessage(configuration.eventMovement());
             movement.remove(event.getPlayer());
         }
+    }
+
+    private Location generateCoords(Player player) {
+        double x = getRandomCoords(configuration.minX(), configuration.maxX());
+        double z = getRandomCoords(configuration.minZ(), configuration.maxZ());
+        if (configuration.useWorldBorder() && worldBorder != null) {
+            BorderData border = Config.Border(player.getWorld().getName());
+            // If a border has been set
+            if (border != null) {
+                x = getRandomCoords(border.getX() - border.getRadiusX(), border.getX() + border.getRadiusX());
+                z = getRandomCoords(border.getZ() - border.getRadiusZ(), border.getZ() + border.getRadiusZ());
+            }
+        }
+
+        int y = 256;
+        return new Location(player.getWorld(), x, y, z);
     }
 }
