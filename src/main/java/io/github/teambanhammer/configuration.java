@@ -37,13 +37,18 @@ public class configuration {
 
     public static HashMap<String,Location> getHomes(Player player){
         HashMap<String,Location> homes = new HashMap<>();
-        for (String home: Homes.getConfigurationSection(player.getUniqueId().toString()).getKeys(false)) {
-            Location location = new Location(Bukkit.getWorld(Homes.getString(player.getUniqueId().toString() + "." + home + ".world")), // Gets world from name
-                    Homes.getInt(player.getUniqueId().toString() + "." + home + ".x"), // Gets X value
-                    Homes.getInt(player.getUniqueId().toString() + "." + home + ".y"), // Gets Y value
-                    Homes.getInt(player.getUniqueId().toString() + "." + home + ".z")); // Gets Z value
-            homes.put(home,location);
+        try {
+            for (String home: Homes.getConfigurationSection(player.getUniqueId().toString()).getKeys(false)) {
+                Location location = new Location(Bukkit.getWorld(Homes.getString(player.getUniqueId().toString() + "." + home + ".world")), // Gets world from name
+                        Homes.getInt(player.getUniqueId().toString() + "." + home + ".x"), // Gets X value
+                        Homes.getInt(player.getUniqueId().toString() + "." + home + ".y"), // Gets Y value
+                        Homes.getInt(player.getUniqueId().toString() + "." + home + ".z")); // Gets Z value
+                homes.put(home,location);
+            }
+        } catch (NullPointerException ex) {
+            Homes.createSection(player.getUniqueId().toString());
         }
+
         return homes;
     }
 
